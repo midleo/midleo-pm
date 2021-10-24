@@ -1,2 +1,2 @@
-# midleo-pm
-Midleo Project Management
+# midleo.PM
+Software for Project Management
