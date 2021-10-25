@@ -1,14 +1,14 @@
 # ignore web config.vars
-www/controller/config.db.php
-www/controller/config.vars.php
+midleo.pm/www/core/www/controller/config.db.php
+midleo.pm/www/core/www/controller/config.vars.php
 #ignore py client config file
-www/data/requests
-www/data/flows
-www/data/temp
-www/data/packages
+midleo.pm/www/core/www/data/requests
+midleo.pm/www/core/www/data/flows
+midleo.pm/www/core/www/data/temp
+midleo.pm/www/core/www/data/packages
 #ignore node_modeles
-www/data/projects
-www/assets/images/users/*
-www/controller/vendor/*
-www/controller/composer.lock
-www/controller/composer.json
+midleo.pm/www/core/www/data/projects
+midleo.pm/www/core/www/assets/images/users/*
+midleo.pm/www/core/www/controller/vendor/*
+midleo.pm/www/core/www/controller/composer.lock
+midleo.pm/www/core/www/controller/composer.json

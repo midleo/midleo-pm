@@ -1,10 +1,4 @@
-[submodule "www/assets/core"]
-	path = www/assets/core
-	url = https://github.com/midleo/midleo-core.git
-	ignore = dirty
-[submodule "www/core"]
-	path = www/core
-	url = https://github.com/midleo/midleo-core.git
 [submodule "midleo.core"]
 	path = www/core
 	url = https://github.com/midleo/midleo-core.git
+	ignore = dirty

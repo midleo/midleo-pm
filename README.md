@@ -18,7 +18,8 @@ Some screenshots from the Midleo app:
 ```bash
 cd /folder-you-want-to-install
 git clone https://github.com/midleo/midleo-pm.git
-cd midleo.pm/www/controller
+git submodule add --name midleo.core https://github.com/midleo/midleo-core.git www/core 
+cd midleo.pm/www/core/www/controller
 composer install
 ```
 
