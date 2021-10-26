@@ -21,6 +21,8 @@ git clone https://github.com/midleo/midleo-pm.git
 git submodule add --name midleo.core https://github.com/midleo/midleo-core.git www/core 
 cd midleo.pm/www/core/www/controller
 composer install
+#update submodule
+git submodule update --recursive --remote
 ```
 
 Folder Docker contains all up to date configuration to start a container on your server or computer.

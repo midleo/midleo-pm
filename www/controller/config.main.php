@@ -1,4 +1,10 @@
 <?php
+include "config.db.php";
+include "config.vars.php";
+$corebaseurl = "core/www/";
+$maindir = dirname(dirname(__FILE__));
+if (file_exists(dirname(dirname(__FILE__)) . "/core/www/controller/config.main.php")) {include dirname(dirname(__FILE__)) . "/core/www/controller/config.main.php";}
+foreach (glob(dirname(__FILE__) . "/modules/*/config.php") as $filename) {if (file_exists($filename)) {include $filename;}}
 $typereq = array(
     'queues' => "IBM MQ",
     'fte' => "IBM File Transfer",
@@ -17,31 +23,31 @@ $projcodes = array(
     '0' => array(
         "name" => "New",
         "badge" => "secondary",
-        "color" => "#6c757d"
+        "color" => "#6c757d",
     ),
     '1' => array(
         "name" => "Pending",
         "badge" => "warning",
-        "color" => "#ffc107"
+        "color" => "#ffc107",
     ),
     '2' => array(
         "name" => "Approved",
         "badge" => "success",
-        "color" => "#0CC44F"
+        "color" => "#0CC44F",
     ),
     '3' => array(
         "name" => "In progress",
         "badge" => "info",
-        "color" => "#00AFFF"
+        "color" => "#00AFFF",
     ),
     '4' => array(
         "name" => "Completed",
         "badge" => "light",
-        "color" => "#dfdfdf"
+        "color" => "#dfdfdf",
     ),
     '5' => array(
         "name" => "Delay",
         "badge" => "danger",
-        "color" => "#E81625"
-    ) 
+        "color" => "#E81625",
+    ),
 );
