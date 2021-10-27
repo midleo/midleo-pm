@@ -42,12 +42,12 @@ class Class_pjtemplates
                 $err[]="There was a problem creating the template.";
             }
         }
-        include "public/modules/css.php";
+        include $website['corebase']."public/modules/css.php";
         echo '<link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">';
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"] = "Project templates";
         $breadcrumb["midicon"] = "modules";
-        include "public/modules/headcontent.php";
+        include $website['corebase']."public/modules/headcontent.php";
         echo '<div class="page-wrapper"><div class="container-fluid">';
         if (sessionClass::checkAcc($acclist, "smanagementadm")) { 
             $brarr=array(
@@ -110,7 +110,7 @@ class Class_pjtemplates
 
     <div class="row pt-3">
         <div class="col-lg-2">
-            <?php include "public/modules/sidebar.php"; ?>
+            <?php include $website['corebase']."public/modules/sidebar.php"; ?>
         </div>
         <div class="col-lg-8">
             <div class="row ngctrl" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
@@ -205,7 +205,7 @@ class Class_pjtemplates
             </div>
         </div>
         <div class="col-md-2">
-            <?php include "public/modules/breadcrumbin.php"; ?>
+            <?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
         </div>
     </div>
 </form>
@@ -219,7 +219,7 @@ class Class_pjtemplates
     ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include "public/modules/sidebar.php"; ?>
+        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-10">
         <div class="row" class="ngctrl" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
@@ -289,8 +289,8 @@ class Class_pjtemplates
                 </dir-pagination-controls>
             </div>
             <div class="col-md-3">
-            <?php include "public/modules/filterbar.php"; ?>
-                <?php include "public/modules/breadcrumbin.php"; ?>
+            <?php include $website['corebase']."public/modules/filterbar.php"; ?>
+                <?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
             </div>
         </div>
     </div>
@@ -302,15 +302,15 @@ class Class_pjtemplates
 </div>
 </section>
 <?php
-include "public/modules/footer.php";
-include "public/modules/js.php";?>
-<script src="/assets/js/tagsinput.min.js" type="text/javascript"></script>
-<script src="/assets/js/dirPagination.js"></script>
-<script type="text/javascript" src="/assets/modules/projects/assets/js/ng-controller.js"></script>
-<script src="/assets/js/alasql.min.js"></script>
-<script src="/assets/js/xlsx.core.min.js"></script>
+include $website['corebase']."public/modules/footer.php";
+include $website['corebase']."public/modules/js.php";?>
+<script src="/<?php echo $website['corebase'];?>assets/js/tagsinput.min.js" type="text/javascript"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/dirPagination.js"></script>
+<script type="text/javascript" src="/controller/modules/projects/assets/js/ng-controller.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/alasql.min.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/xlsx.core.min.js"></script>
 <?php
-include "public/modules/template_end.php";
+include $website['corebase']."public/modules/template_end.php";
         echo '</body></html>';
 
 

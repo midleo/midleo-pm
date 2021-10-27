@@ -3,7 +3,7 @@
    $pdo = pdodb::connect();
    $msg=array();
    $data=sessionClass::getSessUserData(); foreach($data as $key=>$val){  ${$key}=$val;  }
-   include "public/modules/css.php"; ?>
+   include $website['corebase']."public/modules/css.php"; ?>
 </head>
 
 <body class="fix-header card-no-border">
@@ -20,11 +20,11 @@
           $breadcrumb["text"]="Requests"; 
          }
           ?>
-        <?php include "public/modules/headcontent.php";?>
+        <?php include $website['corebase']."public/modules/headcontent.php";?>
         <div class="page-wrapper">
             <div class="container-fluid">
               
-                <?php include "public/modules/breadcrumb.php";
+                <?php include $website['corebase']."public/modules/breadcrumb.php";
          echo '<div class="row"><div class="col-12">'; ?>
                 <?php $q=gTable::countAll("requests"," where sname='".$thisarray["p1"]."'");
   if($q>0){ ?>
@@ -94,8 +94,8 @@ $stmt = $pdo->prepare($sql);
                 </div>
                 </div>
                 <?php  } else { textClass::PageNotFound(); } ?>
-            <?php include "public/modules/footer.php";?>
-            <?php include "public/modules/js.php";?>
-            <?php include "public/modules/template_end.php";?>
+            <?php include $website['corebase']."public/modules/footer.php";?>
+            <?php include $website['corebase']."public/modules/js.php";?>
+            <?php include $website['corebase']."public/modules/template_end.php";?>
 </body>
 </html>

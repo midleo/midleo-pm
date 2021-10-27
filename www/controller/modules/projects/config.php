@@ -88,7 +88,7 @@ class Class_projects
             }
 
         }
-        include "public/modules/css.php";
+        include $website['corebase']."public/modules/css.php";
         echo '<link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">';
         if (empty($thisarray["p1"])) {
             foreach ($modulelist["kanban"]["css"] as $csskey => $csslink) {
@@ -98,7 +98,7 @@ class Class_projects
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"] = "Projects";
         $breadcrumb["midicon"] = "kanban";
-include "public/modules/headcontent.php";
+include $website['corebase']."public/modules/headcontent.php";
 echo '<div class="page-wrapper"><div class="container-fluid">';
         if (sessionClass::checkAcc($acclist, "smanagementadm")) { 
             $brarr=array(
@@ -682,13 +682,13 @@ if($zobjin = $qin->fetchAll()){ ?>
         </div>
     </div>
 </div>
-<?php include "public/modules/respform.php";?>
+<?php include $website['corebase']."public/modules/respform.php";?>
 <?php } ?>
 </div>
 </section>
 <?php
-include "public/modules/footer.php";
-include "public/modules/js.php";?>
+include $website['corebase']."public/modules/footer.php";
+include $website['corebase']."public/modules/js.php";?>
 <?php if($_GET["type"]=="new"){?>
 <script type="text/javascript">
 $('#projname').keyup(function() {
@@ -721,11 +721,11 @@ $(document).ready(function() {
 });
 </script>
 <?php } ?>
-<script src="/assets/js/tagsinput.min.js" type="text/javascript"></script>
-<script src="/assets/js/dirPagination.js"></script>
-<script type="text/javascript" src="/assets/modules/projects/assets/js/ng-controller.js"></script>
-<script src="/assets/js/alasql.min.js"></script>
-<script src="/assets/js/xlsx.core.min.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/tagsinput.min.js" type="text/javascript"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/dirPagination.js"></script>
+<script type="text/javascript" src="/controller/modules/projects/assets/js/ng-controller.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/alasql.min.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/xlsx.core.min.js"></script>
 <?php if (empty($thisarray["p1"])) { 
     if(empty($_SESSION["userdata"]["pjarr"])){ $_SESSION["userdata"]["pjarr"] = array(); $argpjarr=0; } else { $argpjarr=1;}
 foreach ($modulelist["kanban"]["js"] as $jskey => $jslink) {
@@ -788,7 +788,7 @@ WHERE
 </script>
 <?php } ?>
 <?php
-include "public/modules/template_end.php";
+include $website['corebase']."public/modules/template_end.php";
         echo '</body></html>';
     }
 }

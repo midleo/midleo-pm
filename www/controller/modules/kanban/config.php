@@ -31,13 +31,13 @@ class Class_kanban
         if (!empty($_POST["kanopts"])) {$kanopts = htmlspecialchars($_POST["kanopts"]);}
         $data=sessionClass::getSessUserData(); foreach($data as $key=>$val){  ${$key}=$val; } 
         if (!sessionClass::checkAcc($acclist, "kanban")) { header("Location:/cp/?");}
-        include "public/modules/css.php";
+        include $website['corebase']."public/modules/css.php";
         foreach ($modulelist["kanban"]["css"] as $csskey => $csslink) {
             if (!empty($csslink)) {?><link rel="stylesheet" type="text/css" href="<?php echo $csslink; ?>"><?php }
         }
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"]="Kanban board";
-        include "public/modules/headcontent.php";?>
+        include $website['corebase']."public/modules/headcontent.php";?>
         <div class="page-wrapper"><div class="container-fluid">
         <br>
     <div class="form-group">
@@ -66,10 +66,10 @@ class Class_kanban
      </div></div>
    </div>
   </div>
-      <?php include "public/modules/footer.php";?>
+      <?php include $website['corebase']."public/modules/footer.php";?>
       </div></div>
 
-    <?php include "public/modules/js.php";?>
+    <?php include $website['corebase']."public/modules/js.php";?>
     <?php if(!empty($widarr) && !empty($ugrarr)){ ?>
     <?php foreach ($modulelist["kanban"]["js"] as $jskey => $jslink) {
             if (!empty($jslink)) {?><script type="text/javascript" src="<?php echo $jslink; ?>"></script><?php }

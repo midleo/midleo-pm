@@ -31,7 +31,7 @@ class ClassMPM_welcome extends Class_welcome
         include $website['corebase']."public/modules/css.php";
         echo '<style type="text/css">.card-header + .card-body{padding-top:15px;}</style></head>';
         echo '<body class="fix-header card-no-border no-sidebar"><div id="main-wrapper">';
-        include "public/modules/headcontentmain.php";
+        include $website['corebase']."public/modules/headcontentmain.php";
         echo '<div class="page-wrapper">'; ?>
 <div class="container-fluid">
 

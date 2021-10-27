@@ -191,9 +191,9 @@ class Class_wfview{
       $zobj = $q->fetch(PDO::FETCH_ASSOC);
       if(!is_array($zobj) || empty($zobj)){ echo "missing or wrong ID"; exit; }
 
-      include "public/modules/css.php"; ?>
+      include $website['corebase']."public/modules/css.php"; ?>
       <link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">
-      <link rel="stylesheet" type="text/css" href="/assets/modules/smanagement/assets/css/midleo-workflow.css"><?php
+      <link rel="stylesheet" type="text/css" href="/controller/modules/smanagement/assets/css/midleo-workflow.css"><?php
        echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">'; ?>
        <div id="dragwf">
        <div class="jtk-canvas canvas-wide flowchart jtk-surface" id="canvas"></div>
@@ -203,12 +203,12 @@ class Class_wfview{
 
 
       </div>
-     <?php  include "public/modules/js.php"; ?>
-     <script type="text/javascript" src="/assets/js/underscore-min.js"></script>
-     <script type="text/javascript" src="/assets/js/jquery/jquery.panzoom.min.js"></script>
-     <script type="text/javascript" src="/assets/modules/smanagement/assets/js/jsplumb.min.js"></script>
-<script type="text/javascript" src="/assets/modules/smanagement/assets/js/midleo-workflow-view.js"></script>
-<?php include "public/modules/template_end.php";
+     <?php  include $website['corebase']."public/modules/js.php"; ?>
+     <script type="text/javascript" src="/<?php echo $website['corebase'];?>assets/js/underscore-min.js"></script>
+     <script type="text/javascript" src="/<?php echo $website['corebase'];?>assets/js/jquery/jquery.panzoom.min.js"></script>
+     <script type="text/javascript" src="/controller/modules/smanagement/assets/js/jsplumb.min.js"></script>
+<script type="text/javascript" src="/controller/modules/smanagement/assets/js/midleo-workflow-view.js"></script>
+<?php include $website['corebase']."public/modules/template_end.php";
     echo '</body></html>';
     } else { echo "missing or wrong ID"; }
   }

@@ -40,7 +40,7 @@
   if(isset($_POST['updreq'])){  $q=requestFunctions::updreq($usname,$thisarray["p1"],$wfdata);  }
   if(isset($_POST['donereq'])){   $q=requestFunctions::donereq(htmlspecialchars($_POST['wfstep']),$thisarray["p1"],$wfdata);   $err=$q["err"];  $msg=$q["msg"];  }
  
- include "public/modules/css.php"; ?>
+ include $website['corebase']."public/modules/css.php"; ?>
      <link href="/assets/css/css-chart.css" rel="stylesheet">
 </head>
 
@@ -50,11 +50,11 @@
 $breadcrumb["text2"]=($thisarray["p1"]=="type"?$thisarray["p3"]:$thisarray["p1"]);
 $breadcrumb["link2"]=($thisarray["p1"]=="type"?"":"/reqinfo/".$thisarray["p1"]);
 	} else { $breadcrumb["text"]="Requests"; $breadcrumb["link"]=""; } ?>
-        <?php include "public/modules/headcontent.php";?>
+        <?php include $website['corebase']."public/modules/headcontent.php";?>
         <div class="page-wrapper">
             <div class="container-fluid">
                
-                <?php  include "public/modules/breadcrumb.php";?>
+                <?php  include $website['corebase']."public/modules/breadcrumb.php";?>
                 
 
 
@@ -533,9 +533,9 @@ if($zobjin["effdays"]){
                 </div>
             </div>
         </div>
-        <?php include "public/modules/footer.php";?>
-        <?php include "public/modules/js.php";?>
-        <script type="text/javascript" src="/assets/modules/requests/assets/js/ng-controller.js"></script>
+        <?php include $website['corebase']."public/modules/footer.php";?>
+        <?php include $website['corebase']."public/modules/js.php";?>
+        <script type="text/javascript" src="/controller/modules/requests/assets/js/ng-controller.js"></script>
         <script type="text/javascript">
         $(document).ready(function() {
             var sum = 0;
@@ -634,7 +634,7 @@ if($zobjin["effdays"]){
         });
         angular.bootstrap(document.getElementById("ngApp"), ['ngApp']);
         </script>-->
-        <script src="/assets/js/tagsinput.min.js" type="text/javascript"></script>
-        <?php include "public/modules/template_end.php";?>
+        <script src="/<?php echo $website['corebase'];?>assets/js/tagsinput.min.js" type="text/javascript"></script>
+        <?php include $website['corebase']."public/modules/template_end.php";?>
 </body>
 </html>

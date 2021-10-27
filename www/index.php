@@ -16,7 +16,7 @@ $lastsubpage = substr($thewholelink, strrpos($thewholelink, '/') + 1);
 $pageclass="ClassMPM_".$page; 
 $coreclass="Class_".$page; 
 if(empty($page) || $page=="?" || $page=="index" || $page=="index.php"){ 
-  ClassMPM_main::getPage(); 
+  Class_smanagement::getPage(array("p0"=>$page,"p1"=>$subpage,"p2"=>$secsubpage,"p3"=>$thirdsubpage,"p4"=>$fourthsubpage,"p5"=>$fifthsubpage, "last"=>$lastsubpage)); 
 } else {
   if(method_exists($pageclass, "getPage") && is_callable(array($pageclass, "getPage"))){ 
     $pageclass::getPage(array("p0"=>$page,"p1"=>$subpage,"p2"=>$secsubpage,"p3"=>$thirdsubpage,"p4"=>$fourthsubpage,"p5"=>$fifthsubpage, "last"=>$lastsubpage)); 

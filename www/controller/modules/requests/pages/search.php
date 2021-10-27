@@ -4,13 +4,13 @@
   $msg=array();
   $data=sessionClass::getSessUserData(); foreach($data as $key=>$val){  ${$key}=$val;  } 
   
-    include "public/modules/css.php"; ?>
+    include $website['corebase']."public/modules/css.php"; ?>
 </head><body class="fix-header card-no-border"><div id="main-wrapper">
 <?php $breadcrumb["text"]="Search requests"; $breadcrumb["link"]="";
- include "public/modules/headcontent.php";?>
+ include $website['corebase']."public/modules/headcontent.php";?>
 <div class="page-wrapper"><div class="container-fluid">
 <?php  
-include "public/modules/breadcrumb.php";?>
+include $website['corebase']."public/modules/breadcrumb.php";?>
 
     
        
@@ -118,8 +118,8 @@ include "public/modules/breadcrumb.php";?>
     </div>
     </div>
   </div>
-<?php include "public/modules/footer.php";?></div>
-<?php include "public/modules/js.php";?>
-<?php include "public/modules/template_end.php";?>
+<?php include $website['corebase']."public/modules/footer.php";?></div>
+<?php include $website['corebase']."public/modules/js.php";?>
+<?php include $website['corebase']."public/modules/template_end.php";?>
 </body>
 </html>

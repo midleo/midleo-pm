@@ -65,7 +65,7 @@ class calendarClass
         ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include "public/modules/sidebar.php"; ?>
+        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
     <div id='calendar' class="card">
@@ -74,7 +74,7 @@ class calendarClass
     <input id="username" style="display:none" value="<?php echo $_SESSION["user"]; ?>">
 </div>
 <div class="col-md-2">
-<?php include "public/modules/breadcrumbin.php"; ?>
+<?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
 <!-- Modal -->
 <div class="modal" id="modeff" tabindex="-1" aria-labelledby="modefflbl" aria-hidden="true">
   <div class="modal-dialog">
@@ -157,7 +157,7 @@ class Class_calendar
         $msg = array();
         $pdo = pdodb::connect();
         $data = sessionClass::getSessUserData();foreach ($data as $key => $val) {${$key} = $val;}
-        include "public/modules/css.php";
+        include $website['corebase']."public/modules/css.php";
         echo '<link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">';
         foreach ($modulelist["calendar"]["css"] as $csskey => $csslink) {
             if (!empty($csslink)) {?>
@@ -168,7 +168,7 @@ class Class_calendar
             $err[] = $data["err"];}
         echo '</head><body class="card-no-border"> <div id="main-wrapper">';
         $breadcrumb["text"] = "Calendar";
-        include "public/modules/headcontent.php";
+        include $website['corebase']."public/modules/headcontent.php";
         echo '<div class="page-wrapper"><div class="container-fluid">';
         $brarr = array(
             array(
@@ -188,12 +188,12 @@ class Class_calendar
         echo "<input type='hidden' id='working_start' value='{$website['working_start']}'>";
         echo "<input type='hidden' id='working_end' value='{$website['working_end']}'>";
         echo '</div>';
-        include "public/modules/footer.php";
-        include "public/modules/js.php";
+        include $website['corebase']."public/modules/footer.php";
+        include $website['corebase']."public/modules/js.php";
         foreach ($modulelist["calendar"]["js"] as $jskey => $jslink) {
             if (!empty($jslink)) { ?><script type="text/javascript" src="<?php echo $jslink; ?>"></script><?php }
         }
-        include "public/modules/template_end.php";
+        include $website['corebase']."public/modules/template_end.php";
         echo '</body></html>';
     }
 }
@@ -218,12 +218,12 @@ class Class_timesheets
         if (!empty($_POST["thisyear"])) {$year = htmlspecialchars($_POST["thisyear"]);}
         $month = str_pad($month, 2, 0, STR_PAD_LEFT);
         $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-        include "public/modules/css.php";
+        include $website['corebase']."public/modules/css.php";
         echo '<link rel="stylesheet" type="text/css" href="/assets/js/datatables/dataTables.bootstrap5.min.css">';
         echo '<link rel="stylesheet" type="text/css" href="/assets/js/datatables/fixedColumns.bootstrap5.min.css">';
         echo '</head><body class="card-no-border"> <div id="main-wrapper">';
         $breadcrumb["text"] = "Timesheets";
-        include "public/modules/headcontent.php";
+        include $website['corebase']."public/modules/headcontent.php";
         echo '<div class="page-wrapper"><div class="container-fluid">';
         $brarr = array(
             array(
@@ -241,7 +241,7 @@ class Class_timesheets
         );
         
         echo '<div class="row pt-3"><div class="col-2">';?>
-        <?php include "public/modules/sidebar.php"; ?>
+        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
 
@@ -335,19 +335,19 @@ echo '<div class="p-2"><br><div class="text-info">Summary for: <br><br>Year: <b>
             echo '<div class="p-2"><br><div class="text">No info found for:<br><br>Year: <b>' . $year . '</b><br>Month: <b>' . date('F', strtotime('01.' . $month . '.' . $year)) . '</b></div>';
         }
         echo '</div></div></div><div class="col-md-2">';
-        include "public/modules/breadcrumbin.php";
+        include $website['corebase']."public/modules/breadcrumbin.php";
         echo '</div></div></div></div>';
-        include "public/modules/footer.php";
+        include $website['corebase']."public/modules/footer.php";
         echo '</div></div>';
-        include "public/modules/js.php"; ?>
-        <script src="/assets/js/datatables/jquery.dataTables.min.js"></script>
-        <script src="/assets/js/datatables/dataTables.bootstrap5.min.js"></script>
-        <script src="/assets/js/datatables/dataTables.fixedColumns.min.js"></script>
-        <script src="/assets/js/datatables/dataTables.buttons.min.js"></script>
-        <script src="/assets/js/datatables/buttons.flash.min.js"></script>
-        <script src="/assets/js/datatables/jszip.min.js"></script>
-        <script src="/assets/js/datatables/buttons.html5.min.js"></script>
-        <script src="/assets/js/datatables/buttons.print.min.js"></script>
+        include $website['corebase']."public/modules/js.php"; ?>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/jquery.dataTables.min.js"></script>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.bootstrap5.min.js"></script>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.fixedColumns.min.js"></script>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.buttons.min.js"></script>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.flash.min.js"></script>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/jszip.min.js"></script>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.html5.min.js"></script>
+        <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.print.min.js"></script>
         <script>
         $('#dttimesh').DataTable({
             "oLanguage": {
@@ -374,7 +374,7 @@ echo '<div class="p-2"><br><div class="text-info">Summary for: <br><br>Year: <b>
         });
         </script>
         <?php
-include "public/modules/template_end.php";
+include $website['corebase']."public/modules/template_end.php";
         echo '</body></html>';
     }
 }
@@ -400,13 +400,13 @@ class Class_tasks
                 $msg[] = "You have created a new task!";} else {
                 $err[] = "Error creating the task";}
         }
-        include "public/modules/css.php";?>
+        include $website['corebase']."public/modules/css.php";?>
         <link rel="stylesheet" type="text/css" href="/assets/js/datatables/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" type="text/css" href="/assets/js/datatables/responsive.dataTables.min.css">
         </head>
         <body class="fix-header card-no-border">
             <div id="main-wrapper">
-                <?php $breadcrumb["text"] = "Task list";include "public/modules/headcontent.php";?>
+                <?php $breadcrumb["text"] = "Task list";include $website['corebase']."public/modules/headcontent.php";?>
                 <div class="page-wrapper">
                     <div class="container-fluid">
                         <?php
@@ -435,7 +435,7 @@ $brarr = array(
 
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include "public/modules/sidebar.php"; ?>
+        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
                                 <div class="card">
@@ -500,7 +500,7 @@ foreach ($zobj as $val) {
                             
 
                             <div class="col-md-2">
-                            <?php include "public/modules/breadcrumbin.php"; ?>
+                            <?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
                           
                                 <div class="modal" id="modal-cal" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -529,18 +529,18 @@ foreach ($zobj as $val) {
                             </div></div>
                         </div>
                     </div>
-                    <?php include "public/modules/footer.php";
+                    <?php include $website['corebase']."public/modules/footer.php";
         echo '</div></div>';
-        include "public/modules/js.php";?>
-                    <script src="/assets/js/datatables/jquery.dataTables.min.js"></script>
-                    <script src="/assets/js/datatables/dataTables.responsive.min.js"></script>
-                    <script src="/assets/js/datatables/dataTables.buttons.min.js"></script>
-                    <script src="/assets/js/datatables/buttons.flash.min.js"></script>
-                    <script src="/assets/js/datatables/jszip.min.js"></script>
-                    <script src="/assets/js/datatables/pdfmake.min.js"></script>
-                    <script src="/assets/js/datatables/vfs_fonts.js"></script>
-                    <script src="/assets/js/datatables/buttons.html5.min.js"></script>
-                    <script src="/assets/js/datatables/buttons.print.min.js"></script>
+        include $website['corebase']."public/modules/js.php";?>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/jquery.dataTables.min.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.responsive.min.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.buttons.min.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.flash.min.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/jszip.min.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/pdfmake.min.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/vfs_fonts.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.html5.min.js"></script>
+                    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.print.min.js"></script>
                     <script type="text/javascript">
                     $(document).ready(function() {
                         var table = $('#data-my-tasks').DataTable({
@@ -588,7 +588,7 @@ foreach ($zobj as $val) {
                     </script>
 
                     <?php
-include "public/modules/template_end.php";
+include $website['corebase']."public/modules/template_end.php";
         echo '</body></html>';
     }
 }

@@ -54,7 +54,7 @@ if(!empty($zobj["wid"])){
    $wfdatagroups=json_decode("[{}]",true); 
   }
 
-include "public/modules/css.php"; ?>
+include $website['corebase']."public/modules/css.php"; ?>
 <style type="text/css">.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{vertical-align:middle;text-align: center;}</style>
 </head><body class="fix-header card-no-border"><div id="main-wrapper">
 <?php if(!empty($thisarray["p1"])){
@@ -69,10 +69,10 @@ include "public/modules/css.php"; ?>
   $breadcrumb["text"]="Requests"; 
 }
   ?>
-<?php include "public/modules/headcontent.php";?>
+<?php include $website['corebase']."public/modules/headcontent.php";?>
 <div class="page-wrapper"><div class="container-fluid">
 
-<?php include "public/modules/breadcrumb.php";
+<?php include $website['corebase']."public/modules/breadcrumb.php";
     echo '<div class="row"><div class="col-12">'; ?>
   
   
@@ -251,8 +251,8 @@ foreach($wfdatagroups as $key=>$val){ ?>
     </div>
   
 
-<?php include "public/modules/footer.php";?>
-<?php include "public/modules/js.php";?>
-<?php include "public/modules/template_end.php";?>
+<?php include $website['corebase']."public/modules/footer.php";?>
+<?php include $website['corebase']."public/modules/js.php";?>
+<?php include $website['corebase']."public/modules/template_end.php";?>
 </body>
 </html>

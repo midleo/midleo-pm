@@ -81,7 +81,7 @@ class Class_requests{
     $pdo = pdodb::connect();
     $data=sessionClass::getSessUserData(); foreach($data as $key=>$val){  ${$key}=$val; } 
     if (!sessionClass::checkAcc($acclist, "requests")) { header("Location: /cp/?"); }
-    include "public/modules/css.php";
+    include $website['corebase']."public/modules/css.php";
     if (!empty($env)) {    $menudataenv = json_decode($env, true);   } else {    $menudataenv = array();   }
    if(isset($_POST['updreq'])){ $q=requestFunctions::updreq($wid,$_SESSION['user']);$err=$q["err"];  $msg=$q["msg"]; }
    if(isset($_POST['assign'])){  $q=requestFunctions::assign($wid,htmlspecialchars($_POST["reqid"])); $err=$q["err"];  $msg=$q["msg"];  }
@@ -99,7 +99,7 @@ class Class_requests{
       else { $breadcrumb["link"]="/reqinfo/".$thisarray["p1"]; $breadcrumb["text"]=$thisarray["p1"]; }
     } else {  $breadcrumb["link"]="/requests"; $breadcrumb["text"]="Requests"; }
   }
-    include "public/modules/headcontent.php";
+    include $website['corebase']."public/modules/headcontent.php";
     echo '<div class="page-wrapper"><div class="container-fluid">';
     if (sessionClass::checkAcc($acclist, "smanagementadm")) { 
       $brarr=array(
@@ -139,7 +139,7 @@ class Class_requests{
         "active"=>($thisarray["p2"]=="types")?"active":"",
       ));
     }
-    include "public/modules/breadcrumb.php";
+    include $website['corebase']."public/modules/breadcrumb.php";
     echo '<div class="row"><div class="col-12">';
     ?>
     <?php if(!empty($thisarray["p1"])){ include "pages/".$thisarray["p1"].".php";} else {  ?>
@@ -208,20 +208,20 @@ class Class_requests{
  
   <?php }
   echo "</div>";
-     include "public/modules/footer.php";
+     include $website['corebase']."public/modules/footer.php";
      echo "</div></div>";
-     include "public/modules/js.php"; 
-     if($thisarray["p1"]=="files" || $thisarray["p1"]=="type"){  echo '<script src="/assets/js/tagsinput.min.js" type="text/javascript"></script>'; }
+     include $website['corebase']."public/modules/js.php"; 
+     if($thisarray["p1"]=="files" || $thisarray["p1"]=="type"){  echo '<script src="/'.$website['corebase'].'assets/js/tagsinput.min.js" type="text/javascript"></script>'; }
     if($thisarray["p1"]=="log" || $thisarray["p1"]=="files"){?>
-    <script src="/assets/js/datatables/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/datatables/dataTables.responsive.min.js"></script>
-    <script src="/assets/js/datatables/dataTables.buttons.min.js"></script>
-    <script src="/assets/js/datatables/buttons.flash.min.js"></script>
-    <script src="/assets/js/datatables/jszip.min.js"></script>
-    <script src="/assets/js/datatables/pdfmake.min.js"></script>
-    <script src="/assets/js/datatables/vfs_fonts.js"></script>
-    <script src="/assets/js/datatables/buttons.html5.min.js"></script>
-    <script src="/assets/js/datatables/buttons.print.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/jquery.dataTables.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.responsive.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.buttons.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.flash.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/jszip.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/pdfmake.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/vfs_fonts.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.html5.min.js"></script>
+    <script src="/<?php echo $website['corebase'];?>assets/js/datatables/buttons.print.min.js"></script>
     <script>
         let dtable=$('#data-table').DataTable({
            "oLanguage": {
@@ -236,14 +236,14 @@ class Class_requests{
     </script>
 
 <?php } else {?>
-<script src="/assets/js/dirPagination.js"></script>
-<script type="text/javascript" src="/assets/modules/requests/assets/js/ng-controller.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/dirPagination.js"></script>
+<script type="text/javascript" src="/controller/modules/requests/assets/js/ng-controller.js"></script>
 <?php } ?>
 <?php if($thisarray["p1"]=="mq"){?>
-<script src="/assets/js/alasql.min.js"></script>
-<script src="/assets/js/xlsx.core.min.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/alasql.min.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/xlsx.core.min.js"></script>
 <?php }
-    include "public/modules/template_end.php";
+    include $website['corebase']."public/modules/template_end.php";
     echo '</body></html>';
   }
 }

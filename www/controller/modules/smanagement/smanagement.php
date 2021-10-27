@@ -70,11 +70,11 @@ class Class_smanagement
            }
 
         }
-        include "public/modules/css.php";
+        include $website['corebase']."public/modules/css.php";
         if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) { 
         if (!empty($thisarray["p1"])) {?>
 <link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">
-<link rel="stylesheet" type="text/css" href="/assets/modules/smanagement/assets/css/midleo-workflow.css">
+<link rel="stylesheet" type="text/css" href="/controller/modules/smanagement/assets/css/midleo-workflow.css">
 <?php } } else {
 if (empty($thisarray["p1"])) {
     foreach ($modulelist["kanban"]["css"] as $csskey => $csslink) {
@@ -86,7 +86,7 @@ if (empty($thisarray["p1"])) {
 <?php 
 echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
 $breadcrumb["text"] = "Service management";
-include "public/modules/headcontent.php";
+include $website['corebase']."public/modules/headcontent.php";
 echo '<div class="page-wrapper"><div class="container-fluid">';
 if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
   $brarr=array(
@@ -158,7 +158,7 @@ if($thisarray["p2"]=="types"){
   ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include "public/modules/sidebar.php"; ?>
+        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
         <div class="card">
@@ -177,7 +177,7 @@ if($thisarray["p2"]=="types"){
     </div>
 </div>
 <div class="col-md-2">
-    <?php include "public/modules/breadcrumbin.php"; ?>
+    <?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
 </div>
 </div>
 <?php } else {
@@ -215,7 +215,7 @@ if(!empty($thisarray["p1"])){
   ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include "public/modules/sidebar.php"; ?>
+        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
         <div class="card p-2" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
@@ -296,20 +296,12 @@ if(!empty($thisarray["p1"])){
                                 </select>
                             </div>
                             <div class="col-md-3 text-start">
-                                <a href="/smanagement//types" target="_parent" class="btn btn-light"><svg
-                                        class="midico midico-outline">
-                                        <use href="/assets/images/icon/midleoicons.svg#i-search"
-                                            xlink:href="/assets/images/icon/midleoicons.svg#i-search" />
-                                    </svg></a>
+                                <a href="/smanagement//types" target="_parent" class="btn btn-light"><i class="mdi mdi-magnify"></i></a>
                             </div>
                         </div>
                         <div class="btn-group-vertical">
                             <button type="button" class="btn btn-light text-start"
-                                ng-click="readrespusr('<?php echo $thisarray["p1"];?>','<?php echo $_SESSION['user'];?>')"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-groups"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-groups" />
-                                </svg>&nbsp;Responsible Groups</button>
+                                ng-click="readrespusr('<?php echo $thisarray["p1"];?>','<?php echo $_SESSION['user'];?>')"><i class="mdi mdi-account-group-outline"></i>&nbsp;Responsible Groups</button>
                         </div>
                     </div>
                 </div>
@@ -412,15 +404,8 @@ if(!empty($thisarray["p1"])){
                                     <div class="modal-footer">
                                         <input type="text" value="" style="display:none;" id="nmid">
                                         <button type="button" class="btn btn-secondary btn-sm"
-                                            data-bs-dismiss="modal"><svg class="midico midico-outline">
-                                                <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                                    xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                                            </svg>&nbsp;Close</button>
-                                        <button type="button" onclick="savethisnm()" class="btn btn-info btn-sm"><svg
-                                                class="midico midico-outline">
-                                                <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                                    xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                            </svg>&nbsp;Save changes</button>
+                                            data-bs-dismiss="modal"><i class="mdi mdi-close"></i>&nbsp;Close</button>
+                                        <button type="button" onclick="savethisnm()" class="btn btn-info btn-sm"><i class="mdi mdi-check"></i>&nbsp;Save changes</button>
                                     </div>
                                 </div>
                             </div>
@@ -441,11 +426,7 @@ if(!empty($thisarray["p1"])){
                                             </div>
                                             <div class="col-md-3 mt-1"><button type="button"
                                                     class="waves-effect btn btn-info btn-sm"
-                                                    ng-click="addrespusr('<?php echo $thisarray["p1"];?>','<?php echo $_SESSION["user"];?>')"><svg
-                                                        class="midico midico-outline">
-                                                        <use href="/assets/images/icon/midleoicons.svg#i-add"
-                                                            xlink:href="/assets/images/icon/midleoicons.svg#i-add" />
-                                                    </svg>&nbsp;Add</button></div>
+                                                    ng-click="addrespusr('<?php echo $thisarray["p1"];?>','<?php echo $_SESSION["user"];?>')"><i class="mdi mdi-plus"></i>&nbsp;Add</button></div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-md-3"></div>
@@ -458,11 +439,7 @@ if(!empty($thisarray["p1"])){
                                                             class="list-group-item usr_{{ukey}}">{{user.uname}}<a
                                                                 class="float-end"
                                                                 ng-click="delusrsel('<?php echo $thisarray["p1"];?>',ukey,user.type,'<?php echo $_SESSION['user'];?>')"
-                                                                style="cursor:pointer;margin-bottom: 0px;line-height: inherit;"><svg
-                                                                    class="midico midico-outline">
-                                                                    <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                                                        xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                                                                </svg></a></li>
+                                                                style="cursor:pointer;margin-bottom: 0px;line-height: inherit;"><i class="mdi mdi-close"></i></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -471,10 +448,7 @@ if(!empty($thisarray["p1"])){
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" onclick="reloadgr();" class="btn btn-secondary btn-sm"
-                                            data-bs-dismiss="modal"><svg class="midico midico-outline">
-                                                <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                                    xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                                            </svg>&nbsp;Close</button>
+                                            data-bs-dismiss="modal"><i class="mdi mdi-close"></i>&nbsp;Close</button>
 
                                     </div>
                                 </div>
@@ -484,7 +458,7 @@ if(!empty($thisarray["p1"])){
         </div>
     </div>
     <div class="col-md-2">
-        <?php include "public/modules/breadcrumbin.php"; ?>
+        <?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
         <br><br>
 <h4><i class="mdi mdi-gate-nand"></i>&nbsp;Logical Blocks</h4>
 <br>
@@ -510,7 +484,7 @@ if(!empty($thisarray["p1"])){
       ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include "public/modules/sidebar.php"; ?>
+        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-10" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
         <div class="row">
@@ -566,7 +540,7 @@ if(!empty($thisarray["p1"])){
 
 
                 <dir-pagination-controls pagination-id="prodx" boundary-links="true"
-                    on-page-change="pageChangeHandler(newPageNumber)" template-url="/assets/templ/pagination.tpl.html">
+                    on-page-change="pageChangeHandler(newPageNumber)" template-url="/<?php echo $website['corebase'];?>assets/templ/pagination.tpl.html">
                 </dir-pagination-controls>
 
 
@@ -574,8 +548,8 @@ if(!empty($thisarray["p1"])){
 
 
             <div class="col-md-3">
-            <?php include "public/modules/filterbar.php"; ?>
-                <?php include "public/modules/breadcrumbin.php"; ?>
+            <?php include $website['corebase']."public/modules/filterbar.php"; ?>
+                <?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
             </div>
         </div>
     </div>
@@ -605,15 +579,8 @@ if(!empty($thisarray["p1"])){
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" name="addwf" class="btn btn-light btn-sm"><svg class="midico midico-outline">
-                            <use href="/assets/images/icon/midleoicons.svg#i-save"
-                                xlink:href="/assets/images/icon/midleoicons.svg#i-save" />
-                        </svg>&nbsp;Save</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><svg
-                            class="midico midico-outline">
-                            <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                        </svg>&nbsp;Close</button>
+                    <button type="submit" name="addwf" class="btn btn-light btn-sm"><i class="mdi mdi-content-save"></i>&nbsp;Save</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i class="mdi mdi-close"></i>&nbsp;Close</button>
                 </div>
             </form>
         </div>
@@ -633,17 +600,9 @@ if(!empty($thisarray["p1"])){
             <h3 style="font-weight:bold;">Plan a New project</h3>
         </div>
         <div class="col-md-4 text-end">
-            <a href="/smanagement" target="_parent" class="btn btn-outline-secondary"><svg
-                    class="midico midico-outline">
-                    <use href="/assets/images/icon/midleoicons.svg#i-x"
-                        xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                </svg>&nbsp;Cancel</a>&nbsp;
+            <a href="/smanagement" target="_parent" class="btn btn-outline-secondary"><i class="mdi mdi-close"></i>&nbsp;Cancel</a>&nbsp;
             <span data-bs-toggle="tooltip" data-bs-placement="top" title="Submit the project"><button type="submit"
-                    name="addproj" ng-disabled="!pjinfo.templcode" class="waves-effect waves-light btn btn-info"><svg
-                        class="midico midico-outline">
-                        <use href="/assets/images/icon/midleoicons.svg#i-check"
-                            xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                    </svg>&nbsp;Submit</button></span>
+                    name="addproj" ng-disabled="!pjinfo.templcode" class="waves-effect waves-light btn btn-info"><i class="mdi mdi-check"></i>&nbsp;Submit</button></span>
         </div>
     </div><br>
     <div class="row">
@@ -667,10 +626,7 @@ if(!empty($thisarray["p1"])){
                                 <div class="card-body" style="padding:5px;">
                                     <div class="selinfo"
                                         ng-class="(catselected=='<?php echo $val["nameshort"];?>') ? 'selected' : ''">
-                                        <svg class="midico midico-outline midicoinfo">
-                                            <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                                xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                        </svg>
+                                        <i class="mdi mdi-check"></i>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 round-lg d-inline-block text-center"
@@ -728,11 +684,7 @@ if(!empty($thisarray["p1"])){
                                     <h4>{{ d.templname }}</h4>
                                 </div>
                                 <div class="card-body pt-0 pb-1">
-                                    <div class="selinfo" ng-class="(templselected==d.templcode) ? 'selected' : ''"><svg
-                                            class="midico midico-outline midicoinfo">
-                                            <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                                xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                        </svg></div>
+                                    <div class="selinfo" ng-class="(templselected==d.templcode) ? 'selected' : ''"><i class="mdi mdi-check"></i></div>
                                     <div class="row">
                                         <div class="col-md-12 text-start cardpj ps-4">
                                             <p class="card-text">
@@ -877,17 +829,9 @@ if(!empty($thisarray["p1"])){
         <div class="col-md-8">
         </div>
         <div class="col-md-4 text-end">
-            <a href="/smanagement" target="_parent" class="btn btn-outline-secondary"><svg
-                    class="midico midico-outline">
-                    <use href="/assets/images/icon/midleoicons.svg#i-x"
-                        xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                </svg>&nbsp;Cancel</a>&nbsp;
+            <a href="/smanagement" target="_parent" class="btn btn-outline-secondary"><i class="mdi mdi-close"></i>&nbsp;Cancel</a>&nbsp;
             <span data-bs-toggle="tooltip" data-bs-placement="top" title="Submit the project"><button type="submit"
-                    name="addproj" ng-disabled="!pjinfo.templcode" class="waves-effect waves-light btn btn-info"><svg
-                        class="midico midico-outline">
-                        <use href="/assets/images/icon/midleoicons.svg#i-check"
-                            xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                    </svg>&nbsp;Submit</button></span>
+                    name="addproj" ng-disabled="!pjinfo.templcode" class="waves-effect waves-light btn btn-info"><i class="mdi mdi-check"></i>&nbsp;Submit</button></span>
         </div>
     </div>
 
@@ -953,11 +897,7 @@ if(!empty($thisarray["p1"])){
                     <div class="form-group row">
                         <label class="form-control-label text-lg-left col-md-3"></label>
                         <div class="col-md-9">
-                            <button type="submit" name="addproj" class="btn btn-info"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                </svg>&nbsp;Save</button>
+                            <button type="submit" name="addproj" class="btn btn-info"><i class="mdi mdi-check"></i>&nbsp;Save</button>
                         </div>
                     </div>
                 </form>
@@ -1004,13 +944,13 @@ if(!empty($thisarray["p1"])){
 
 
 <?php
-include "public/modules/footer.php";
+include $website['corebase']."public/modules/footer.php";
         echo "</div></div>";
-        include "public/modules/js.php";
+        include $website['corebase']."public/modules/js.php";
         if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
         if (!empty($thisarray["p1"])) {?>
-<script type="text/javascript" src="/assets/modules/smanagement/assets/js/jsplumb.min.js"></script>
-<script type="text/javascript" src="/assets/modules/smanagement/assets/js/midleo-workflow.js"></script>
+<script type="text/javascript" src="/controller/modules/smanagement/assets/js/jsplumb.min.js"></script>
+<script type="text/javascript" src="/controller/modules/smanagement/assets/js/midleo-workflow.js"></script>
 <?php } ?>
 <?php if($thisarray["p2"]=="types"){  
      if(is_dir("assets/images/stypes")){  ?>
@@ -1090,14 +1030,14 @@ WHERE  requser=?
 </script>
 <?php } 
 } ?>
-<script type="text/javascript" src="/assets/js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript" src="/assets/js/tinymce/mentions.min.js"></script>
-<script type="text/javascript" src="/assets/js/tinymce/angular.tinymce.min.js"></script>
-<script src="/assets/js/dirPagination.js" type="text/javascript"></script>
-<script type="text/javascript" src="/assets/modules/smanagement/assets/js/ng-controller.js"></script>
-<script src="/assets/js/tagsinput.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/<?php echo $website['corebase'];?>assets/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/<?php echo $website['corebase'];?>assets/js/tinymce/mentions.min.js"></script>
+<script type="text/javascript" src="/<?php echo $website['corebase'];?>assets/js/tinymce/angular.tinymce.min.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/dirPagination.js" type="text/javascript"></script>
+<script type="text/javascript" src="/controller/modules/smanagement/assets/js/ng-controller.js"></script>
+<script src="/<?php echo $website['corebase'];?>assets/js/tagsinput.min.js" type="text/javascript"></script>
 <?php 
-include "public/modules/template_end.php";
+include $website['corebase']."public/modules/template_end.php";
 echo '</body></html>';
 
     }
