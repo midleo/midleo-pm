@@ -10,10 +10,10 @@
       {
         $img_desc = documentClass::FilesArange($img);
         $log="";
-        if (!is_dir('data/requests/'.$thisarray["p2"])) { if (!mkdir('data/requests/'.$thisarray["p2"],0755)) { echo "Cannot create request dir<br>";}}
+        if (!is_dir('data/tickets/'.$thisarray["p2"])) { if (!mkdir('data/tickets/'.$thisarray["p2"],0755)) { echo "Cannot create request dir<br>";}}
         foreach($img_desc as $val)
                 {
-                  $msg[]=documentClass::uploaddocument($val,"data/requests/".$thisarray["p2"]."/")."<br>";
+                  $msg[]=documentClass::uploaddocument($val,"data/tickets/".$thisarray["p2"]."/")."<br>";
                   $log.=$val['name'].",";
                 }
       }
@@ -21,14 +21,14 @@
         gTable::dbsearch($log, $_SERVER["HTTP_REFERER"], htmlspecialchars($_POST["tags"]));
       }
       gTable::track($_SESSION["userdata"]["usname"], $_SESSION['user'], array("reqid"=>$zobj['sname'],"appid"=>"system"), "Updated request <a href='/browse/req/".$zobj['sname']."'>Uploaded files in request:".$zobj['reqname']."</a>");
-  //    header("Location: /requests/files/".htmlspecialchars($thisarray["p2"])."/?");
+  //    header("Location: /tickets/files/".htmlspecialchars($thisarray["p2"])."/?");
     } 
     ?>
     
     <div class="row">
           <div class="col-md-3 position-relative">
               <input type="text" ng-model="search" class="form-control topsearch dtfilter" placeholder="Search in logs">
-              <span class="searchicon"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-search" xlink:href="/assets/images/icon/midleoicons.svg#i-search"/></svg>
+              <span class="searchicon"><i class="mdi mdi-magnify"></i>
           </div>
   </div><br>
           <div class="row">
@@ -46,12 +46,12 @@
                 </thead>
                 <tbody>
                 <?php
-  if(is_dir("data/requests/" . $thisarray["p2"])){
-  $files = scandir("data/requests/" . $thisarray["p2"]);
+  if(is_dir("data/tickets/" . $thisarray["p2"])){
+  $files = scandir("data/tickets/" . $thisarray["p2"]);
   foreach ($files as $key => $value) {
       if (!in_array($value, array(".", ".."))) {
 ?>
-<tr><td><a target="_blank" href="/data/requests/<?php echo $thisarray["p2"];?>/<?php echo $value;?>"><?php echo $value;?></a></td><td class="text-start"><span class="badge badge-info">uploaded document</span></td><td class="text-center"><?php echo filesize("data/requests/" . $thisarray["p2"] . "/" . $value) == 0 ? filesize("data/requests/" . $thisarray["p2"] . "/" . $value) : serverClass::fsConvert(filesize("data/requests/" . $thisarray["p2"]. "/" . $value));?></td><td class="text-center"><?php echo date("d.m.Y H:i:s", filemtime("data/requests/" . $thisarray["p2"] . "/" . $value));?></td></tr>
+<tr><td><a target="_blank" href="/data/tickets/<?php echo $thisarray["p2"];?>/<?php echo $value;?>"><?php echo $value;?></a></td><td class="text-start"><span class="badge badge-info">uploaded document</span></td><td class="text-center"><?php echo filesize("data/tickets/" . $thisarray["p2"] . "/" . $value) == 0 ? filesize("data/tickets/" . $thisarray["p2"] . "/" . $value) : serverClass::fsConvert(filesize("data/tickets/" . $thisarray["p2"]. "/" . $value));?></td><td class="text-center"><?php echo date("d.m.Y H:i:s", filemtime("data/tickets/" . $thisarray["p2"] . "/" . $value));?></td></tr>
 <?php
           
         }
@@ -96,7 +96,7 @@
             <div class="modal-body form-horizontal">
               <div class="form-group">
                 <div class="col-md-12">
-                  <button type="button" id="docupload" onClick="getFile('dfile')" class="btn btn-primary btn-block"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-add" xlink:href="/assets/images/icon/midleoicons.svg#i-add"/></svg>&nbsp;add file/files</button>
+                  <button type="button" id="docupload" onClick="getFile('dfile')" class="btn btn-primary btn-block"><i class="mdi mdi-plus"></i>&nbsp;add file/files</button>
                   <div style='height: 0px;width: 0px; overflow:hidden;'><input required="required" type="file" name="dfile[]" id="dfile" onChange="sub(this,'docupload')" multiple=""/></div>
                 </div>
               </div>
@@ -121,7 +121,7 @@
       </div>
     </div>
     <div style="z-index:9999;position:fixed;bottom:45px; right:24px;">
-      <a data-bs-toggle="modal" class="waves-effect waves-light btn btn-primary btn-circle btnnm" href="#modal-flow-form"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-deploy" xlink:href="/assets/images/icon/midleoicons.svg#i-deploy" /></svg></a>
+      <a data-bs-toggle="modal" class="waves-effect waves-light btn btn-primary btn-circle btnnm" href="#modal-flow-form"><i class="mdi mdi-upload"></i></a>
     </div>
     <?php } ?>
     <?php

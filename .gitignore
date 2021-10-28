@@ -1,7 +1,7 @@
 # ignore midleo.CORE files
 www/core/www/controller/config.db.php
 www/core/www/controller/config.vars.php
-www/core/www/data/requests
+www/core/www/data/tickets
 www/core/www/data/flows
 www/core/www/data/temp
 www/core/www/data/packages
@@ -15,3 +15,12 @@ www/controller/composer.lock
 www/controller/composer.json
 www/controller/config.db.php
 www/controller/config.vars.php
+www/data/tickets
+www/data/flows
+www/data/temp
+www/data/packages
+www/data/projects
+www/assets/images/users/*
+www/controller/vendor/*
+www/controller/composer.lock
+www/controller/composer.json

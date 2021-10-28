@@ -51,3 +51,30 @@ $projcodes = array(
         "color" => "#E81625",
     ),
 );
+$priorityarr = array(
+    '0' => array(
+        "name" => "Lowest",
+        "info" => "Simple request with little or no impact on progress",
+        "butcolor" => "light",
+    ),
+    '1' => array(
+        "name" => "Low",
+        "info" => "Minor request",
+        "butcolor" => "secondary",
+    ),
+    '2' => array(
+        "name" => "Medium",
+        "info" => "Has the potential to affect progress",
+        "butcolor" => "info",
+    ),
+    '3' => array(
+        "name" => "High",
+        "info" => "Serious request that can take more effort",
+        "butcolor" => "warning",
+    ),
+    '4' => array(
+        "name" => "Highest",
+        "info" => "You should work first on this request",
+        "butcolor" => "danger",
+    ),
+);

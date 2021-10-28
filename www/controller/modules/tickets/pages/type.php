@@ -35,7 +35,7 @@
                                 <label class="col-md-5 control-label text-end" style="margin-top: 5px;"></label>
                                 <div class="col-md-7">
                                     <a data-bs-toggle="modal" class="waves-effect waves-light btn btn-light"
-                                        href="#modal-reqtype"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-save" xlink:href="/assets/images/icon/midleoicons.svg#i-save"/></svg>&nbsp;Save</a>
+                                        href="#modal-reqtype"><i class="mdi mdi-content-save"></i>&nbsp;Save</a>
                                     <div class="modal" id="modal-reqtype" tabindex="-1" role="dialog"
                                         aria-hidden="true">
                                         <div class="modal-dialog">

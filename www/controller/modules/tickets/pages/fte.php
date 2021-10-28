@@ -35,11 +35,11 @@
             <td class="text-center">{{ d.destdir | limitTo:textlimit }}{{d.destdir.length > textlimit ? '...' : ''}}</td>
             <td class="text-center">
               <?php if($zobj['sname']==$thisarray["p2"]){?>
-              <a ng-click="readOnefte('<?php echo $thisarray["p2"];?>',d.fteid,'requests')" style="" class="btn btn-primary bg waves-effect"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-edit" xlink:href="/assets/images/icon/midleoicons.svg#i-edit" /></svg></a>&nbsp;
-              <?php if($_SESSION['user_level']=="5" || $_SESSION['user_level']=="3"){?><a ng-click="deletefte('<?php echo $thisarray["p2"];?>',d.fteid,'<?php echo $_SESSION['user'];?>','requests','<?php echo $bstep;?>')" class="btn btn-danger bg waves-effect"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-x" xlink:href="/assets/images/icon/midleoicons.svg#i-x" /></svg></a><?php } ?>
+              <a ng-click="readOnefte('<?php echo $thisarray["p2"];?>',d.fteid,'requests')" style="" class="btn btn-primary bg waves-effect"><i class="mdi mdi-pencil"></i></a>&nbsp;
+              <?php if($_SESSION['user_level']=="5" || $_SESSION['user_level']=="3"){?><a ng-click="deletefte('<?php echo $thisarray["p2"];?>',d.fteid,'<?php echo $_SESSION['user'];?>','requests','<?php echo $bstep;?>')" class="btn btn-danger bg waves-effect"><i class="mdi mdi-close"></i></a><?php } ?>
               <?php } else {?>
-              <a style="" class="btn btn-default bg waves-effect"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-edit" xlink:href="/assets/images/icon/midleoicons.svg#i-edit" /></svg></a>&nbsp;
-              <?php if($_SESSION['user_level']=="5" || $_SESSION['user_level']=="3"){?><a class="btn btn-default bg waves-effect"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-x" xlink:href="/assets/images/icon/midleoicons.svg#i-x" /></svg></a><?php } ?>
+              <a style="" class="btn btn-default bg waves-effect"><i class="mdi mdi-pencil"></i></a>&nbsp;
+              <?php if($_SESSION['user_level']=="5" || $_SESSION['user_level']=="3"){?><a class="btn btn-default bg waves-effect"><i class="mdi mdi-close"></i></a><?php } ?>
               <?php } ?>
             </td>
           </tr>
@@ -164,11 +164,11 @@
               <div class="modal-footer">
                 <input ng-model="mqfte.projname" type="text" value="<?php echo $zobj['reqname'];?>" style="display:none;">
                 <?php if($_SESSION['user_level']=="5" || $_SESSION['user_level']=="3"){?>
-                <a id="btn-create-fte" class="waves-effect waves-light btn btn-primary" ng-click="form.$valid && createfte('<?php echo $thisarray["p2"];?>','<?php echo $_SESSION['user'];?>','requests','<?php echo $bstep;?>')"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-check" xlink:href="/assets/images/icon/midleoicons.svg#i-check"/></svg>&nbsp;Create</a>
-                <a id="btn-update-fte" class="waves-effect waves-light btn btn-primary" ng-click="updatefte('<?php echo $thisarray["p2"];?>','<?php echo $_SESSION['user'];?>','requests','<?php echo $bstep;?>')"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-save" xlink:href="/assets/images/icon/midleoicons.svg#i-save"/></svg>&nbsp;Save Changes</a>
+                <a id="btn-create-fte" class="waves-effect waves-light btn btn-primary" ng-click="form.$valid && createfte('<?php echo $thisarray["p2"];?>','<?php echo $_SESSION['user'];?>','requests','<?php echo $bstep;?>')"><i class="mdi mdi-check"></i>&nbsp;Create</a>
+                <a id="btn-update-fte" class="waves-effect waves-light btn btn-primary" ng-click="updatefte('<?php echo $thisarray["p2"];?>','<?php echo $_SESSION['user'];?>','requests','<?php echo $bstep;?>')"><i class="mdi mdi-content-save"></i>&nbsp;Save Changes</a>
                 <?php } ?>
                 <a id="btn-conf-fte" class="waves-effect waves-light btn btn-success" ng-click="fteconf('<?php echo $thisarray["p2"];?>','requests')" ng-href="{{ url }}"><i class="mdi mdi-download"></i>&nbsp;Create config</a>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-x" xlink:href="/assets/images/icon/midleoicons.svg#i-x" /></svg>&nbsp;Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="mdi mdi-close"></i>&nbsp;Close</button>
               </div>
             </form>
           </div>

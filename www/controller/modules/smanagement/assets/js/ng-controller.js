@@ -142,4 +142,3 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
     });
   };
 });
-angular.bootstrap(document.getElementById("ngApp"), ['ngApp']);

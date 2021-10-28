@@ -1,5 +1,5 @@
 <?php
-class Class_smanagement
+class ClassMPM_smanagement
 {
     public static function getPage($thisarray)
     {
@@ -89,40 +89,19 @@ $breadcrumb["text"] = "Service management";
 include $website['corebase']."public/modules/headcontent.php";
 echo '<div class="page-wrapper"><div class="container-fluid">';
 if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
-  $brarr=array(
-    array(
-      "title"=>"Service catalog",
-      "link"=>"/smanagement",
-      "midicon"=>"serv-cat",
-      "active"=>($page=="smanagement")?"active":"",
-    )
-  );
-  if (sessionClass::checkAcc($acclist, "requests")) {
-    array_push($brarr,array(
-      "title"=>"Requests",
-      "link"=>"/requests",
-      "midicon"=>"requests",
-      "active"=>($page=="requests")?"active":"",
-    ));
-  }
+  $brarr=array();
   if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
-    array_push($brarr,array(
-        "title"=>"Projects",
-        "link"=>"/projects",
-        "midicon"=>"kanban",
-        "active"=>($page=="projects")?"active":"",
-      ));
     array_push($brarr,array(
         "title"=>"Project Templates",
         "link"=>"/pjtemplates",
-        "midicon"=>"modules",
+        "icon"=>"mdi-cards",
         "active"=>($page=="pjtemplates")?"active":"",
     ));
   }
   array_push($brarr,array(
     "title"=>"Service types",
     "link"=>"/smanagement//types",
-    "midicon"=>"b-logic",
+    "icon"=>"mdi-head-cog-outline",
     "active"=>($thisarray["p2"]=="types")?"active":"",
   ));
 } else {
@@ -130,13 +109,13 @@ if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
         array(
             "title"=>"View your projects",
             "link"=>"/smanagement",
-            "midicon"=>"serv-cat",
+            "icon"=>"mdi-format-list-checks",
             "active"=>($page=="smanagement" && empty($thisarray["p1"]))?"active":"",  
         ),
         array(
             "title"=>"Plan a project",
             "link"=>"/smanagement/new",
-            "midicon"=>"edit",
+            "icon"=>"mdi-clipboard-plus-outline",
             "active"=>($thisarray["p1"]=="new")?"active":"",
         )
       );
@@ -151,14 +130,14 @@ if($thisarray["p2"]=="types"){
         "title"=>"Define new type",
         "link"=>"#",
         "id"=>"add-nmitemicon",
-        "midicon"=>"add",
+        "icon" => "mdi-plus",
         "active"=>true,
       ));
 
   ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+        <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
         <div class="card">
@@ -200,14 +179,14 @@ if(!empty($thisarray["p1"])){
     array_push($brarr,array(
         "title"=>"Save workflow",
         "link"=>"javascript:void(0)",
-        "midicon"=>"save",
+        "icon"=>"mdi-content-save",
         "onclick"=>"_saveFlowchart();",
         "active"=>true,
       ));
       array_push($brarr,array(
         "title"=>"Delete workflow",
         "link"=>"javascript:void(0)",
-        "midicon"=>"x",
+        "icon"=>"mdi-close",
         "onclick"=>"_delFlowchart();",
         "active"=>true,
       ));
@@ -215,7 +194,7 @@ if(!empty($thisarray["p1"])){
   ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+        <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
         <div class="card p-2" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
@@ -477,14 +456,14 @@ if(!empty($thisarray["p1"])){
      array_push($brarr,array(
         "title"=>"Add new service",
         "link"=>"#modalwf",
-        "midicon"=>"add",
+        "icon" => "mdi-plus",
         "modal"=>true,
       ));
       
       ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+        <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-10" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
         <div class="row">

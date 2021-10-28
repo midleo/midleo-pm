@@ -35,7 +35,7 @@ class requestFunctions{
       $sql="insert into requests_comments (reqid,commuser,commfullname,commtext) values(?,?,?,?)";
       $q = $pdo->prepare($sql);
       $q->execute(array($reqid,$_SESSION['user'],$usrfullname,$updinfo));
-      textClass::replaceMentions($updinfo,$_SERVER["HTTP_HOST"]."/reqinfo/".$reqid);
+      textClass::replaceMentions($updinfo,$_SERVER["HTTP_HOST"]."/ticketinfo/".$reqid);
       $msg="Comment added";
     } else {
       $err="empty comment";
@@ -74,7 +74,7 @@ class requestFunctions{
           "full"
         );
       }
-      header("Location: /reqinfo/".$uid);
+      header("Location: /ticketinfo/".$uid);
      $msg[]="Request finished";  
      return array("err"=>$err,"msg"=>$msg);
      pdodb::disconnect();
@@ -149,7 +149,7 @@ class requestFunctions{
   //   $msg[]="The request has been updated.";
    //  return array("err"=>$err,"msg"=>$msg);
      pdodb::disconnect();
-     header("Location: /reqinfo/".$uid);
+     header("Location: /ticketinfo/".$uid);
    }
    public static function assign($bstep,$reqid){
      $msg=array();
@@ -243,10 +243,10 @@ class requestFunctions{
       if(!empty($img['tmp_name'][0]))
       {
         $img_desc = documentClass::FilesArange($img);
-        if (!is_dir('data/requests/'.$hash)) { if (!mkdir('data/requests/'.$hash,0755)) { echo "Cannot create request dir data/requests/".$hash."<br>";}}
+        if (!is_dir('data/tickets/'.$hash)) { if (!mkdir('data/tickets/'.$hash,0755)) { echo "Cannot create request dir data/tickets/".$hash."<br>";}}
         foreach($img_desc as $val)
                 {
-                  $msg[]=documentClass::uploaddocument($val,"data/requests/".$hash."/")."<br>";
+                  $msg[]=documentClass::uploaddocument($val,"data/tickets/".$hash."/")."<br>";
                 }
       }
       if(!empty($_POST['reqtype'])){
@@ -268,7 +268,7 @@ class requestFunctions{
         $wfdatagroups[$wfdata["nodes"][array_keys($wfdata["nodes"])[0]][0]["elusr"]]["uemail"],
         "[MidlEO] ".$hash.":".htmlspecialchars($_POST['reqname']),
         "Hello,<br>You have received new request in - ".$website['env_name'],
-        "<br><br>Please check it "."<a href=\"https://".$_SERVER["HTTP_HOST"]."/requests\" target=\"_blank\">here</a>",
+        "<br><br>Please check it "."<a href=\"https://".$_SERVER["HTTP_HOST"]."/tickets\" target=\"_blank\">here</a>",
         $body=array(
           "Requestor"=>$usname,
           "Assigned Group"=>!empty($wfdata["nodes"][array_keys($wfdata["nodes"])[0]][0]["elusrname"])?$wfdata["nodes"][array_keys($wfdata["nodes"])[0]][0]["elusrname"]:"",
@@ -352,7 +352,7 @@ class requestFunctions{
        $wfdatagroups[$wfdata["nodes"][array_keys($wfdata["nodes"])[0]][0]["elusr"]]["uemail"],
        "[MidlEO] ".htmlspecialchars($_POST['reqid']).":".htmlspecialchars($_POST['reqname']),
        "Hello,<br>request was updated - ".$website['env_name'],
-       "<br><br>Please check it "."<a href=\"https://".$_SERVER['HTTP_HOST']."/requests\" target=\"_blank\">here</a>",
+       "<br><br>Please check it "."<a href=\"https://".$_SERVER['HTTP_HOST']."/tickets\" target=\"_blank\">here</a>",
        $body=array(
          "Requestor"=>htmlspecialchars($_POST['requser']),
          "Assigned Group"=>!empty($wfdata["nodes"][array_keys($wfdata["nodes"])[0]][0]["elusrname"])?$wfdata["nodes"][array_keys($wfdata["nodes"])[0]][0]["elusrname"]:"",
@@ -365,7 +365,7 @@ class requestFunctions{
      $msg[]="The request has been updated.";
      return array("err"=>$err,"msg"=>$msg);
      pdodb::disconnect();
-     header("Location: /reqinfocl/".htmlspecialchars($_POST['reqid']));
+     header("Location: /ticketinfocl/".htmlspecialchars($_POST['reqid']));
    }
    public static function sendnext($wfstep,$nextstep,$usr,$reqid,$usname,$wfdata,$wfdatagroups){
     $msg=array();
@@ -390,7 +390,7 @@ class requestFunctions{
       $wfdatagroups[$wfdata["nodes"][$nextstep][0]["elusr"]]["uemail"],
       "[MidlEO] ".$reqid.":".htmlspecialchars($_POST['reqname']),
       "Hello,<br>request was updated - ".$website['env_name'],
-      "<br><br>Please check it "."<a href=\"https://".$_SERVER["HTTP_HOST"]."/requests\" target=\"_blank\">here</a>",
+      "<br><br>Please check it "."<a href=\"https://".$_SERVER["HTTP_HOST"]."/tickets\" target=\"_blank\">here</a>",
       $body=array(
         "Requestor"=>htmlspecialchars($_POST['requser']),
         "Assigned Group"=>!empty($wfdata["nodes"][$nextstep][0]["elusrname"])?$wfdata["nodes"][$nextstep][0]["elusrname"]:"",
@@ -402,6 +402,6 @@ class requestFunctions{
     $msg[]="The request has been updated.";
     return array("err"=>$err,"msg"=>$msg);
     pdodb::disconnect();
-    header("Location: /requests");
+    header("Location: /tickets");
    }
 }

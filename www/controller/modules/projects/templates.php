@@ -46,7 +46,6 @@ class Class_pjtemplates
         echo '<link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">';
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"] = "Project templates";
-        $breadcrumb["midicon"] = "modules";
         include $website['corebase']."public/modules/headcontent.php";
         echo '<div class="page-wrapper"><div class="container-fluid">';
         if (sessionClass::checkAcc($acclist, "smanagementadm")) { 
@@ -54,15 +53,15 @@ class Class_pjtemplates
               array(
                 "title"=>"Service catalog",
                 "link"=>"/smanagement",
-                "midicon"=>"serv-cat",
+                "icon"=>"mdi-format-list-checks",
                 "active"=>($page=="smanagement")?"active":"",
               )
             );
             if (sessionClass::checkAcc($acclist, "requests")) {
               array_push($brarr,array(
                 "title"=>"Requests",
-                "link"=>"/requests",
-                "midicon"=>"requests",
+                "link"=>"/tickets",
+                "icon"=>"mdi-swap-horizontal-bold",
                 "active"=>($page=="requests")?"active":"",
               ));
             }
@@ -70,7 +69,7 @@ class Class_pjtemplates
               array_push($brarr,array(
                   "title"=>"Projects",
                   "link"=>"/projects",
-                  "midicon"=>"kanban",
+                  "icon"=>"mdi-bulletin-board",
                   "active"=>($page=="projects")?"active":"",
                 ));
              
@@ -78,7 +77,7 @@ class Class_pjtemplates
             array_push($brarr,array(
               "title"=>"Service types",
               "link"=>"/smanagement//types",
-              "midicon"=>"b-logic",
+              "icon"=>"mdi-head-cog-outline",
               "active"=>($thisarray["p2"]=="types")?"active":"",
             ));
           }
@@ -102,7 +101,7 @@ class Class_pjtemplates
         array_push($brarr,array(
             "title"=>"Cancel",
             "link"=>"/pjtemplates",
-            "midicon"=>"x",
+            "icon"=>"mdi-close",
             "active"=>($page=="pjtemplates")?"active":"",
         ));
         ?>
@@ -110,7 +109,7 @@ class Class_pjtemplates
 
     <div class="row pt-3">
         <div class="col-lg-2">
-            <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+            <?php include "public/modules/sidebar.php"; ?>
         </div>
         <div class="col-lg-8">
             <div class="row ngctrl" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
@@ -139,11 +138,7 @@ class Class_pjtemplates
 
                             <br>
                             <div class="form-group">
-                                <button type="submit" name="addproj" class="btn btn-light"><svg
-                                        class="midico midico-outline">
-                                        <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                            xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                    </svg>&nbsp;Save</button>
+                                <button type="submit" name="addproj" class="btn btn-light"><i class="mdi mdi-check"></i>&nbsp;Save</button>
                             </div>
                         </div>
                     </div>
@@ -213,16 +208,16 @@ class Class_pjtemplates
     array_push($brarr,array(
         "title"=>"Create new project template",
         "link"=>"/pjtemplates/?type=new",
-        "midicon"=>"add",
+        "icon" => "mdi-plus",
         "active"=>($page=="pjtemplates")?"active":"",
     ));
     ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+        <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-10">
-        <div class="row" class="ngctrl" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
+        <div class="row ngctrl" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
             <div class="col-md-9">
                 <ul class="row" ng-init="getProjTempllist('<?php echo $thisarray["p2"];?>')" style="padding:0 15px;">
 
@@ -274,18 +269,14 @@ class Class_pjtemplates
                                 style="position:absolute;bottom:0;width:100%;height:46px;">
                                 <ul class="list-inline mb-0">
                                     <li ng-show="d.owner=='<?php echo $_SESSION["user"];?>'" class="float-end"><a
-                                            ng-click="deletepjtempl(d.id,d.templcode,'<?php echo $_SESSION["user"];?>')"><svg
-                                                class="midico midico-outline">
-                                                <use href="/assets/images/icon/midleoicons.svg#i-trash"
-                                                    xlink:href="/assets/images/icon/midleoicons.svg#i-trash" />
-                                            </svg></a></li>
+                                            ng-click="deletepjtempl(d.id,d.templcode,'<?php echo $_SESSION["user"];?>')"><i class="mdi mdi-close"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
                 </ul>
                 <dir-pagination-controls pagination-id="prodx" boundary-links="true"
-                    on-page-change="pageChangeHandler(newPageNumber)" template-url="/assets/templ/pagination.tpl.html">
+                    on-page-change="pageChangeHandler(newPageNumber)" template-url="/<?php echo $website['corebase'];?>assets/templ/pagination.tpl.html">
                 </dir-pagination-controls>
             </div>
             <div class="col-md-3">

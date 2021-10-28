@@ -80,7 +80,7 @@ include $website['corebase']."public/modules/breadcrumb.php";?>
               <h4><b>found diagrams</b></h4><br>
 <div class="btn-group-vertical btn-block" role="group" >
 <?php
-    foreach($zobj as $val) {  echo "<a class='btn btn-default btn-block waves-effect' href='/reqinfo/".$val['reqid']."'>".$val['desname']."</a>"; }
+    foreach($zobj as $val) {  echo "<a class='btn btn-default btn-block waves-effect' href='/ticketinfo/".$val['reqid']."'>".$val['desname']."</a>"; }
   ?></div><?php 
   } else {
     echo '<div class="alert alert-info">No info found</div>';
@@ -101,7 +101,7 @@ include $website['corebase']."public/modules/breadcrumb.php";?>
   if(is_array($zobj) && !empty($zobj)){ ?>
 <div class="btn-group-vertical btn-block" role="group" >
 <?php
-    foreach($zobj as $val) {  echo "<a class='btn btn-light btn-block waves-effect  text-start' href='/reqinfo/".$val['sname']."'>".$val['reqname']."</a>"; }
+    foreach($zobj as $val) {  echo "<a class='btn btn-light btn-block waves-effect  text-start' href='/ticketinfo/".$val['sname']."'>".$val['reqname']."</a>"; }
   ?></div><?php 
   } else {
     echo '<div class="alert alert-info">No info found</div>';

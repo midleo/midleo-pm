@@ -1,10 +1,10 @@
-<?php
+<?php 
 $modulelist["calendar"]["name"] = "Calendar module - time management";
-$modulelist["calendar"]["css"][] = str_replace($maindir, "", dirname($filename)) . "/assets/css/fullcalendar.min.css";
-$modulelist["calendar"]["css"][] = str_replace($maindir, "", dirname($filename)) . "/assets/css/mcalendar.css";
-$modulelist["calendar"]["js"][] = str_replace($maindir, "", dirname($filename)) . "/assets/js/fullcalendar.min.js";
-$modulelist["calendar"]["js"][] = str_replace($maindir, "", dirname($filename)) . "/assets/js/mcalendar.js";
-$modulelist["calendar"]["js"][] = str_replace($maindir, "", dirname($filename)) . "/assets/js/locales-all.min.js";
+$modulelist["calendar"]["css"][] = "/controller/modules/calendar/assets/css/fullcalendar.min.css";
+$modulelist["calendar"]["css"][] = "/controller/modules/calendar/assets/css/mcalendar.css";
+$modulelist["calendar"]["js"][] = "/controller/modules/calendar/assets/js/fullcalendar.min.js";
+$modulelist["calendar"]["js"][] = "/controller/modules/calendar/assets/js/mcalendar.js";
+$modulelist["calendar"]["js"][] = "/controller/modules/calendar/assets/js/locales-all.min.js";
 include "functions.php";
 class calendarClass
 {
@@ -49,8 +49,9 @@ class calendarClass
 
         pdodb::disconnect();
     }
-    public static function showCal($thisarr,$breadcrumb)
+    public static function showCal($thisarr,$breadcrumb,$thisarray)
     {
+        global $website;
         $pdo = pdodb::connect();
         $hours = "";
         $brarr=$thisarr;
@@ -58,18 +59,18 @@ class calendarClass
             "title"=>"Add hours",
             "link"=>"#modeff",
             "modal"=>true,
-            "midicon"=>"add",
+            "icon"=>"mdi-plus",
             "active"=>false,
           )); 
         for ($x = 1; $x <= 8; $x++) {$hours .= '<option value="' . $x . '">' . $x . ' Hours</option>';}
         ?>
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+        <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
     <div id='calendar' class="card">
-        <div class="text-info text-center calalert"><i class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</div>
+        <div class="text-info text-center calalert p-2"><i class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</div>
     </div>
     <input id="username" style="display:none" value="<?php echo $_SESSION["user"]; ?>">
 </div>
@@ -128,7 +129,7 @@ class calendarClass
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Close</button>
-        <button type="submit" name="savecal" class="btn btn-sm btn-info waves-effect"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-add" xlink:href="/assets/images/icon/midleoicons.svg#i-add" /></svg>&nbsp;Save</button>
+        <button type="submit" name="savecal" class="btn btn-sm btn-info waves-effect"><i class="mdi mdi-plus"></i>&nbsp;Save</button>
       </div>
     </form>
     </div>
@@ -158,10 +159,9 @@ class Class_calendar
         $pdo = pdodb::connect();
         $data = sessionClass::getSessUserData();foreach ($data as $key => $val) {${$key} = $val;}
         include $website['corebase']."public/modules/css.php";
-        echo '<link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">';
+        echo '<link rel="stylesheet" type="text/css" href="/'.$website['corebase'].'assets/css/jquery-ui.min.css">';
         foreach ($modulelist["calendar"]["css"] as $csskey => $csslink) {
-            if (!empty($csslink)) {?>
-<link rel="stylesheet" type="text/css" href="<?php echo $csslink; ?>"><?php }
+            if (!empty($csslink)) {?><link rel="stylesheet" type="text/css" href="<?php echo $csslink; ?>"><?php }
         }
         if (isset($_POST["savecal"])) {$data = calendarClass::saveCal();
             $msg[] = $data["msg"];
@@ -174,17 +174,17 @@ class Class_calendar
             array(
                 "title" => "View/Edit your tasks",
                 "link" => "/tasks",
-                "midicon" => "tasks",
+                "icon" => "mdi-calendar-check-outline",
                 "active" => ($page == "tasks") ? "active" : "",
             ),
             array(
                 "title" => "View your timesheets",
                 "link" => "/timesheets",
-                "midicon" => "timesheets",
+                "icon" => "mdi-timetable",
                 "active" => ($page == "timesheets") ? "active" : "",
             ),
         ); 
-        calendarClass::showCal($brarr,$breadcrumb);
+        calendarClass::showCal($brarr,$breadcrumb,$thisarray);
         echo "<input type='hidden' id='working_start' value='{$website['working_start']}'>";
         echo "<input type='hidden' id='working_end' value='{$website['working_end']}'>";
         echo '</div>';
@@ -219,8 +219,8 @@ class Class_timesheets
         $month = str_pad($month, 2, 0, STR_PAD_LEFT);
         $days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         include $website['corebase']."public/modules/css.php";
-        echo '<link rel="stylesheet" type="text/css" href="/assets/js/datatables/dataTables.bootstrap5.min.css">';
-        echo '<link rel="stylesheet" type="text/css" href="/assets/js/datatables/fixedColumns.bootstrap5.min.css">';
+        echo '<link rel="stylesheet" type="text/css" href="/'.$website['corebase'].'assets/js/datatables/dataTables.bootstrap5.min.css">';
+        echo '<link rel="stylesheet" type="text/css" href="/'.$website['corebase'].'assets/js/datatables/fixedColumns.bootstrap5.min.css">';
         echo '</head><body class="card-no-border"> <div id="main-wrapper">';
         $breadcrumb["text"] = "Timesheets";
         include $website['corebase']."public/modules/headcontent.php";
@@ -229,19 +229,19 @@ class Class_timesheets
             array(
                 "title" => "View/Edit calendar",
                 "link" => "/calendar",
-                "midicon" => "cal",
+                "icon" => "mdi-calendar-month-outline",
                 "active" => ($page == "calendar") ? "active" : "",
             ),
             array(
                 "title" => "View/Edit your tasks",
                 "link" => "/tasks",
-                "midicon" => "tasks",
+                "icon" => "mdi-calendar-check-outline",
                 "active" => ($page == "tasks") ? "active" : "",
             ),
         );
         
         echo '<div class="row pt-3"><div class="col-2">';?>
-        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+        <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
 
@@ -401,8 +401,8 @@ class Class_tasks
                 $err[] = "Error creating the task";}
         }
         include $website['corebase']."public/modules/css.php";?>
-        <link rel="stylesheet" type="text/css" href="/assets/js/datatables/dataTables.bootstrap5.min.css">
-        <link rel="stylesheet" type="text/css" href="/assets/js/datatables/responsive.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="/<?php echo $website['corebase'];?>assets/js/datatables/dataTables.bootstrap5.min.css">
+        <link rel="stylesheet" type="text/css" href="/<?php echo $website['corebase'];?>assets/js/datatables/responsive.dataTables.min.css">
         </head>
         <body class="fix-header card-no-border">
             <div id="main-wrapper">
@@ -414,20 +414,20 @@ $brarr = array(
             array(
                 "title" => "View/Edit calendar",
                 "link" => "/calendar",
-                "midicon" => "cal",
+                "icon" => "mdi-calendar-month-outline",
                 "active" => ($page == "calendar") ? "active" : "",
             ),
             array(
                 "title" => "View your timesheets",
                 "link" => "/timesheets",
-                "midicon" => "timesheets",
+                "icon" => "mdi-timetable",
                 "active" => ($page == "timesheets") ? "active" : "",
             ),
             array(
                 "title" => "Open a new task",
                 "link" => "#modal-cal",
                 "modal"=>true,
-                "midicon" => "add",
+                "icon" => "mdi-plus",
                 "active" => true,
             ),
         );
@@ -435,7 +435,7 @@ $brarr = array(
 
 <div class="row pt-3">
     <div class="col-lg-2">
-        <?php include $website['corebase']."public/modules/sidebar.php"; ?>
+        <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
                                 <div class="card">

@@ -8,6 +8,7 @@ class Class_reqapi
         session_start();
         $err = array();
         $msg = array();
+        header('Content-type:application/json;charset=utf-8');  
         if (!empty($thisarray["p1"]) && !empty($_SESSION['user'])) {
             switch ($thisarray["p1"]) {
                 case 'readreq':Class_reqapi::readRequest($thisarray["p2"]);  break;
@@ -75,7 +76,7 @@ class Class_reqapi
         $sql = "update requests set assigned='canceled',deployed_by=? where sname=? and (assigned is null or assigned='')";
         $stmt = $pdo->prepare($sql);
         if ($stmt->execute(array(htmlspecialchars($data->user), $data->reqid))) {
-            documentClass::rRD("data/requests/" . htmlspecialchars($data->reqid));
+            documentClass::rRD("data/tickets/" . htmlspecialchars($data->reqid));
             echo "Request was deleted";
             gTable::track($_SESSION["userdata"]["usname"], $_SESSION['user'], array("reqid"=>$data->reqid,"appid"=>"system"), "Canceled the request " . $data->reqid);
         } else {
@@ -185,7 +186,8 @@ class Class_reqapi
                     $data['name'] = $val['reqname'];
                     $data['requser'] = $val['requser'];
                     $data['changed'] = date("d F/Y", strtotime($val['modified']));
-                    $data['deadline'] = (date("Y-m-d", strtotime($val['deadline'])) == "2001-01-01") ? "No" : date("d.m.y", strtotime($val['deadline']));
+                    $data['created'] = date("d/m/y", strtotime($val['created']));
+                    $data['deadline'] = (date("Y-m-d", strtotime($val['deadline'])) == "2001-01-01") ? "No" : date("d/m/y", strtotime($val['deadline']));
                     $data['assigned'] = !empty($val['assigned']) ? $val['assigned'] : "Not yet";
                     $newdata[] = $data;
                 }

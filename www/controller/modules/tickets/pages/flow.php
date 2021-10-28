@@ -22,26 +22,14 @@
               <th class="text-center" style="width:120px;">Commands</th>
             </tr>
           </thead>
-          <tbody ng-init="getAllflows('<?php echo $thisarray["p2"];?>','requests')">
+          <tbody ng-init="getAllflows('<?php echo $thisarray["p2"];?>')">
             <tr dir-paginate="d in names | filter:search | orderBy:'name':reverse | itemsPerPage:10" pagination-id="prodx">
-              <td class="text-center"><a href="/flows/{{ d.flowid }}/requests" target="_parent">{{ d.flowname | limitTo:2*textlimit }}{{d.name.length > 2*textlimit ? '...' : ''}}</a></td>
+              <td class="text-center"><a href="/flows/{{ d.flowid }}" target="_parent">{{ d.flowname | limitTo:2*textlimit }}{{d.name.length > 2*textlimit ? '...' : ''}}</a></td>
               <td class="text-center">{{ d.modified }}</td>
               <td class="text-center">
-                <ul class="actions">
-                    <li class="dropdown action-show">
-                      <a href="" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-                      <ul class="dropdown-menu pull-right">
-                        <li> <a ng-click="gitInit(d.flowid,'requests')" class=" waves-effect"><i class="mdi mdi-git"></i>&nbsp;GIT init</a> </li>
-                        <li> <a ng-click="gitCommit(d.flowid,'requests')" class="waves-effect"><i class="mdi mdi-git"></i>&nbsp;GIT commit</a> </li>
-                     <li>  <a href="/requests/flow/<?php echo $thisarray["p2"];?>/{{ d.flowid }}/log" target="_parent" class="waves-effect"><i class="mdi mdi-history"></i>&nbsp;Log entries</a> </li>
-                   <?php if($_SESSION['user_level']>=3){?> 
-                        <li ng-show="d.insvn=='1'"><a ng-click="deleteflowsgit('<?php echo $thisarray["p2"];?>',d.flowid,'<?php echo $_SESSION['user'];?>','requests',d.flowname)" class="waves-effect" style="color:red;"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-x" xlink:href="/assets/images/icon/midleoicons.svg#i-x" /></svg>&nbsp;Delete</a></li>
-                        <li ng-show="d.insvn=='0'"><a ng-click="deleteflows('<?php echo $thisarray["p2"];?>',d.flowid,'<?php echo $_SESSION['user'];?>','requests',d.flowname)" class="waves-effect" style="color:red;"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-x" xlink:href="/assets/images/icon/midleoicons.svg#i-x" /></svg>&nbsp;Delete</a></li>
-                        <?php } ?>
-                </ul>
-             </li>
-          </ul>
-           </td>
+                <a href="/tickets/flow/<?php echo $thisarray["p2"];?>/{{ d.flowid }}/log" target="_parent" class="btn btn-inverse waves-effect">Log</a>
+                <?php if($_SESSION['user_level']=="5" || $_SESSION['user_level']=="3"){?><a ng-click="deleteflows('<?php echo $thisarray["p2"];?>',d.flowid,'<?php echo $_SESSION['user'];?>')" class="btn btn-danger bg waves-effect"><i class="mdi mdi-close"></i></a><?php } ?>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -61,15 +49,15 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <a id="btn-create-obj" class="waves-effect waves-light btn btn-primary" ng-click="form.$valid && createflow('<?php echo $thisarray["p2"];?>','<?php echo $_SESSION['user'];?>','requests')"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-check" xlink:href="/assets/images/icon/midleoicons.svg#i-check"/></svg>&nbsp;Create</a>
+                  <a id="btn-create-obj" class="waves-effect waves-light btn btn-primary" ng-click="form.$valid && createflow('<?php echo $thisarray["p2"];?>','<?php echo $_SESSION['user'];?>')"><i class="mdi mdi-check"></i>&nbsp;Create</a>
                   <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-        <?php if($_SESSION['user_level']>="3"){?>
-        <div data-bs-toggle="tooltip" data-bs-placement="left" title="Create new Message flow project" style="z-index:9999;position:fixed;bottom:45px; right:24px;">
+        <?php if($_SESSION['user_level']=="5" || $_SESSION['user_level']=="3"){?>
+        <div style="z-index:9999;position:fixed;bottom:45px; right:24px;">
           <a data-bs-toggle="modal" class="waves-effect waves-light btn btn-success btn-icon btnnm" href="#modal-flow-form" ng-click="showCreateFormflow()"><i class="mdi mdi-plus-thick mdi-24px"></i></a>
         </div>
         <?php } ?>
@@ -78,5 +66,6 @@
     </div>
   </div>
 </div>  
-<?php } else { textClass::PageNotFound(); }
-} else { textClass::PageNotFound(); } ?>
+<?php } else {?>
+<div class="alert alert-warning text-center">No such request!<br><br><a href="/tickets" class="btn btn-primary" target="_parent">Return to requests</a></div>
+<?php }} else { textClass::PageNotFound();  } ?>

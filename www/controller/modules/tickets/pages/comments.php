@@ -9,11 +9,11 @@
 <body class="fix-header card-no-border">
     <div id="main-wrapper">
     <?php if(!empty($thisarray["p1"])){
-         $breadcrumb["link"]="/requests"; $breadcrumb["text"]="Requests"; 
+         $breadcrumb["link"]="/tickets"; $breadcrumb["text"]="Requests"; 
          if($thisarray["p1"]=="type"){
           $breadcrumb["text2"]=$thisarray["p3"];
          } else {
-          $breadcrumb["link2"]="/reqinfo/".$thisarray["p1"];
+          $breadcrumb["link2"]="/ticketinfo/".$thisarray["p1"];
           $breadcrumb["text2"]=$thisarray["p1"];
          }
          } else {

@@ -58,11 +58,11 @@ include $website['corebase']."public/modules/css.php"; ?>
 <style type="text/css">.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{vertical-align:middle;text-align: center;}</style>
 </head><body class="fix-header card-no-border"><div id="main-wrapper">
 <?php if(!empty($thisarray["p1"])){
- $breadcrumb["link"]="/requests"; $breadcrumb["text"]="Requests"; 
+ $breadcrumb["link"]="/tickets"; $breadcrumb["text"]="Requests"; 
  if($thisarray["p1"]=="type"){
   $breadcrumb["text2"]=$thisarray["p3"];
  } else {
-  $breadcrumb["link2"]="/reqinfo/".$thisarray["p1"];
+  $breadcrumb["link2"]="/ticketinfo/".$thisarray["p1"];
   $breadcrumb["text2"]=$thisarray["p1"];
  }
 } else {
@@ -83,7 +83,7 @@ include $website['corebase']."public/modules/css.php"; ?>
   if($q->execute(array($thisarray["p1"]))){
           $zobj = $q->fetch(PDO::FETCH_ASSOC); 
             if(!is_array($zobj) and empty($zobj)){?>
-<html><head><script language="JavaScript">function redirect(){ parent.location.href="/requests" }</script></head><body onLoad="redirect()"></body></html>
+<html><head><script language="JavaScript">function redirect(){ parent.location.href="/tickets" }</script></head><body onLoad="redirect()"></body></html>
 <?php } ?>
        
         <div class="row">
@@ -106,7 +106,7 @@ include $website['corebase']."public/modules/css.php"; ?>
                     <label class="form-control-label text-lg-right col-md-3"></label>
                     <div class="col-md-9">
                     <div class="btn-group  mb-2 mb-md-0 reqbtngroup" role="group" aria-label="Request buttons">
-    <?php if($taskby[1]==$_SESSION["user"] && $zobjin["taskstatus"]=="new" && empty($zobjin["assigned"])){?>   <button type="submit" name="delsubtask" class="btn btn-danger btn-sm" ><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-x" xlink:href="/assets/images/icon/midleoicons.svg#i-x" /></svg>&nbsp;Delete</button><?php } ?>
+    <?php if($taskby[1]==$_SESSION["user"] && $zobjin["taskstatus"]=="new" && empty($zobjin["assigned"])){?>   <button type="submit" name="delsubtask" class="btn btn-danger btn-sm" ><i class="mdi mdi-close"></i>&nbsp;Delete</button><?php } ?>
     <?php if(!in_array($zobjin["taskstatus"], array("done","closed"))){?>
   <?php if($canassign && $zobjin["taskstatus"]!="assigned"){?>  <button type="button" onclick="$('#st').val('assigned');$('#submst').click();" class="btn btn-primary btn-sm">Assign</button><?php } ?>
    <?php if($canassign && $zobjin["taskstatus"]!="progress"){?>  <button type="button" onclick="$('#st').val('progress');$('#submst').click();" class="btn btn-default btn-sm">In progress</button><?php } ?>
@@ -188,13 +188,13 @@ foreach($wfdatagroups as $key=>$val){ ?>
               <label class="form-control-label text-lg-right col-md-3"></label>
                <div class="col-md-9">
                  <input type="text" value="user:<?php echo $_SESSION["user"];?>:<?php echo $usemail;?>:<?php echo $usname;?>" name="taskby" style="display:none;">
-                <button type="submit" name="addtask" class="waves-effect waves-light btn btn-light"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-add" xlink:href="/assets/images/icon/midleoicons.svg#i-add"/></svg>&nbsp;Create</button>
+                <button type="submit" name="addtask" class="waves-effect waves-light btn btn-light"><i class="mdi mdi-plus"></i>&nbsp;Create</button>
                 </div> 
                 </div> 
                   
             </form>
          <?php   } else { ?>
-    <a  href="/reqtasks/<?php echo $thisarray["p1"];?>/new" target="_parent" data-bs-toggle="tooltip" data-bs-placement="top" title="Create new Subtask"  class="waves-effect waves-light btn btn-light" ><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-add" xlink:href="/assets/images/icon/midleoicons.svg#i-add" /></svg>&nbsp;Create new task</a>
+    <a  href="/reqtasks/<?php echo $thisarray["p1"];?>/new" target="_parent" data-bs-toggle="tooltip" data-bs-placement="top" title="Create new Subtask"  class="waves-effect waves-light btn btn-light" ><i class="mdi mdi-plus"></i>&nbsp;Create new task</a>
          
          <?php
          $sql="select count(id) from requests_tasks where reqid=?";

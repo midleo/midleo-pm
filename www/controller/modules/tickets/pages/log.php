@@ -9,7 +9,7 @@
     <div class="row">
           <div class="col-md-3 position-relative">
               <input type="text" ng-model="search" class="form-control topsearch dtfilter" placeholder="Search in logs">
-              <span class="searchicon"><svg class="midico midico-outline"><use href="/assets/images/icon/midleoicons.svg#i-search" xlink:href="/assets/images/icon/midleoicons.svg#i-search"/></svg>
+              <span class="searchicon"><i class="mdi mdi-magnify"></i>
           </div>
   </div><br>
     <div class="row"><div class="col-md-8">

@@ -200,4 +200,3 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce) {
     $scope.redirect(thislink);
   };
 });
-angular.bootstrap(document.getElementById("ngApp"), ['ngApp']);

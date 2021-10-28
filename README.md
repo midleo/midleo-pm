@@ -12,6 +12,9 @@ Some screenshots from the Midleo app:
 ### Project management
 ![The Midleo web app](https://github.com/midleo/midleo-pm/blob/master/github.assets/service-management.png?raw=true)
 
+### Tickets
+![The Midleo web app](https://github.com/midleo/midleo-pm/blob/master/github.assets/tickets.png?raw=true)
+
 
 ## How to install
 

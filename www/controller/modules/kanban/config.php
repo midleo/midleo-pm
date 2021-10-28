@@ -1,7 +1,7 @@
 <?php
 $modulelist["kanban"]["name"] = "Kanban Board";
-$modulelist["kanban"]["css"][] = str_replace($maindir, "", dirname($filename)) . "/assets/css/kanban.min.css";
-$modulelist["kanban"]["js"][] = str_replace($maindir, "", dirname($filename)) . "/assets/js/kanban.js";
+$modulelist["kanban"]["css"][] = "/controller/modules/kanban/assets/css/kanban.min.css";
+$modulelist["kanban"]["js"][] = "/controller/modules/kanban/assets/js/kanban.js";
 
 class Class_kanban
 {
@@ -33,57 +33,76 @@ class Class_kanban
         if (!sessionClass::checkAcc($acclist, "kanban")) { header("Location:/cp/?");}
         include $website['corebase']."public/modules/css.php";
         foreach ($modulelist["kanban"]["css"] as $csskey => $csslink) {
-            if (!empty($csslink)) {?><link rel="stylesheet" type="text/css" href="<?php echo $csslink; ?>"><?php }
+            if (!empty($csslink)) {?>
+<link rel="stylesheet" type="text/css" href="<?php echo $csslink; ?>"><?php }
         }
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"]="Kanban board";
         include $website['corebase']."public/modules/headcontent.php";?>
-        <div class="page-wrapper"><div class="container-fluid">
-        <br>
-    <div class="form-group">
-        <form method="post" action="" class="form-material">
-        <div class="row">
-      <div class="col-md-3">
-        <select class="form-control topsearch" name="thisyear"  onchange="this.form.submit()">
-         <?php echo (!empty($year) ? '<option value="' . $year . '">' . $year . '</option>' : '<option value="">Year</option>'); ?>
-       <?php for ($i = -5; $i < 6; $i++) {?><option value="<?php echo date('Y', strtotime('+' . $i . ' year')); ?>" ><?php echo date('Y', strtotime('+' . $i . ' year')); ?></option><?php }?>
-     <option value="">This year</option>
-     </select>
-        </div>
-        <div class="col-md-9 text-end">
-              <label class="btn btn-info <?php echo $kanopts == "0" ? "active" : ""; ?>"><input type="radio" class="btn-check" name="kanopts" value="0"  <?php echo $kanopts == "0" ? "checked" : ""; ?> onclick="this.form.submit();">My own</label>
-              <label class="btn btn-info <?php echo $kanopts == "1" ? "active" : ""; ?>"><input type="radio" class="btn-check" name="kanopts" value="1"  <?php echo $kanopts == "1" ? "checked" : ""; ?> onclick="this.form.submit();">All</label>
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="row pt-3">
+            <div class="col-lg-2">
+                <?php include "public/modules/sidebar.php"; ?>
+            </div>
+            <div class="col-lg-10">
+                <div class="form-group">
+                    <form method="post" action="" class="form-material">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <select class="form-control topsearch" name="thisyear" onchange="this.form.submit()">
+                                    <?php echo (!empty($year) ? '<option value="' . $year . '">' . $year . '</option>' : '<option value="">Year</option>'); ?>
+                                    <?php for ($i = -5; $i < 6; $i++) {?><option
+                                        value="<?php echo date('Y', strtotime('+' . $i . ' year')); ?>">
+                                        <?php echo date('Y', strtotime('+' . $i . ' year')); ?></option><?php }?>
+                                    <option value="">This year</option>
+                                </select>
+                            </div>
+                            <div class="col-md-9 text-end">
+                                <label class="btn btn-light <?php echo $kanopts == "0" ? "active" : ""; ?>"><input
+                                        type="radio" class="btn-check" name="kanopts" value="0"
+                                        <?php echo $kanopts == "0" ? "checked" : ""; ?> onclick="this.form.submit();">My
+                                    own</label>
+                                <label class="btn btn-light <?php echo $kanopts == "1" ? "active" : ""; ?>"><input
+                                        type="radio" class="btn-check" name="kanopts" value="1"
+                                        <?php echo $kanopts == "1" ? "checked" : ""; ?>
+                                        onclick="this.form.submit();">All</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div id="kanban"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    </form>
-     </div>
-   
-<div class="card">
-<div class="card-body" >
+</div>
+<?php include $website['corebase']."public/modules/footer.php";?>
+</div>
+</div>
 
-
-     <div id="kanban"></div>
-     </div></div>
-   </div>
-  </div>
-      <?php include $website['corebase']."public/modules/footer.php";?>
-      </div></div>
-
-    <?php include $website['corebase']."public/modules/js.php";?>
-    <?php if(!empty($widarr) && !empty($ugrarr)){ ?>
-    <?php foreach ($modulelist["kanban"]["js"] as $jskey => $jslink) {
+<?php include $website['corebase']."public/modules/js.php";?>
+<?php if(!empty($widarr) && !empty($ugrarr)){ ?>
+<?php foreach ($modulelist["kanban"]["js"] as $jskey => $jslink) {
             if (!empty($jslink)) {?><script type="text/javascript" src="<?php echo $jslink; ?>"></script><?php }
         }?>
-    <script type="text/javascript">
-    $('#kanban').kanban({
-      <?php if (!empty($temp["bsteps"]) && count($temp["bsteps"])>0) {?>
-        titles: [ 'Not defined', <?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["name"] . "',";}?>],
-        colours: [ '#000', <?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["color"] . "',";}?>],
-      <?php } else {?>
-        titles: ['Not defined'],
-        colours: ['#000'],
-        <?php }?>
-        <?php $sql = "
+<script type="text/javascript">
+$('#kanban').kanban({
+    <?php if (!empty($temp["bsteps"]) && count($temp["bsteps"])>0) {?>
+    titles: ['Not defined',
+        <?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["name"] . "',";}?>
+    ],
+    colours: ['#000',
+        <?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["color"] . "',";}?>],
+    <?php } else {?>
+    titles: ['Not defined'],
+    colours: ['#000'],
+    <?php }?>
+    <?php $sql = "
 SELECT requests.sname,
         requests.projapproved,
         requests.wfstep,
@@ -116,7 +135,7 @@ WHERE 1=1" . ($kanopts == "0" ? "
                     "id" => $id,
                     "title" => $val["reqname"],
                     "block" => (!empty($val["wfbstep"]) ? $temp["bsteps"][$val["wfbstep"]]["name"] : "Not defined"),
-                    "link" => "/reqinfo/" . $val["sname"],
+                    "link" => "/ticketinfo/" . $val["sname"],
                     "link_text" => $val["sname"],
                     "footer" => !empty($val["assigned"]) ? $val["assigned"] : "not assigned",
                     "footer_avatar" => !empty($val["avatar"]) ? $val["avatar"] : "/assets/images/avatar.svg",
@@ -126,10 +145,9 @@ WHERE 1=1" . ($kanopts == "0" ? "
             }
             echo "items: " . json_encode($arrreq);
         } else {echo "items: []";}?>
-    });
-
+});
 </script>
 <?php } ?>
 
-    <?php }
+<?php }
 }

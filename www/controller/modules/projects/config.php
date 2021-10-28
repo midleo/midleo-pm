@@ -97,56 +97,35 @@ class Class_projects
             }
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"] = "Projects";
-        $breadcrumb["midicon"] = "kanban";
 include $website['corebase']."public/modules/headcontent.php";
 echo '<div class="page-wrapper"><div class="container-fluid">';
         if (sessionClass::checkAcc($acclist, "smanagementadm")) { 
-            $brarr=array(
-              array(
-                "title"=>"Service catalog",
-                "link"=>"/smanagement",
-                "midicon"=>"serv-cat",
-                "active"=>($page=="smanagement")?"active":"",
-              )
-            );
-            if (sessionClass::checkAcc($acclist, "requests")) {
-              array_push($brarr,array(
-                "title"=>"Requests",
-                "link"=>"/requests",
-                "midicon"=>"requests",
-                "active"=>($page=="requests")?"active":"",
-              ));
-            }
+            $brarr=array();
+            
             if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
-              array_push($brarr,array(
-                  "title"=>"Projects",
-                  "link"=>"/projects",
-                  "midicon"=>"kanban",
-                  "active"=>($page=="projects")?"active":"",
-                ));
               array_push($brarr,array(
                   "title"=>"Project Templates",
                   "link"=>"/pjtemplates",
-                  "midicon"=>"modules",
+                  "icon"=>"mdi-cards",
                   "active"=>($page=="pjtemplates")?"active":"",
               ));
               array_push($brarr,array(
                   "title"=>"Opened",
                   "link"=>"/".$page."//opened",
-                  "midicon"=>"time-mgmt",
+                  "icon"=>"mdi-clock-start",
                   "active"=>($thisarray["p2"]=="opened" || empty($thisarray["p2"]))?"active":"",
                 ));
               array_push($brarr,array(
                   "title"=>"Completed",
                   "link"=>"/".$page."//completed",
-                  "midicon"=>"tasks",
+                  "icon"=>"mdi-calendar-check-outline",
                   "active"=>($thisarray["p2"]=="completed")?"active":"",
               ));
             }
             array_push($brarr,array(
               "title"=>"Service types",
               "link"=>"/smanagement//types",
-              "midicon"=>"b-logic",
+              "icon"=>"mdi-head-cog-outline",
               "active"=>($thisarray["p2"]=="types")?"active":"",
             ));
           }
@@ -174,23 +153,12 @@ echo '<div class="page-wrapper"><div class="container-fluid">';
                     <div class="float-end">
                         <form name="projform" action="" method="post">
                             <?php if($_GET["type"]=="edit"){ ?>
-                            <a href="/projects/?pjid=<?php echo $_GET["pjid"];?>" class="btn btn-light btn-sm"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                </svg>&nbsp;Done</a>&nbsp;
+                            <a href="/projects/?pjid=<?php echo $_GET["pjid"];?>" class="btn btn-light btn-sm"><i class="mdi mdi-check"></i>&nbsp;Done</a>&nbsp;
                             <?php } else { ?>
                             <a href="/projects/?pjid=<?php echo $_GET["pjid"];?>&type=edit"
-                                class="btn btn-light btn-sm"><svg class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-edit"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-edit" />
-                                </svg>&nbsp;Edit</a>&nbsp;
+                                class="btn btn-light btn-sm"><i class="mdi mdi-pencil-outline"></i>&nbsp;Edit</a>&nbsp;
                             <?php } ?>
-                          <!--  <button type="submit" name="projdel" class="btn btn-light btn-sm"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                                </svg>&nbsp;Delete</button>
+                          <!--  <button type="submit" name="projdel" class="btn btn-light btn-sm"><i class="mdi mdi-close"></i>&nbsp;Delete</button>
 -->
                         </form>
                     </div>
@@ -259,11 +227,7 @@ echo '<div class="page-wrapper"><div class="container-fluid">';
                     <div class="form-group row" id="reqfiles">
                         <label class="form-control-label text-lg-right col-md-3"></label>
                         <div class="col-md-9">
-                            <button type="button" id="docupload" onClick="getFile('dfile')" class="btn btn-light"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-add"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-add" />
-                                </svg>&nbsp;Upload file/files</button>
+                            <button type="button" id="docupload" onClick="getFile('dfile')" class="btn btn-light"><i class="mdi mdi-upload"></i>&nbsp;Upload file/files</button>
                             <div style='height: 0px;width: 0px; overflow:hidden;'><input type="file" name="dfile[]"
                                     id="dfile" onChange="sub(this,'docupload')" multiple="" /></div>
                             <br>
@@ -275,11 +239,7 @@ echo '<div class="page-wrapper"><div class="container-fluid">';
                     <div class="form-group row">
                         <label class="form-control-label text-lg-left col-md-3"></label>
                         <div class="col-md-9">
-                            <button type="submit" name="updproj" class="btn btn-info"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                </svg>&nbsp;Save</button>
+                            <button type="submit" name="updproj" class="btn btn-info"><i class="mdi mdi-check"></i>&nbsp;Save</button>
                         </div>
                     </div>
 
@@ -365,21 +325,14 @@ if($zobjin = $qin->fetch(PDO::FETCH_ASSOC)){ ?>
                         <input type="text" ng-model="group.user" id="respusersselected" style="display:none;" value="">
                     </div>
                     <div class="col-md-4"> <button type="button" class="waves-effect btn btn-light btn-sm"
-                            ng-click="addpjgr('<?php echo $_GET["pjid"];?>','<?php echo $_SESSION["user"];?>')"><svg
-                                class="midico midico-outline">
-                                <use href="/assets/images/icon/midleoicons.svg#i-add"
-                                    xlink:href="/assets/images/icon/midleoicons.svg#i-add" />
-                            </svg>&nbsp;Add</button> </div>
+                            ng-click="addpjgr('<?php echo $_GET["pjid"];?>','<?php echo $_SESSION["user"];?>')"><i class="mdi mdi-plus"></i>&nbsp;Add</button> </div>
                 </div>
                 <div class="grudivnt grudivtg" style="display:block;">
                     <ul style="margin: 0 auto;padding: 5px;" class="list-group list-group-flush">
                         <li style="padding:5px;" ng-repeat="(ukey, user) in respusers"
                             class="list-group-item usr_{{ukey}}">{{user.uname}}<a class="float-end"
                                 ng-click="delpjgr('<?php echo $_GET["pjid"];?>',ukey,'<?php echo $_SESSION['user'];?>')"
-                                style="cursor:pointer;"><svg class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-x" title="Delete" />
-                                </svg></a></li>
+                                style="cursor:pointer;"><i class="mdi mdi-close"></i></a></li>
                     </ul>
                 </div>
 
@@ -433,7 +386,7 @@ if($zobjin = $qin->fetchAll()){ ?>
                         </div>
                     </a>
                     <?php   foreach($zobjin as $valin) { ?>
-                    <a href="/reqinfo/<?php echo $valin["sname"];?>" target="_blank"
+                    <a href="/ticketinfo/<?php echo $valin["sname"];?>" target="_blank"
                         class="py-3 px-2 border-bottom d-block text-decoration-none">
                         <div class="mail-contnet align-middle">
                             <h5 class="my-1"><?php echo $valin["reqname"];?></h5> <span
@@ -509,10 +462,7 @@ if($zobjin = $qin->fetchAll()){ ?>
             <div class="card-header">
                 <h4>Create a project
                     <div class="float-end">
-                        <a href="/projects" class="btn btn-light btn-sm"><svg class="midico midico-outline">
-                                <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                    xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                            </svg>&nbsp;Cancel</a>&nbsp;
+                        <a href="/projects" class="btn btn-light btn-sm"><i class="mdi mdi-close"></i>&nbsp;Cancel</a>&nbsp;
 
                     </div>
                 </h4>
@@ -569,11 +519,7 @@ if($zobjin = $qin->fetchAll()){ ?>
                     <div class="form-group row" id="reqfiles">
                         <label class="form-control-label text-lg-right col-md-3"></label>
                         <div class="col-md-9">
-                            <button type="button" id="docupload" onClick="getFile('dfile')" class="btn btn-light"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-add"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-add" />
-                                </svg>&nbsp;Upload file/files</button>
+                            <button type="button" id="docupload" onClick="getFile('dfile')" class="btn btn-light"><i class="mdi mdi-plus"></i>&nbsp;Upload file/files</button>
                             <div style='height: 0px;width: 0px; overflow:hidden;'><input type="file" name="dfile[]"
                                     id="dfile" onChange="sub(this,'docupload')" multiple="" /></div>
                             <br>
@@ -588,11 +534,7 @@ if($zobjin = $qin->fetchAll()){ ?>
                     <div class="form-group row">
                         <label class="form-control-label text-lg-left col-md-3"></label>
                         <div class="col-md-9">
-                            <button type="submit" name="addproj" class="btn btn-info"><svg
-                                    class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-check"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-check" />
-                                </svg>&nbsp;Save</button>
+                            <button type="submit" name="addproj" class="btn btn-info"><i class="mdi mdi-check"></i>&nbsp;Save</button>
                         </div>
                     </div>
                 </form>
@@ -611,15 +553,9 @@ if($zobjin = $qin->fetchAll()){ ?>
             <?php if (sessionClass::checkAcc($acclist, "pjm,pja")) { ?>
             <span data-bs-toggle="tooltip" data-bs-placement="top" title="Import Projects from Excel file"><button
                     type="button" class="waves-effect waves-light btn btn-light" data-bs-toggle="modal"
-                    href="#modal-imp-form"><svg class="midico midico-outline">
-                        <use href="/assets/images/icon/midleoicons.svg#i-deploy"
-                            xlink:href="/assets/images/icon/midleoicons.svg#i-deploy" />
-                    </svg>&nbsp;Import</button></span>
+                    href="#modal-imp-form"><i class="mdi mdi-upload"></i>&nbsp;Import</button></span>
             <span data-bs-toggle="tooltip" data-bs-placement="top" title="Create new project"><a href="/projects/?type=new"
-                    class="waves-effect waves-light btn btn-info"><svg class="midico midico-outline">
-                        <use href="/assets/images/icon/midleoicons.svg#i-add"
-                            xlink:href="/assets/images/icon/midleoicons.svg#i-add" />
-                    </svg>&nbsp;Create</a></span>
+                    class="waves-effect waves-light btn btn-info"><i class="mdi mdi-plus"></i>&nbsp;Create</a></span>
             <?php } ?>
         </div>
     </div><br>
@@ -644,10 +580,7 @@ if($zobjin = $qin->fetchAll()){ ?>
                     <div class="form-group">
                         <div class="col-md-12">
                             <button type="button" id="docupload" onClick="getFile('dfile')"
-                                class="btn btn-primary btn-block"><svg class="midico midico-outline">
-                                    <use href="/assets/images/icon/midleoicons.svg#i-add"
-                                        xlink:href="/assets/images/icon/midleoicons.svg#i-add" />
-                                </svg>&nbsp;upload file</button>
+                                class="btn btn-primary btn-block"><i class="mdi mdi-plus"></i>&nbsp;upload file</button>
                             <div style='height: 0px;width: 0px; overflow:hidden;'><input type="file" name="dfile[]"
                                     id="dfile" onChange="sub(this,'docupload')" /></div>
                         </div>
@@ -672,11 +605,7 @@ if($zobjin = $qin->fetchAll()){ ?>
                     <button class="waves-effect waves-light btn btn-light btn-sm uplbut" type="button"
                         style="display:none;" ng-click="uploadXMLFile('importpj','<?php echo $thisarray['p2'];?>')"><i
                             class="mdi mdi-cloud-upload"></i>&nbsp;Import</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><svg
-                            class="midico midico-outline">
-                            <use href="/assets/images/icon/midleoicons.svg#i-x"
-                                xlink:href="/assets/images/icon/midleoicons.svg#i-x" />
-                        </svg>&nbsp;Close</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i class="mdi mdi-close"></i>&nbsp;Close</button>
                 </div>
             </form>
         </div>
