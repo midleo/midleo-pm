@@ -18,6 +18,8 @@
         <li class="row">
             <a class="waves-effect waves-dark col-md-12 <?php echo $thisarray["p0"]=="calendar"?"active":"";?>" href="/calendar"><i class="mdi mdi-calendar-clock-outline"></i>&nbsp;Time Management</a>
         </li>
-        
+        <li class="row">
+            <a class="waves-effect waves-dark col-md-12 <?php echo $thisarray["p0"]=="cpinfo"?"active":"";?>" href="/cpinfo"><i class="mdi mdi-file-document-edit-outline"></i>&nbsp;Documentation</a>
+        </li>
     </ul>
 </nav>

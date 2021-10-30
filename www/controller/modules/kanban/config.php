@@ -72,11 +72,8 @@ class Class_kanban
                     </form>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
+<br>
                         <div id="kanban"></div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -93,11 +90,9 @@ class Class_kanban
 <script type="text/javascript">
 $('#kanban').kanban({
     <?php if (!empty($temp["bsteps"]) && count($temp["bsteps"])>0) {?>
-    titles: ['Not defined',
-        <?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["name"] . "',";}?>
+    titles: [<?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["name"] . "',";}?>
     ],
-    colours: ['#000',
-        <?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["color"] . "',";}?>],
+    colours: [<?php foreach ($temp["bsteps"] as $keyin => $valin) {echo "'" . $valin["color"] . "',";}?>],
     <?php } else {?>
     titles: ['Not defined'],
     colours: ['#000'],
@@ -134,13 +129,13 @@ WHERE 1=1" . ($kanopts == "0" ? "
                 $arrreq[] = array(
                     "id" => $id,
                     "title" => $val["reqname"],
-                    "block" => (!empty($val["wfbstep"]) ? $temp["bsteps"][$val["wfbstep"]]["name"] : "Not defined"),
+                    "block" => (!empty($val["wfbstep"]) ? $temp["bsteps"][$val["wfbstep"]]["name"] : ""),
                     "link" => "/ticketinfo/" . $val["sname"],
                     "link_text" => $val["sname"],
                     "footer" => !empty($val["assigned"]) ? $val["assigned"] : "not assigned",
                     "footer_avatar" => !empty($val["avatar"]) ? $val["avatar"] : "/assets/images/avatar.svg",
                     "footer_avatar_name" => !empty($val["fullname"]) ? $val["fullname"] : "",
-                    "div_color" => (!empty($val["wfbstep"]) ? $temp["bsteps"][$val["wfbstep"]]["color"] : "#000"),
+                    "div_color" => (!empty($val["wfbstep"]) ? $temp["bsteps"][$val["wfbstep"]]["color"] : ""),
                 );
             }
             echo "items: " . json_encode($arrreq);
