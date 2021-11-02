@@ -160,28 +160,28 @@ class Class_tickets{
                                             <div class="row">
                                                 <div class="col-md-6 col-xl-3">
                                                     <div class="py-1">
-                                                        <i class="mdi mdi-tag-outline mdi-24px"></i>
-                                                        <h3>25563</h3>
+                                                        <i class="mdi mdi-tag-outline mdi-24px text-info"></i>
+                                                        <h3 class="text-info"><?php echo gTable::countAll("requests","");?></h3>
                                                         <p class="text-uppercase mb-1 font-13 fw-medium">Total tickets</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
                                                     <div class="py-1">
-                                                        <i class="mdi mdi-account-clock-outline mdi-24px"></i>
-                                                        <h3 class="text-warning">6952</h3>
+                                                        <i class="mdi mdi-account-clock-outline mdi-24px text-info"></i>
+                                                        <h3 class="text-info"><?php echo gTable::countAll("requests"," where (assigned='' or assigned is null)");?></h3>
                                                         <p class="text-uppercase mb-1 font-13 fw-medium">Pending Tickets</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
                                                     <div class="py-1">
-                                                        <i class="mdi mdi-cloud-check mdi-24px"></i>
+                                                        <i class="mdi mdi-cloud-check mdi-24px text-success"></i>
                                                         <h3 class="text-success">18361</h3>
                                                         <p class="text-uppercase mb-1 font-13 fw-medium">Closed Tickets</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
                                                     <div class="py-1">
-                                                        <i class="mdi mdi-archive-cancel-outline mdi-24px"></i>
+                                                        <i class="mdi mdi-archive-cancel-outline mdi-24px text-danger"></i>
                                                         <h3 class="text-danger">250</h3>
                                                         <p class="text-uppercase mb-1 font-13 fw-medium">Deleted Tickets</p>
                                                     </div>

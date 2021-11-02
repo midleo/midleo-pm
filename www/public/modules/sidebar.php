@@ -1,4 +1,4 @@
-<br>
+<div class="sticky-top"><br>
 <h4><i class="mdi mdi-gesture-double-tap"></i>&nbsp;Navigation</h4>
 <br>
 <nav class="sidebar-nav ">
@@ -23,3 +23,4 @@
         </li>
     </ul>
 </nav>
+</div>

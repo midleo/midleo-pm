@@ -190,6 +190,42 @@ if(!empty($thisarray["p1"])){
         "onclick"=>"_delFlowchart();",
         "active"=>true,
       ));
+      $brarr2=array();
+      $brarr2head="Logical Blocks";
+      $brarr2headico="mdi-gate-nand";
+      array_push($brarr2,array(
+        "title"=>"Start block",
+        "link"=>"javascript:void(0)",
+        "icon"=>"mdi-play-circle-outline",
+        "id"=>"startEv",
+        "class"=>"window jsplumb-connected",
+        "active"=>false,
+      ));
+      array_push($brarr2,array(
+        "title"=>"Step block",
+        "link"=>"javascript:void(0)",
+        "icon"=>"mdi-step-forward",
+        "id"=>"stepEv",
+        "class"=>"window jsplumb-connected-step",
+        "active"=>false,
+      ));
+      array_push($brarr2,array(
+        "title"=>"Decision block",
+        "link"=>"javascript:void(0)",
+        "icon"=>"mdi-arrow-decision",
+        "id"=>"descEv",
+        "class"=>"window jsplumb-connected-step",
+        "active"=>false,
+      ));
+      array_push($brarr2,array(
+        "title"=>"End block",
+        "link"=>"javascript:void(0)",
+        "icon"=>"mdi-stop-circle-outline",
+        "id"=>"endEv",
+        "class"=>"window jsplumb-connected-end",
+        "active"=>false,
+      ));
+      
    }
   ?>
 <div class="row pt-3">
@@ -437,19 +473,10 @@ if(!empty($thisarray["p1"])){
         </div>
     </div>
     <div class="col-md-2">
+    <div class="jtk-canvas flowchart">
         <?php include $website['corebase']."public/modules/breadcrumbin.php"; ?>
-        <br><br>
-<h4><i class="mdi mdi-gate-nand"></i>&nbsp;Logical Blocks</h4>
-<br>
-        <div class="jtk-canvas flowchart">
-                        <input id="currentST" style="display:none;" value="<?php echo $thisarray["p1"];?>">
-                        <div class="flowchartmenu list-group">
-                            <a class="waves-effect waves-light list-group-item list-group-item-light list-group-item-action window jsplumb-connected" id="startEv"><i class="mdi mdi-play-circle-outline"></i>&nbsp;Start block</a>
-                            <a class="window  jsplumb-connected-step waves-effect waves-light list-group-item list-group-item-light list-group-item-action" id="stepEv"><i class="mdi mdi-step-forward"></i>&nbsp;Step block</a>
-                            <a class="window  jsplumb-connected-step waves-effect waves-light list-group-item list-group-item-light list-group-item-action" id="descEv"><i class="mdi mdi-arrow-decision"></i>&nbsp;Decision block</a>
-                            <a class="window  jsplumb-connected-end waves-effect waves-light list-group-item list-group-item-light list-group-item-action" id="endEv"><i class="mdi mdi-stop-circle-outline"></i>&nbsp;End block</a>
-                    </div> 
-      </div>
+        <input id="currentST" style="display:none;" value="<?php echo $thisarray["p1"];?>">
+    </div>
     </div>
 </div>
 <?php } else { textClass::PageNotFound();  } } else { 

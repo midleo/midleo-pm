@@ -24,7 +24,10 @@ git clone https://github.com/midleo/midleo-pm.git
 git submodule add --name midleo.core https://github.com/midleo/midleo-core.git www/core 
 cd midleo.pm/www/core/www/controller
 composer install
-#update submodule
+#for first time
+git submodule init
+git submodule update
+#update midleo.core regularly
 git submodule update --recursive --remote
 ```
 
