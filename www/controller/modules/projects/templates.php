@@ -43,7 +43,7 @@ class Class_pjtemplates
             }
         }
         include $website['corebase']."public/modules/css.php";
-        echo '<link rel="stylesheet" type="text/css" href="/assets/css/jquery-ui.min.css">';
+        echo '<link rel="stylesheet" type="text/css" href="/'.$website['corebase'].'assets/css/jquery-ui.min.css">';
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"] = "Project templates";
         include $website['corebase']."public/modules/headcontent.php";
@@ -99,6 +99,13 @@ class Class_pjtemplates
 <?php } else { echo "<div class='alert alert-light'>Wrong Template ID</div>"; }} else if($_GET["type"]=="new"){ 
     if (sessionClass::checkAcc($acclist, "pjm,pja")) { 
         array_push($brarr,array(
+            "title"=>"Save changes",
+            "link" => "javascript:void(0)",
+            "onclick" => "document.getElementById('addproj').click();",
+            "icon"=>"mdi-check",
+            "active"=>($page=="pjtemplates")?"active":"",
+        ));
+        array_push($brarr,array(
             "title"=>"Cancel",
             "link"=>"/pjtemplates",
             "icon"=>"mdi-close",
@@ -115,9 +122,6 @@ class Class_pjtemplates
             <div class="row ngctrl" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
 
                 <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-body">
-
                             <div class="form-group">
                                 <input required name="templname" type="text" class="form-control"
                                     value="<?php echo $zobj["templname"];?>" placeholder="Template Name">
@@ -138,10 +142,9 @@ class Class_pjtemplates
 
                             <br>
                             <div class="form-group">
-                                <button type="submit" name="addproj" class="btn btn-light"><i class="mdi mdi-check"></i>&nbsp;Save</button>
+                                <input type="submit" name="addproj" id="addproj" style="display:none;">
                             </div>
-                        </div>
-                    </div>
+                     
                 </div>
                 <div class="col-md-4">
                     <h4>Owner</h4>
