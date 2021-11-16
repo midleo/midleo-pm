@@ -148,14 +148,11 @@ class Class_tickets{
     </div>
     <div class="col-lg-8">
         <?php if(!empty($thisarray["p1"])){ include "pages/".$thisarray["p1"].".php";} else {  ?>
-
-
-
         <div id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body p-2">
                                         <div class="text-center">
                                             <div class="row">
                                                 <div class="col-md-6 col-xl-3">

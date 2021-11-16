@@ -27,7 +27,7 @@ $projcodes = array(
     ),
     '1' => array(
         "name" => "Pending",
-        "badge" => "warning",
+        "badge" => "warning text-dark",
         "color" => "#ffc107",
     ),
     '2' => array(
@@ -42,7 +42,7 @@ $projcodes = array(
     ),
     '4' => array(
         "name" => "Completed",
-        "badge" => "light",
+        "badge" => "light text-dark",
         "color" => "#dfdfdf",
     ),
     '5' => array(
@@ -55,7 +55,7 @@ $priorityarr = array(
     '0' => array(
         "name" => "Lowest",
         "info" => "Simple request with little or no impact on progress",
-        "butcolor" => "light",
+        "butcolor" => "light text-dark",
     ),
     '1' => array(
         "name" => "Low",
@@ -70,7 +70,7 @@ $priorityarr = array(
     '3' => array(
         "name" => "High",
         "info" => "Serious request that can take more effort",
-        "butcolor" => "warning",
+        "butcolor" => "warning text-dark",
     ),
     '4' => array(
         "name" => "Highest",

@@ -1,6 +1,6 @@
 # midleo.PM
 
-Open Source Project Management web application
+Open Source Project Management Tool
 
 ## What is Midleo PM?
 Midleo PM is web applicaiton for Project management and collaboration.

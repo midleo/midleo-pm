@@ -51,10 +51,10 @@ class Class_pjtemplates
         if (sessionClass::checkAcc($acclist, "smanagementadm")) { 
             $brarr=array(
               array(
-                "title"=>"Service catalog",
-                "link"=>"/smanagement",
+                "title"=>"Projects",
+                "link"=>"/projects",
                 "icon"=>"mdi-format-list-checks",
-                "active"=>($page=="smanagement")?"active":"",
+                "active"=>($page=="projects")?"active":"",
               )
             );
             if (sessionClass::checkAcc($acclist, "requests")) {
@@ -76,7 +76,7 @@ class Class_pjtemplates
             }
             array_push($brarr,array(
               "title"=>"Service types",
-              "link"=>"/smanagement//types",
+              "link"=>"/projects//types",
               "icon"=>"mdi-head-cog-outline",
               "active"=>($thisarray["p2"]=="types")?"active":"",
             ));
@@ -300,7 +300,7 @@ include $website['corebase']."public/modules/footer.php";
 include $website['corebase']."public/modules/js.php";?>
 <script src="/<?php echo $website['corebase'];?>assets/js/tagsinput.min.js" type="text/javascript"></script>
 <script src="/<?php echo $website['corebase'];?>assets/js/dirPagination.js"></script>
-<script type="text/javascript" src="/controller/modules/projects/assets/js/ng-controller.js"></script>
+<script type="text/javascript" src="/controller/modules/pjinfo/assets/js/ng-controller.js"></script>
 <script src="/<?php echo $website['corebase'];?>assets/js/alasql.min.js"></script>
 <script src="/<?php echo $website['corebase'];?>assets/js/xlsx.core.min.js"></script>
 <?php
