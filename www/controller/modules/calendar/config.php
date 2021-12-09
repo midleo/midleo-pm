@@ -563,7 +563,7 @@ foreach ($zobj as $val) {
                             var dataString = 'id=' + data[2];
                             $.ajax({
                                 type: "POST",
-                                url: "/api/tasks/update",
+                                url: "/calapi/tasks/update",
                                 data: dataString,
                                 success: function(html) {
                                     notify('Task was changed to Done!', 'success');
@@ -575,7 +575,7 @@ foreach ($zobj as $val) {
                             var dataString = 'id=' + data[2];
                             $.ajax({
                                 type: "POST",
-                                url: "/api/tasks/delete",
+                                url: "/calapi/tasks/delete",
                                 data: dataString,
                                 success: function(html) {
                                     $("#task" + data[2]).hide();

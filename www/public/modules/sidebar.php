@@ -8,5 +8,6 @@
     <a href="/kanban" class="waves-effect waves-light list-group-item list-group-item-light list-group-item-action <?php echo $thisarray["p0"]=="kanban"?"active":"";?>"><i class="mdi mdi-trello"></i>&nbsp;Kanban board</a>
     <a href="/calendar" class="waves-effect waves-light list-group-item list-group-item-light list-group-item-action <?php echo $thisarray["p0"]=="calendar"?"active":"";?>"><i class="mdi mdi-calendar-clock-outline"></i>&nbsp;Time Management</a>
     <a href="/cpinfo" class="waves-effect waves-light list-group-item list-group-item-light list-group-item-action <?php echo $thisarray["p0"]=="cpinfo"?"active":"";?>"><i class="mdi mdi-file-document-edit-outline"></i>&nbsp;Documentation</a>
- </div>
+    <a href="/appconfig" class="waves-effect waves-light list-group-item list-group-item-light list-group-item-action <?php echo $page=="appconfig"?"active":"";?>"><i class="mdi mdi-cogs"></i>&nbsp;Midleo Configuration</a>
+</div>
 </div>

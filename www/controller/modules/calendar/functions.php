@@ -1,4 +1,89 @@
 <?php
+class Class_calapi{
+  public static function getPage($thisarray)
+    {
+        global $website;
+        global $maindir;
+        global $typesrv;
+        session_start();
+        $err = array();
+        $msg = array();
+        if (!empty($thisarray["p1"]) && !empty($_SESSION['user'])) {
+            switch ($thisarray["p1"]) {
+              case 'calendar':Class_calapi::getCal($thisarray["p2"], $thisarray["p3"]);
+                    break;
+              case 'tasks':Class_calapi::tasks($thisarray["p2"]);
+                    break;
+              default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
+              }
+        } else {echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;}
+    }
+
+    public static function getCal($d1, $d2)
+    {
+        if ($d1 == $_SESSION['user']) {
+            if ($d2 == "delete") {
+                $pdo = pdodb::connect();
+                $sql = "delete from calendar where mainuser=? and id=?";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(array(htmlspecialchars($d1), htmlspecialchars($_POST["event_id"])));
+                pdodb::disconnect();
+                echo "Event deleted!";
+                exit;
+            } else {
+                header('Content-type:application/json;charset=utf-8');
+                $pdo = pdodb::connect();
+                $sql = "select * from calendar where mainuser=?";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(array(htmlspecialchars($d1)));
+                $arr_content = array();
+                if ($zobj = $stmt->fetchAll()) {
+                    foreach ($zobj as $val) {
+                        //  $arr_line['allDay']   =  $val["allDay"]==1?true:false ;
+                        $arr_line['editable'] = true;
+                        $arr_line['start'] = date('Y-m-d\TH:i:s', strtotime($val["date_start"]));
+                        $arr_line['end'] = date('Y-m-d\TH:i:s', strtotime($val["date_end"]));
+                        $arr_line['title'] = $val["subject"];
+                        $arr_line['description'] = $val["subject"];
+                        $arr_line['color'] = "#f8f6f2";
+                        $arr_line['borderColor'] = "#" . $val["color"];
+                        $arr_line['textColor'] = "#000";
+                        $arr_line['id'] = $val["id"];
+                        //    $arr_line['url']="/calendar";
+
+                        $arr_content[] = $arr_line;
+                    }
+                    echo json_encode($arr_content);
+                }
+                pdodb::disconnect();
+                exit;
+            }
+        } else {
+            echo json_encode(array("No session!"), true);
+        }
+    }
+    public static function tasks($d1)
+    {
+        if ($d1 == "update") {
+            $pdo = pdodb::connect();
+            $sql = "update tasks set taskstate='1' where mainuser=? and id=?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(array($_SESSION["user"], htmlspecialchars($_POST['id'])));
+            pdodb::disconnect();
+            exit;
+        } elseif ($d1 == "delete") {
+            $pdo = pdodb::connect();
+            $sql = "delete from tasks where mainuser=? and id=?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(array($_SESSION["user"], htmlspecialchars($_POST['id'])));
+            pdodb::disconnect();
+            exit;
+        } else {
+            echo json_encode(array("Unknown method"), true);
+        }
+
+    }
+}
 class CallFunct{
   public static function isWeekend($date) { 
     return (date('N', strtotime($date)) >= 6); 
