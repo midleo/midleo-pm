@@ -18,8 +18,8 @@
 .kanban_icon{background: url(../images/kanban_icon.svg) 0 0 no-repeat;}
 body[data-color="light"] .sidebar-nav > ul > li.active > a i.kanban_icon, body[data-color="light"] .sidebar-nav > ul > li.active:hover > a i.kanban_icon{background: url(../images/kanban_icon_hover.svg) 0 0 no-repeat;}
 body[data-color="light"] .sidebar-nav > ul > li > a:hover i.kanban_icon{background: url(../images/kanban_icon_theme.svg) 0 0 no-repeat;}
-body[data-color="light"] .cd_kanban_board>.cd_kanban_board_titles .cd_kanban_board_title:after{width:80%;height:100%;background:#dfdfdf;display:block;clear:both;position:absolute;top:0;right:0;content:"";content: "";border-radius: 0px var(--border-radius) var(--border-radius) 0px;}
-body[data-color="dark"] .cd_kanban_board>.cd_kanban_board_titles .cd_kanban_board_title:after{width:80%;height:100%;background:#383f48;display:block;clear:both;position:absolute;top:0;right:0;content:"";content: "";border-radius: 0px var(--border-radius) var(--border-radius) 0px;}
+body[data-color="light"] .cd_kanban_board>.cd_kanban_board_titles .cd_kanban_board_title:after{width:95%;height:100%;background:#dfdfdf;display:block;clear:both;position:absolute;top:0;right:0;content:"";content: "";border-radius: 0px var(--border-radius) var(--border-radius) 0px;}
+body[data-color="dark"] .cd_kanban_board>.cd_kanban_board_titles .cd_kanban_board_title:after{width:95%;height:100%;background:#383f48;display:block;clear:both;position:absolute;top:0;right:0;content:"";content: "";border-radius: 0px var(--border-radius) var(--border-radius) 0px;}
 body[data-color="light"] .cd_kanban_board>.cd_kanban_board_titles .cd_kanban_board_title{margin:0 10px 0 0;padding:0.6rem;color:#000;position:relative;flex:1;border-radius: var(--border-radius);}
 body[data-color="dark"] .cd_kanban_board>.cd_kanban_board_titles .cd_kanban_board_title{margin:0 10px 0 0;padding:0.6rem;color:#fff;position:relative;flex:1;border-radius: var(--border-radius);}
 .cd_kanban_board>.cd_kanban_board_titles .cd_kanban_board_title:last-child{margin:0px!important;}

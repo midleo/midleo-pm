@@ -2,20 +2,28 @@ document.addEventListener('DOMContentLoaded', function () {
   var user = $('#username').val();
   var working_start = $('#working_start').val();
   var working_end = $('#working_end').val();
-  var calendarEl = document.getElementById('calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
+  let calendarEl = document.getElementById('calendar');
+  let myCalendar = new FullCalendar.Calendar(calendarEl, {
     headerToolbar: {
       left: 'prevYear,prev,next,nextYear today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
-    initialView: 'timeGridWeek',
+    initialView: 'dayGridMonth',
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
     navLinks: true,
     locale: 'en',
     nowIndicator: true,
     weekNumbers: true,
     allDaySlot: false,
+    themeSystem: 'bootstrap',
+    bootstrapFontAwesome: {
+      close: ' mdi mdi-close',
+      prev: ' mdi mdi-chevron-left',
+      next: ' mdi mdi-chevron-right',
+      prevYear: ' mdi mdi-chevron-double-left',
+      nextYear: ' mdi mdi-chevron-double-right'
+    },
     weekNumberCalculation: 'ISO',
     firstDay: 1,
     businessHours: {
@@ -25,28 +33,47 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     dayMaxEvents: true,
     weekends: false,
-    eventDidMount: function(info) {
-      var tooltip = new bootstrap.Popover(info.el, {
-        title: info.event.extendedProps.description,
-        placement: 'top',
+    events: "/calapi/calendar/" + user + "/",
+//    eventClick: function (arg) {
+//     if (confirm('Are you sure you want to delete this event?')) {
+//        var dataString = 'event_id=' + arg.event.id;
+//        $.ajax({
+//          type: "POST",
+//          url: "/calapi/calendar/" + user + "/delete",
+//          data: dataString,
+//          success: function (html) { notify(html, 'danger'); arg.event.remove(); }
+//        });
+//      }
+//    },
+    eventDidMount: function(arg) {
+      var popover = new bootstrap.Popover(arg.el, {
+        title: arg.event.extendedProps.description,
+        content: arg.event.extendedProps.description,
+        placement: 'left',
         trigger: 'hover',
         container: 'body'
       });
     },
-    events: "/calapi/calendar/" + user + "/",
-    eventClick: function (arg) {
-      if (confirm('Are you sure you want to delete this event?')) {
-        var dataString = 'event_id=' + arg.event.id;
-        $.ajax({
-          type: "POST",
-          url: "/calapi/calendar/" + user + "/delete",
-          data: dataString,
-          success: function (html) { notify(html, 'danger'); arg.event.remove(); }
-        });
-      }
-    },
     editable: true
   });
-  calendar.render();
+  myCalendar.render();
   $(".calalert").hide();
+  document.getElementById('savecal').addEventListener('click', function() {
+    let color=$('input[name=evcolor]:checked', '#effForm').val();
+    let reqid=$("#reqid").val();
+    let reqinfo=$("#reqinfo").val();
+    let starttime=$("#datetimepick").val();
+    let timeperiod=$("#timeperiod").val();
+    $.ajax({
+      type: "POST",
+      url: "/calapi/add",
+      data: 'evcolor='+color+'&starttime='+starttime+'&reqid='+reqid+'&reqinfo='+reqinfo+'&timeperiod='+timeperiod,
+      cache: false,
+      success: function (html) {
+        FullCalendar.Calendar('refetchResources');
+        $('#modeff').modal('hide');
+        notify(html, "success");
+      }
+    });
+  });
 });

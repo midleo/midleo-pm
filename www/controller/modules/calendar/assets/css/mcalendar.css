@@ -85,3 +85,7 @@ div.fc-row{margin-right:0!important;border:0!important}
 .event-tag>span>i:before{content:"\F012C";font-family:"Material Design Icons";color:#fff;font-size:16px;z-index:1}
 hr.fc-divider{border-width:1px;border-color:#eee}
 .fc-day-grid-container.fc-scroller{height:auto!important;overflow:hidden!important}
+.btn-check:active + .btn-primary, .btn-check:checked + .btn-primary, .btn-primary.active, .btn-primary:active, .show > .btn-primary.dropdown-toggle{background-color: #2b2b2b;border-color: #2b2b2b;}
+.btn-primary:hover{background-color: #686767;border-color: #686767;}
+.timepicker-picker,.timepicker-picker .table-condensed,.timepicker-hours,.timepicker-hours .table-condensed,.timepicker-minutes,.timepicker-minutes .table-condensed{height: 100%;}
+.timepicker-picker,.timepicker-hours,.timepicker-minutes{margin-left: 20px;}

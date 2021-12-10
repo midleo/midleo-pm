@@ -14,11 +14,53 @@ class Class_calapi{
                     break;
               case 'tasks':Class_calapi::tasks($thisarray["p2"]);
                     break;
+              case 'add':Class_calapi::addTask();
+                    break;
               default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
               }
         } else {echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;}
     }
+    public static function addTask(){
+      if(!empty($_POST["reqid"])){
+        $pdo = pdodb::connect();
+        $reqid = explode('#', htmlspecialchars($_POST["reqid"]));
+        if ($reqid[0] != "xxx") {
+            $sql = "select effdays from requests_efforts where effuser=? and reqid=?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($_SESSION["user"], $reqid[0]));
+            if ($zobj = $q->fetch(PDO::FETCH_ASSOC)) {
+                $eff_days = $zobj["effdays"] * 8;
+                $sql = "select sum(time_period) as elapsed from calendar where mainuser=? and subj_id=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array($_SESSION["user"], $reqid[0]));
+                $zobj = $q->fetch(PDO::FETCH_ASSOC);
+                if ($eff_days - $zobj["elapsed"] == 0) {
+                    echo "You have taken all the hours that you have estimated";
+                } else {
+                    if ($eff_days - $zobj["elapsed"] - htmlspecialchars($_POST["timeperiod"]) <= 0) {
+                        echo "Your estimated hours are not enough to be added in the calendar. Remaining hours:" . ($eff_days - $zobj["elapsed"]);
+                    } else {
+                        $starttime = htmlspecialchars($_POST["starttime"]);
+                        $endtime = date('Y-m-d H:i', strtotime('+' . htmlspecialchars($_POST["timeperiod"]) . ' hours', strtotime($starttime)));
+                        $sql = "insert into calendar(mainuser,subject,subj_id,date_start,date_end,time_period,color) values(?,?,?,?,?,?,?)";
+                        $q = $pdo->prepare($sql);
+                        $q->execute(array($_SESSION['user'], $reqid[1], $reqid[0], $starttime, $endtime, htmlspecialchars($_POST["timeperiod"]), htmlspecialchars($_POST["evcolor"])));
+                        echo "Event added successfully";
+                    }
+                }
 
+            } else {return array("err" => "There are no such efforts");}
+        } else {
+            $starttime = htmlspecialchars($_POST["starttime"]);
+            $endtime = date('Y-m-d H:i', strtotime('+' . htmlspecialchars($_POST["timeperiod"]) . ' hours', strtotime($starttime)));
+            $sql = "insert into calendar(mainuser,subject,subj_id,date_start,date_end,time_period,color) values(?,?,?,?,?,?,?)";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($_SESSION['user'], htmlspecialchars($_POST["reqinfo"]), $reqid[0], $starttime, $endtime, htmlspecialchars($_POST["timeperiod"]), htmlspecialchars($_POST["evcolor"])));
+            echo "Event added successfully";
+        }
+        pdodb::disconnect();
+      }
+    }
     public static function getCal($d1, $d2)
     {
         if ($d1 == $_SESSION['user']) {

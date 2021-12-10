@@ -269,21 +269,20 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12" ng-show="contentpjLoaded">
+                                <div class="col-md-12 card" ng-show="contentpjLoaded">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label style="font-weight:bold;">Project Name</label>
+                                                <label >Project Name</label>
                                                 <input type="text" name="newpjname" ng-model="pjinfo.templname"
                                                     class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label style="font-weight:bold;">Template Description</label>
-                                                <textarea ui-tinymce="tinyOpts" name="newpjinfo"
-                                                    ng-model="pjinfo.templinfo"></textarea>
+                                                <label >Template Description</label>
+                                                <textarea ui-tinymce="tinyOpts" name="newpjinfo" ng-model="pjinfo.templinfo"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label style="font-weight:bold;">Project Date</label>
+                                                <label >Project Date</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control text-center date-picker-unl"
                                                         placeholder="Start Date" name="projstart" id="projstart"
@@ -300,7 +299,7 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                                         <div class="col-md-6">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <h4>Owner</h4>
+                                                <label >Owner</label>
 
                                                     <div class="contact-widget position-relative">
                                                         <a href="/browse/user/{{pjinfo.owner.user}}" target="_blank"
