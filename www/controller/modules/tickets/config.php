@@ -149,53 +149,14 @@ class Class_tickets{
     <div class="col-lg-8">
         <?php if(!empty($thisarray["p1"])){ include "pages/".$thisarray["p1"].".php";} else {  ?>
         <div id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
-        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body p-2">
-                                        <div class="text-center">
-                                            <div class="row">
-                                                <div class="col-md-6 col-xl-3">
-                                                    <div class="py-1">
-                                                        <i class="mdi mdi-tag-outline mdi-24px text-info"></i>
-                                                        <h3 class="text-info"><?php echo gTable::countAll("requests","");?></h3>
-                                                        <p class="text-uppercase mb-1 font-13 fw-medium">Total tickets</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-xl-3">
-                                                    <div class="py-1">
-                                                        <i class="mdi mdi-account-clock-outline mdi-24px text-info"></i>
-                                                        <h3 class="text-info"><?php echo gTable::countAll("requests"," where (assigned='' or assigned is null)");?></h3>
-                                                        <p class="text-uppercase mb-1 font-13 fw-medium">Pending Tickets</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-xl-3">
-                                                    <div class="py-1">
-                                                        <i class="mdi mdi-cloud-check mdi-24px text-success"></i>
-                                                        <h3 class="text-success">18361</h3>
-                                                        <p class="text-uppercase mb-1 font-13 fw-medium">Closed Tickets</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-xl-3">
-                                                    <div class="py-1">
-                                                        <i class="mdi mdi-archive-cancel-outline mdi-24px text-danger"></i>
-                                                        <h3 class="text-danger">250</h3>
-                                                        <p class="text-uppercase mb-1 font-13 fw-medium">Deleted Tickets</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        
             <div class="row">
                 <div class="col-md-4 position-relative">
                     <input type="text" ng-model="search" class="form-control topsearch" placeholder="Find a request">
                     <span class="searchicon"><i class="mdi mdi-magnify"></i>
                 </div>
                 <div class="col-md-8 text-end">
-                    <button type="button" ng-click="getAllreq('','','own')" class="btn btn-light">Mine</button>
+                    <button type="button" ng-click="getAllreq('','','own')" class="btn btn-light">Own</button>
                     <button type="button" ng-click="getAllreq('<?php echo $ugr;?>','<?php echo $thisarray["p2"];?>')"
                         class="btn btn-light">All</button>
                     <a class="btn btn-light waves-effect" href="/reqsearch">

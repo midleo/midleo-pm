@@ -71,7 +71,7 @@ class ClassMPM_projects
 
         }
         include $website['corebase'] . "public/modules/css.php";
-        if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
+        if (sessionClass::checkAcc($acclist, "pjm")) {
             if (!empty($thisarray["p1"])) {?>
 <link rel="stylesheet" type="text/css" href="/<?php echo $website['corebase']; ?>assets/css/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="/controller/modules/projects/assets/css/midleo-workflow.css">
@@ -89,7 +89,7 @@ echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         include $website['corebase'] . "public/modules/headcontent.php";
         echo '<div class="page-wrapper"><div class="container-fluid">';
         $brarr = array();
-        if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
+        if (sessionClass::checkAcc($acclist, "pjm")) {
             array_push($brarr, array(
                 "title" => "Project Templates",
                 "link" => "/pjtemplates",
@@ -122,7 +122,7 @@ echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         ?>
 <?php
 
-        if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
+        if (sessionClass::checkAcc($acclist, "pjm")) {
             if ($thisarray["p2"] == "plan") {
                 array_push($brarr, array(
                     "title" => "Cancel",
@@ -273,16 +273,17 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label >Project Name</label>
+                                                <label>Project Name</label>
                                                 <input type="text" name="newpjname" ng-model="pjinfo.templname"
                                                     class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label >Template Description</label>
-                                                <textarea ui-tinymce="tinyOpts" name="newpjinfo" ng-model="pjinfo.templinfo"></textarea>
+                                                <label>Template Description</label>
+                                                <textarea ui-tinymce="tinyOpts" name="newpjinfo"
+                                                    ng-model="pjinfo.templinfo"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label >Project Date</label>
+                                                <label>Project Date</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control text-center date-picker-unl"
                                                         placeholder="Start Date" name="projstart" id="projstart"
@@ -299,7 +300,7 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                                         <div class="col-md-6">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                <label >Owner</label>
+                                                    <label>Owner</label>
 
                                                     <div class="contact-widget position-relative">
                                                         <a href="/browse/user/{{pjinfo.owner.user}}" target="_blank"
@@ -764,7 +765,7 @@ foreach ($tmp["stypes"] as $keyin => $valin) {?>
                                     <small class="placeholder col-12"></small>
                                 </div>
                             </a>
-                            <a href="/projects/{{d.wid}}" class="list-group-item list-group-item-action" id="contloaded"
+                            <a href="/projects/{{d.wid}}" class="list-group-item list-group-item-action border-bottom" id="contloaded"
                                 dir-paginate="d in names | filter:search | itemsPerPage:12" ng-class="hide"
                                 pagination-id="prodx">
                                 <div class="d-flex w-100 justify-content-between">
@@ -942,7 +943,7 @@ foreach ($tmp["stypes"] as $keyin => $valin) {?>
 include $website['corebase'] . "public/modules/footer.php";
         echo "</div></div>";
         include $website['corebase'] . "public/modules/js.php";
-        if (sessionClass::checkAcc($acclist, "pjm,pja,pjv")) {
+        if (sessionClass::checkAcc($acclist, "pjm")) {
             if (!empty($thisarray["p1"])) {?>
 <script type="text/javascript" src="/controller/modules/projects/assets/js/jsplumb.min.js"></script>
 <script type="text/javascript" src="/controller/modules/projects/assets/js/midleo-workflow.js"></script>
