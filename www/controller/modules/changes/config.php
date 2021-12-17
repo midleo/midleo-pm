@@ -46,8 +46,9 @@ class ClassMPM_changes
     <div class="col-lg-2">
         <?php include "public/modules/sidebar.php";?>
     </div>
-    <?php if ($thisarray["p1"] != "tasks") { ?>
+    
     <div class="col-lg-8">
+    <?php if ($thisarray["p1"] != "tasks") { ?>
         <div class="card">
             <div class="card-body p-0">
                 <div class="row">
@@ -96,15 +97,8 @@ class ClassMPM_changes
                 </div>
             </div>
         </div>
-
-    </div>
-    <div class="col-md-2">
-        <?php if ($thisarray["p1"] != "new") { include $website['corebase'] . "public/modules/filterbar.php"; } ?>
-        <?php include $website['corebase'] . "public/modules/breadcrumbin.php";?>
-    </div>
-    <?php } else { ?>
-    <div class="col-lg-10">
-    <div class="card">
+        <?php } else { ?>
+            <div class="card">
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-md-12">
@@ -128,13 +122,13 @@ class ClassMPM_changes
                                 <tr id="contloaded"
                                     dir-paginate="d in names | filter:search | orderBy:'id' | itemsPerPage:10"
                                     ng-class="d.reqactive==1 ? 'hide active' : 'hide none'" pagination-id="prodx">
-                                    <td class="text-center">{{ d.id }}</td>
-                                    <td class="text-center"><a href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
-                                    <td class="text-center">{{ d.appid }}</td>
-                                    <td class="text-center"><span class="badge badge-{{ d.taskstatuscol }}">{{ d.taskstatus }}</span></td>
-                                    <td class="text-left" ng-bind-html="renderHtml(d.taskname)"></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center">{{ d.taskbutname }}</td>
+                                    <td class="text-center {{ d.taskfinished }}">{{ d.id }}</td>
+                                    <td class="text-center {{ d.taskfinished }}"><a href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
+                                    <td class="text-center {{ d.taskfinished }}">{{ d.appid }}</td>
+                                    <td class="text-center {{ d.taskfinished }}"><span class="badge badge-{{ d.taskstatusbut }}">{{ d.taskstatusname }}</span></td>
+                                    <td class="text-left {{ d.taskfinished }}" ng-bind-html="renderHtml(d.taskname)"></td>
+                                    <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm" ng-show="d.hasacc">Show</button></td>
+                                    <td class="text-center {{ d.taskfinished }}"><button class="bnt btn-info btn-sm" ng-show="d.taskbutshow" ng-click="taskrun(d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}</buton></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -146,8 +140,12 @@ class ClassMPM_changes
                 </div>
             </div>
         </div>
+        <?php } ?>
     </div>
-    <?php } ?>
+    <div class="col-md-2">
+        <?php if ($thisarray["p1"] != "new") { include $website['corebase'] . "public/modules/filterbar.php"; } ?>
+        <?php include $website['corebase'] . "public/modules/breadcrumbin.php";?>
+    </div>
 </div>
 
 <?php

@@ -50,9 +50,24 @@ class ClassMPM_chgapi
     public static function getTasks(){
         global $jobstatus;
         global $priorityarr;
+        global $projcodes;
+        session_start();
         $pdo = pdodb::connect();
         $data = json_decode(file_get_contents("php://input"));
-        if(!empty($data->chgid)){
+        if(!empty($data->chgid)){ 
+            $sql="select taskcurr from changes where chgnum=?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array(htmlspecialchars($data->chgid)));
+            if ($zobj = $q->fetch(PDO::FETCH_ASSOC)) {
+                $taskcur=$zobj["taskcurr"];
+            } else {
+                $taskcur="0";
+            }
+            if(!empty($_SESSION["userdata"]["ugrarr"])){
+                $ugrarr=$_SESSION["userdata"]["ugrarr"];
+            } else {
+                $ugrarr=array();
+            }
             $sql="select * from changes_tasks where chgnum=?";            
             $q = $pdo->prepare($sql);
             $q->execute(array(htmlspecialchars($data->chgid)));
@@ -60,16 +75,23 @@ class ClassMPM_chgapi
             $data = array();
             foreach ($zobj as $val) {
                 $data['id'] = $val['id'];
-                $data['parentid'] = $val['parentid'];
-                $data['nextid'] = $val['nextid'];
                 $data['owner'] = $val['owner'];
                 $data['appid'] = $val['appid'];
                 $data['groupid'] = $val['groupid'];
                 $data['taskstatus'] = $val['taskstatus'];
+                $data['taskstatusname'] = $projcodes[$val['taskstatus']]["name"];
+                $data['taskstatusbut'] = $projcodes[$val['taskstatus']]["badge"];
                 $data['taskname'] = $val['taskname'];
                 $data['taskinfo'] = $val['taskinfo'];
-                $data['taskbutname'] = $val['taskstatus']=="0"?"Start":"Finish";
-
+                if($val['nestid']==$taskcur){
+                    $data['taskbutname'] = $val['taskstatus']=="0"?"Start":"Finish";
+                    $data['taskbutshow'] = true;
+                } else {
+                    $data['taskbutshow'] = false;
+                    $data['taskbutname'] = "";
+                }
+                $data['taskfinished']=$val['nestid']<$taskcur?"taskfin":"";
+                $data['hasacc'] = in_array($val['groupid'], $ugrarr)?true:false;
                 $newdata[] = $data;
             }
         } else {

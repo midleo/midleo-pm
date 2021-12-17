@@ -53,5 +53,7 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
       if (response.data != "null") { $scope.names = response.data; } else { $scope.names = {}; }
     });
   };
-  
+  $scope.taskrun = function(taskid,thiscase){
+    alert(thiscase);
+  };
 });
