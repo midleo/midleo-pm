@@ -46,9 +46,9 @@ class ClassMPM_changes
     <div class="col-lg-2">
         <?php include "public/modules/sidebar.php";?>
     </div>
-    
+
     <div class="col-lg-8">
-    <?php if ($thisarray["p1"] != "tasks") { ?>
+        <?php if ($thisarray["p1"] != "tasks") { ?>
         <div class="card">
             <div class="card-body p-0">
                 <div class="row">
@@ -72,7 +72,7 @@ class ClassMPM_changes
                                 </tr>
                                 <tr id="contloaded"
                                     dir-paginate="d in names | filter:search | orderBy:'deadline' | orderBy:'-priorityval' | itemsPerPage:10"
-                                     pagination-id="prodx">
+                                    pagination-id="prodx">
                                     <td class="text-center"><a href="/changes/tasks/{{ d.chgnum }}"
                                             target="_parent">{{ d.chgnum }}</a></td>
                                     <td class="text-center"><a href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
@@ -98,7 +98,7 @@ class ClassMPM_changes
             </div>
         </div>
         <?php } else { ?>
-            <div class="card">
+        <div class="card">
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-md-12">
@@ -123,12 +123,20 @@ class ClassMPM_changes
                                     dir-paginate="d in names | filter:search | orderBy:'id' | itemsPerPage:10"
                                     ng-class="d.reqactive==1 ? 'hide active' : 'hide none'" pagination-id="prodx">
                                     <td class="text-center {{ d.taskfinished }}">{{ d.id }}</td>
-                                    <td class="text-center {{ d.taskfinished }}"><a href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
+                                    <td class="text-center {{ d.taskfinished }}"><a
+                                            href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
                                     <td class="text-center {{ d.taskfinished }}">{{ d.appid }}</td>
-                                    <td class="text-center {{ d.taskfinished }}"><span class="badge badge-{{ d.taskstatusbut }}">{{ d.taskstatusname }}</span></td>
-                                    <td class="text-left {{ d.taskfinished }}" ng-bind-html="renderHtml(d.taskname)"></td>
-                                    <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm" ng-show="d.hasacc">Show</button></td>
-                                    <td class="text-center {{ d.taskfinished }}"><button class="bnt btn-info btn-sm" ng-show="d.taskbutshow" ng-click="taskrun(d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}</buton></td>
+                                    <td class="text-center {{ d.taskfinished }}"><span
+                                            class="badge badge-{{ d.taskstatusbut }}">{{ d.taskstatusname }}</span></td>
+                                    <td class="text-left {{ d.taskfinished }}" ng-bind-html="renderHtml(d.taskname)">
+                                    </td>
+                                    <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm"
+                                            ng-show="d.hasacc" ng-click="showmod(d.taskinfo,d.id)">Show</button></td>
+                                    <td class="text-center {{ d.taskfinished }}"><button class="bnt btn-info btn-sm"
+                                            ng-show="d.taskbutshow"
+                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}
+                                            </buton>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -136,6 +144,28 @@ class ClassMPM_changes
                             on-page-change="pageChangeHandler(newPageNumber)"
                             template-url="/<?php echo $website['corebase'];?>assets/templ/pagination.tpl.html">
                         </dir-pagination-controls>
+                        <!-- Modal -->
+                        <div class="modal fade" id="taskmodal" tabindex="-1" aria-labelledby="modlbl"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modlbl">Task info</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea ng-model="info" ui-tinymce="tinyOpts"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button"
+                                        class="waves-effect waves-light btn btn-light btn-sm"
+                                        ng-click="updtask(taskid,'<?php echo $thisarray["p2"];?>')"><i class="mdi mdi-content-save"></i>&nbsp;Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
                     </div>
                 </div>
             </div>
@@ -145,6 +175,18 @@ class ClassMPM_changes
     <div class="col-md-2">
         <?php if ($thisarray["p1"] != "new") { include $website['corebase'] . "public/modules/filterbar.php"; } ?>
         <?php include $website['corebase'] . "public/modules/breadcrumbin.php";?>
+        <?php if ($thisarray["p1"] == "tasks") { 
+            $tmp["numtasks"]=gTable::countAll("changes_tasks"," where chgnum='".htmlspecialchars($thisarray["p2"])."'");
+            $tmp["curtask"]=gTable::read("changes","taskcurr"," where chgnum='".htmlspecialchars($thisarray["p2"])."'");
+            $percent=round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
+            ?>
+            <div class="mt-2 p-2 bg-light br-4">
+            <h4><i class="mdi mdi-progress-clock"></i>&nbsp;Progress</h4><br>
+            <div class="progress">
+               <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $percent;?>%;" aria-valuenow="<?php echo $percent;?>" aria-valuemin="0" aria-valuemax="100"><?php echo $percent;?>%</div>
+            </div>
+        </div>
+        <?php } ?>
     </div>
 </div>
 

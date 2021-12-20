@@ -20,7 +20,10 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
   $scope.tinyOpts = {
     plugins: 'link image code',
     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-    height : "480"
+    height : "480",
+    paste_data_images: true,
+    forced_root_block: false,
+    force_br_newlines: true
   };
   $scope.exportData = function (what) { alasql('SELECT * INTO XLSX("MidleoData_' + what + '.xlsx",{sheetid:"' + what + '",headers:true}) FROM ?', [$scope.names]); };
   $scope.redirect = function (url, refresh) {
@@ -53,7 +56,18 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
       if (response.data != "null") { $scope.names = response.data; } else { $scope.names = {}; }
     });
   };
-  $scope.taskrun = function(taskid,thiscase){
-    alert(thiscase);
+  $scope.taskrun = function(thischg,taskid,thiscase){
+    $http({
+      method: 'POST',
+      data: { 'taskid': taskid, 'case': thiscase },
+      url: '/chgapi/taskdo'
+    }).then(function successCallback(response) {
+      $scope.getAlltasks(thischg);
+    });
+  };
+  $scope.showmod = function(thisinfo,taskid){
+    $scope.info=thisinfo;
+    $scope.taskid=taskid;
+    $('#taskmodal').modal('show');
   };
 });

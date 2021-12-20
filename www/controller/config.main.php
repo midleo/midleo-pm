@@ -42,7 +42,7 @@ $projcodes = array(
     ),
     '4' => array(
         "name" => "Completed",
-        "badge" => "light text-dark",
+        "badge" => "success",
         "color" => "#dfdfdf",
     ),
     '5' => array(
