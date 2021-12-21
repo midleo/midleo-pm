@@ -14,13 +14,15 @@ class ClassMPM_chgapi
                     break;
                 case 'tasks':ClassMPM_chgapi::getTasks();
                     break;
+                case 'taskdo': ClassMPM_chgapi::doTasks();
+                    break; 
                 default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
             }
         } else {echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;}
     }
     public static function getList()
     {
-        global $jobstatus;
+        global $projcodes;
         global $priorityarr;
         $pdo = pdodb::connect();
         $data = json_decode(file_get_contents("php://input"));
@@ -35,8 +37,8 @@ class ClassMPM_chgapi
                 $data['owner'] = $val['owner'];
                 $data['deadline'] = date("d.m.y", strtotime($val['deadline']));
                 $data['created'] = date("d.m.y", strtotime($val['created']));
-                $data['statusn'] = $jobstatus[$val['chgstatus']]["name"];
-                $data['statusbut'] = $jobstatus[$val['chgstatus']]["statcolor"];
+                $data['statusn'] = $projcodes[$val['chgstatus']]["name"];
+                $data['statusbut'] = $projcodes[$val['chgstatus']]["badge"];
                 $data['priority'] = $priorityarr[$val['priority']];
                 $newdata[] = $data;
             }
@@ -48,20 +50,21 @@ class ClassMPM_chgapi
         exit;
     }
     public static function getTasks(){
-        global $jobstatus;
         global $priorityarr;
         global $projcodes;
         session_start();
         $pdo = pdodb::connect();
         $data = json_decode(file_get_contents("php://input"));
         if(!empty($data->chgid)){ 
-            $sql="select taskcurr from changes where chgnum=?";
+            $sql="select taskcurr,chgstatus from changes where chgnum=?";
             $q = $pdo->prepare($sql);
             $q->execute(array(htmlspecialchars($data->chgid)));
             if ($zobj = $q->fetch(PDO::FETCH_ASSOC)) {
                 $taskcur=$zobj["taskcurr"];
+                $chgstatus=$zobj["chgstatus"];
             } else {
                 $taskcur="0";
+                $chgstatus="0";
             }
             if(!empty($_SESSION["userdata"]["ugrarr"])){
                 $ugrarr=$_SESSION["userdata"]["ugrarr"];
@@ -90,6 +93,7 @@ class ClassMPM_chgapi
                     $data['taskbutshow'] = false;
                     $data['taskbutname'] = "";
                 }
+                $data['taskdel']=$chgstatus==0?true:false;
                 $data['taskfinished']=$val['nestid']<$taskcur?"taskfin":"";
                 $data['hasacc'] = in_array($val['groupid'], $ugrarr)?true:false;
                 $newdata[] = $data;
@@ -101,5 +105,9 @@ class ClassMPM_chgapi
         echo json_encode($newdata, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         gTable::closeAll();
         exit;
+    }
+    public static function doTasks(){
+
+        
     }
 }

@@ -30,16 +30,24 @@ class ClassMPM_changes
               "title" => "Describe a change",
               "link" => "/changes/new",
               "icon" => "mdi-plus",
-              "active" => ($page == "changes") ? "active" : "",
+              "active" => false,
           ));
           
       } 
-      array_push($brarr, array(
-        "title" => "View your tasks",
-        "link" => "/changes/tasks",
-        "icon" => "mdi-format-list-checks",
-        "active" => ($page == "changes" && empty($thisarray["p1"])) ? "active" : "",
-    ));
+      if ($thisarray["p1"] == "tasks") {
+        $tmp["numtasks"]=gTable::countAll("changes_tasks"," where chgnum='".htmlspecialchars($thisarray["p2"])."'");
+        $tmp["curtask"]=gTable::get("changes","taskcurr,chgstatus"," where chgnum='".htmlspecialchars($thisarray["p2"])."'")["taskcurr"];
+        $tmp["chgstatus"]=gTable::get("changes","taskcurr,chgstatus"," where chgnum='".htmlspecialchars($thisarray["p2"])."'")["chgstatus"];
+        $percent=round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
+        if($tmp["chgstatus"]==0){
+            array_push($brarr, array(
+                "title" => "Add change tasks",
+                "link" => "/changes/tasks/".$thisarray["p2"],
+                "icon" => "mdi-format-list-checks",
+                "active" => false,
+            ));
+        }
+      }
     
       ?>
 <div class="row pt-3" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
@@ -48,7 +56,90 @@ class ClassMPM_changes
     </div>
 
     <div class="col-lg-8">
-        <?php if ($thisarray["p1"] != "tasks") { ?>
+    <?php if ($thisarray["p1"] == "new") { ?>
+
+
+
+        <?php } else if ($thisarray["p1"] == "tasks") { ?>
+            <div class="card">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-vmiddle table-hover stylish-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width:50px;">Number</th>
+                                    <th class="text-center" style="width:120px;">Owner</th>
+                                    <th class="text-center" style="width:80px;">Application</th>
+                                    <th class="text-center" style="width:80px">Status</th>
+                                    <th class="text-left">Task</th>
+                                    <th class="text-center" style="width:80px">Info</th>
+                                    <th class="text-center" style="width:80px;">Action</th>
+                                    <th class="text-center" style="width:50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
+                                <tr ng-hide="contentLoaded">
+                                    <td colspan="8" style="text-align:center;font-size:1.1em;"><i
+                                            class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</td>
+                                </tr>
+                                <tr id="contloaded"
+                                    dir-paginate="d in names | filter:search | orderBy:'id' | itemsPerPage:10"
+                                    ng-class="d.reqactive==1 ? 'hide active' : 'hide none'" pagination-id="prodx">
+                                    <td class="text-center {{ d.taskfinished }}">{{ d.id }}</td>
+                                    <td class="text-center {{ d.taskfinished }}"><a
+                                            href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
+                                    <td class="text-center {{ d.taskfinished }}">{{ d.appid }}</td>
+                                    <td class="text-center {{ d.taskfinished }}"><span
+                                            class="badge badge-{{ d.taskstatusbut }}">{{ d.taskstatusname }}</span></td>
+                                    <td class="text-left {{ d.taskfinished }}" ng-bind-html="renderHtml(d.taskname)">
+                                    </td>
+                                    <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm"
+                                            ng-show="d.hasacc" ng-click="showmod(d.taskinfo,d.id)">Show</button></td>
+                                    <td class="text-center {{ d.taskfinished }}"><button class="bnt btn-info btn-sm"
+                                            ng-show="d.taskbutshow"
+                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}
+                                            </buton>
+                                    </td>
+                                    <td class="text-center {{ d.taskfinished }}"><a href="" class="bnt btn-light btn-sm"
+                                            ng-show="d.taskdel"
+                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.id,'delete')"><i class="mdi mdi-close"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <dir-pagination-controls pagination-id="prodx" boundary-links="true"
+                            on-page-change="pageChangeHandler(newPageNumber)"
+                            template-url="/<?php echo $website['corebase'];?>assets/templ/pagination.tpl.html">
+                        </dir-pagination-controls>
+                        <!-- Modal -->
+                        <div class="modal fade" id="taskmodal" tabindex="-1" aria-labelledby="modlbl"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modlbl">Task info</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea ng-model="info" ui-tinymce="tinyOpts"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button"
+                                        class="waves-effect waves-light btn btn-light btn-sm"
+                                        ng-click="updtask(taskid,'<?php echo $thisarray["p2"];?>')"><i class="mdi mdi-content-save"></i>&nbsp;Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } else { ?>
         <div class="card">
             <div class="card-body p-0">
                 <div class="row">
@@ -97,88 +188,13 @@ class ClassMPM_changes
                 </div>
             </div>
         </div>
-        <?php } else { ?>
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-vmiddle table-hover stylish-table mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="width:50px;">Number</th>
-                                    <th class="text-center" style="width:120px;">Owner</th>
-                                    <th class="text-center" style="width:80px;">Application</th>
-                                    <th class="text-center" style="width:80px">Status</th>
-                                    <th class="text-left">Task</th>
-                                    <th class="text-center" style="width:80px">Info</th>
-                                    <th class="text-center" style="width:80px;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
-                                <tr ng-hide="contentLoaded">
-                                    <td colspan="7" style="text-align:center;font-size:1.1em;"><i
-                                            class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</td>
-                                </tr>
-                                <tr id="contloaded"
-                                    dir-paginate="d in names | filter:search | orderBy:'id' | itemsPerPage:10"
-                                    ng-class="d.reqactive==1 ? 'hide active' : 'hide none'" pagination-id="prodx">
-                                    <td class="text-center {{ d.taskfinished }}">{{ d.id }}</td>
-                                    <td class="text-center {{ d.taskfinished }}"><a
-                                            href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
-                                    <td class="text-center {{ d.taskfinished }}">{{ d.appid }}</td>
-                                    <td class="text-center {{ d.taskfinished }}"><span
-                                            class="badge badge-{{ d.taskstatusbut }}">{{ d.taskstatusname }}</span></td>
-                                    <td class="text-left {{ d.taskfinished }}" ng-bind-html="renderHtml(d.taskname)">
-                                    </td>
-                                    <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm"
-                                            ng-show="d.hasacc" ng-click="showmod(d.taskinfo,d.id)">Show</button></td>
-                                    <td class="text-center {{ d.taskfinished }}"><button class="bnt btn-info btn-sm"
-                                            ng-show="d.taskbutshow"
-                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}
-                                            </buton>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <dir-pagination-controls pagination-id="prodx" boundary-links="true"
-                            on-page-change="pageChangeHandler(newPageNumber)"
-                            template-url="/<?php echo $website['corebase'];?>assets/templ/pagination.tpl.html">
-                        </dir-pagination-controls>
-                        <!-- Modal -->
-                        <div class="modal fade" id="taskmodal" tabindex="-1" aria-labelledby="modlbl"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modlbl">Task info</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <textarea ng-model="info" ui-tinymce="tinyOpts"></textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                    <button type="button"
-                                        class="waves-effect waves-light btn btn-light btn-sm"
-                                        ng-click="updtask(taskid,'<?php echo $thisarray["p2"];?>')"><i class="mdi mdi-content-save"></i>&nbsp;Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php } ?>
+        <?php }  ?>
     </div>
     <div class="col-md-2">
         <?php if ($thisarray["p1"] != "new") { include $website['corebase'] . "public/modules/filterbar.php"; } ?>
         <?php include $website['corebase'] . "public/modules/breadcrumbin.php";?>
         <?php if ($thisarray["p1"] == "tasks") { 
-            $tmp["numtasks"]=gTable::countAll("changes_tasks"," where chgnum='".htmlspecialchars($thisarray["p2"])."'");
-            $tmp["curtask"]=gTable::read("changes","taskcurr"," where chgnum='".htmlspecialchars($thisarray["p2"])."'");
-            $percent=round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
+            
             ?>
             <div class="mt-2 p-2 bg-light br-4">
             <h4><i class="mdi mdi-progress-clock"></i>&nbsp;Progress</h4><br>
