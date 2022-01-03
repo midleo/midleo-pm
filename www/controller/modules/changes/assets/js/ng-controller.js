@@ -57,11 +57,14 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
     });
   };
   $scope.taskrun = function(thischg,taskid,thiscase){
+    $(".tsk" + taskid).html('<i class="mdi mdi-loading iconspin"></i>');
+    $(".tsk" + taskid).prop("disabled", true);
     $http({
       method: 'POST',
-      data: { 'taskid': taskid, 'case': thiscase },
+      data: { 'taskid': taskid, 'case': thiscase, 'chg': thischg },
       url: '/chgapi/taskdo'
     }).then(function successCallback(response) {
+      notify("Success","success");
       $scope.getAlltasks(thischg);
     });
   };

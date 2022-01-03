@@ -86,9 +86,10 @@ class ClassMPM_chgapi
                 $data['taskstatusbut'] = $projcodes[$val['taskstatus']]["badge"];
                 $data['taskname'] = $val['taskname'];
                 $data['taskinfo'] = $val['taskinfo'];
+                $data['nestid'] = $val['nestid'];
                 if($val['nestid']==$taskcur){
-                    $data['taskbutname'] = $val['taskstatus']=="0"?"Start":"Finish";
-                    $data['taskbutshow'] = true;
+                    $data['taskbutname'] = $val['taskstatus']=="0"?"Start":($val['taskstatus']=="3"?"Finish":"");
+                    $data['taskbutshow'] = ($val['taskstatus']=="0" || $val['taskstatus']=="3")?true:false;
                 } else {
                     $data['taskbutshow'] = false;
                     $data['taskbutname'] = "";
@@ -107,7 +108,38 @@ class ClassMPM_chgapi
         exit;
     }
     public static function doTasks(){
-
-        
+        session_start();
+        $data = json_decode(file_get_contents("php://input"));
+        if(!empty($data->taskid)){ 
+            $pdo = pdodb::connect();
+            $now = date('Y-m-d H:i:s');
+            if($data->case=="delete"){
+                $sql="delete from changes_tasks where nestid=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(htmlspecialchars($data->taskid)));
+                $sql="update changes set taskall=taskall-1 where chgnum=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(htmlspecialchars($data->chg)));
+            }
+            if($data->case=="start"){
+                $sql="update changes_tasks set started='".$now."',taskstatus='3' where nestid=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(htmlspecialchars($data->taskid)));
+                $sql="update changes set taskcurr=? where chgnum=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(htmlspecialchars($data->taskid),htmlspecialchars($data->chg)));
+            }
+            if($data->case=="finish"){
+                $sql="update changes_tasks set finished='".$now."',taskstatus='4' where nestid=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(htmlspecialchars($data->taskid)));
+                $sql="update changes set taskcurr=taskcurr+1 where chgnum=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(htmlspecialchars($data->chg)));
+            }
+            pdodb::disconnect();
+            gTable::closeAll();
+        }
+        exit;
     }
 }
