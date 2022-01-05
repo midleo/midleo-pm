@@ -1,4 +1,3 @@
-//https://github.com/angular-ui/ui-sortable
 var app = angular.module('ngApp', ['ui.sortable']);
 app.config(['$compileProvider',
   function ($compileProvider) {
@@ -44,8 +43,9 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
   $scope.sortTasks = {
     'ui-floating': true,
     stop: function(e, ui) {
-
-      alert('Moved element: ' + ui.item.scope().item.value);
+      var dataToSend=window.JSON.stringify($("#sortable").sortable('serialize'));
+      alert(dataToSend);
+      //alert('Moved element: ' + ui.item.scope().item.value);
       
     }
   };

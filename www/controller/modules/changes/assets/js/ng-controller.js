@@ -56,12 +56,12 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
       if (response.data != "null") { $scope.names = response.data; } else { $scope.names = {}; }
     });
   };
-  $scope.taskrun = function(thischg,taskid,thiscase){
-    $(".tsk" + taskid).html('<i class="mdi mdi-loading iconspin"></i>');
-    $(".tsk" + taskid).prop("disabled", true);
+  $scope.taskrun = function(thischg,taskid,thisid,thiscase){
+    $(".tsk" + thisid).html('<i class="mdi mdi-loading iconspin"></i>');
+    $(".tsk" + thisid).prop("disabled", true);
     $http({
       method: 'POST',
-      data: { 'taskid': taskid, 'case': thiscase, 'chg': thischg },
+      data: { 'taskid': taskid, 'thisid': thisid, 'case': thiscase, 'chg': thischg },
       url: '/chgapi/taskdo'
     }).then(function successCallback(response) {
       notify("Success","success");

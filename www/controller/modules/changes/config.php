@@ -41,7 +41,7 @@ class ClassMPM_changes
         $tmp["numtasks"]=gTable::countAll("changes_tasks"," where chgnum='".htmlspecialchars($thisarray["p2"])."'");
         $tmp["curtask"]=gTable::get("changes","taskcurr,chgstatus"," where chgnum='".htmlspecialchars($thisarray["p2"])."'")["taskcurr"];
         $tmp["chgstatus"]=gTable::get("changes","taskcurr,chgstatus"," where chgnum='".htmlspecialchars($thisarray["p2"])."'")["chgstatus"];
-        $percent=round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
+        $percent=$tmp["numtasks"]==0?0:round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
         if($tmp["chgstatus"]==0){
             array_push($brarr, array(
                 "title" => "Edit tasks",
@@ -88,8 +88,8 @@ class ClassMPM_changes
             <div class="card-body p-0">
                 <div class="p-0" ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
                 <div class="alert alert-light mb-0" ng-hide="contentLoaded">Loading...</div>
-                    <ul ui-sortable="sortTasks" ng-model="names" class="p-0 mb-0 list" >
-                        <li ng-repeat="item in names | filter:search | orderBy:'value'" class="item p-0" >
+                    <ul ui-sortable="sortTasks" ng-model="names" class="p-0 mb-0 list" id="sortable">
+                        <li ng-repeat="item in names | filter:search" class="item p-0" data-id="{{item.appid}}">
                             <table class="table table-vmiddle table-hover stylish-table mb-0">
                                 <tbody>
                                     <tr>
@@ -134,7 +134,7 @@ class ClassMPM_changes
                                             class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</td>
                                 </tr>
                                 <tr id="contloaded"
-                                    dir-paginate="d in names | filter:search | orderBy:'nestid' | itemsPerPage:10"
+                                    dir-paginate="d in names | filter:search | itemsPerPage:10"
                                     ng-class="d.reqactive==1 ? 'hide active' : 'hide none'" pagination-id="prodx">
                                     <td class="text-center {{ d.taskfinished }}"><span
                                             class="badge badge-{{ d.taskstatusbut }}">{{ d.taskstatusname }}</span></td>
@@ -146,9 +146,9 @@ class ClassMPM_changes
                                     <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm"
                                             ng-show="d.hasacc" ng-click="showmod(d.taskinfo,d.id)">Show</button></td>
                                     <td class="text-center {{ d.taskfinished }}"><button
-                                            class="bnt btn-info btn-sm tsk{{d.nestid}}"
+                                            class="bnt btn-info btn-sm tsk{{d.id}}"
                                             ng-show="d.taskbutshow && d.hasacc"
-                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,d.taskbutname|lowercase)">{{ d.taskbutname }}
+                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}
                                             </buton>
                                     </td>
                                     <td class="text-center {{ d.taskfinished }}"><a href="" class="bnt btn-light btn-sm"

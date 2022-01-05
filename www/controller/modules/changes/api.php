@@ -71,7 +71,7 @@ class ClassMPM_chgapi
             } else {
                 $ugrarr=array();
             }
-            $sql="select * from changes_tasks where chgnum=?";            
+            $sql="select * from changes_tasks where chgnum=? order by nestid";            
             $q = $pdo->prepare($sql);
             $q->execute(array(htmlspecialchars($data->chgid)));
             $zobj = $q->fetchAll();
@@ -110,7 +110,7 @@ class ClassMPM_chgapi
     public static function doTasks(){
         session_start();
         $data = json_decode(file_get_contents("php://input"));
-        if(!empty($data->taskid)){ 
+        if(!empty($data->thisid)){ 
             $pdo = pdodb::connect();
             $now = date('Y-m-d H:i:s');
             if($data->case=="delete"){
@@ -122,17 +122,17 @@ class ClassMPM_chgapi
                 $q->execute(array(htmlspecialchars($data->chg)));
             }
             if($data->case=="start"){
-                $sql="update changes_tasks set started='".$now."',taskstatus='3' where nestid=?";
+                $sql="update changes_tasks set started='".$now."',taskstatus='3' where id=?";
                 $q = $pdo->prepare($sql);
-                $q->execute(array(htmlspecialchars($data->taskid)));
+                $q->execute(array(htmlspecialchars($data->thisid))); 
                 $sql="update changes set taskcurr=? where chgnum=?";
                 $q = $pdo->prepare($sql);
                 $q->execute(array(htmlspecialchars($data->taskid),htmlspecialchars($data->chg)));
             }
             if($data->case=="finish"){
-                $sql="update changes_tasks set finished='".$now."',taskstatus='4' where nestid=?";
+                $sql="update changes_tasks set finished='".$now."',taskstatus='4' where id=?";
                 $q = $pdo->prepare($sql);
-                $q->execute(array(htmlspecialchars($data->taskid)));
+                $q->execute(array(htmlspecialchars($data->thisid)));
                 $sql="update changes set taskcurr=taskcurr+1 where chgnum=?";
                 $q = $pdo->prepare($sql);
                 $q->execute(array(htmlspecialchars($data->chg)));
