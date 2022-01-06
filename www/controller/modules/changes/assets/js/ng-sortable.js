@@ -23,31 +23,23 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
       url: '/chgapi/tasks'
     }).then(function successCallback(response) {
       $scope.contentLoaded = true;
-      if (response.data != "null") { 
-        //$scope.names = response.data; 
-        angular.forEach(response.data, function (value, key) {
-          $scope.names.push({
-            text: value.taskname ,
-            owner: value.owner ,
-            appid: value.appid ,
-            taskstatusbut: value.taskstatusbut,
-            taskstatusname: value.taskstatusname,
-            value: value.nestid
-          });
-        });
-      
-      } 
+      if (response.data != "null") {  $scope.names = response.data;  } 
     });
   };
-  
   $scope.sortTasks = {
     'ui-floating': true,
-    stop: function(e, ui) {
-      var dataToSend=window.JSON.stringify($("#sortable").sortable('serialize'));
-      alert(dataToSend);
-      //alert('Moved element: ' + ui.item.scope().item.value);
-      
+    stop: function(e, ui) {      
+//      $scope.getAlltasks(chgid);
     }
   };
-  
+  $scope.saveTasks = function (chgid){
+    let dataToSend=window.JSON.stringify($("#sortable").sortable("toArray"));
+    $http({
+      method: 'POST',
+      data: { 'chgid': chgid, 'object': dataToSend },
+      url: '/chgapi/updtasks'
+    }).then(function successCallback(response) {
+      notify("Data updated","success");
+    });
+  };
 });

@@ -65,6 +65,13 @@ class ClassMPM_changes
             "icon" => "mdi-plus",
             "active" => false,
         ));
+        array_push($brarr, array(
+            "title" => "Save tasks",
+            "link"=>"#",
+            "icon" => "mdi-content-save",
+            "nglink" => "saveTasks('".$thisarray["p2"]."')",
+            "active" => false,
+        ));
 
       }
     
@@ -86,10 +93,11 @@ class ClassMPM_changes
         <?php } else if ($thisarray["p1"] == "taskedit") { ?>
         <div class="card">
             <div class="card-body p-0">
+                <input id="chgid" style="display:none;" value="<?php echo $thisarray["p2"];?>">
                 <div class="p-0" ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
                 <div class="alert alert-light mb-0" ng-hide="contentLoaded">Loading...</div>
                     <ul ui-sortable="sortTasks" ng-model="names" class="p-0 mb-0 list" id="sortable">
-                        <li ng-repeat="item in names | filter:search" class="item p-0" data-id="{{item.appid}}">
+                        <li ng-repeat="item in names | filter:search" class="item p-0" id="{{item.id}}">
                             <table class="table table-vmiddle table-hover stylish-table mb-0">
                                 <tbody>
                                     <tr>
@@ -100,7 +108,7 @@ class ClassMPM_changes
                                         <td class="text-center" style="width:80px;"><a
                                                 href="/browse/user/{{ item.owner }}">{{ item.owner }}</a></td>
                                         <td class="text-center" style="width:50px;">{{ item.appid }}</td>
-                                        <td class="text-left" ng-bind-html="renderHtml(item.text)">
+                                        <td class="text-left" ng-bind-html="renderHtml(item.taskname)">
                                         </td>
                                     </tr>
                                 </tbody>

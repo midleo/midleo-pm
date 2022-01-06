@@ -14,6 +14,8 @@ class ClassMPM_chgapi
                     break;
                 case 'tasks':ClassMPM_chgapi::getTasks();
                     break;
+                case 'updtasks':ClassMPM_chgapi::UpdateTasks();
+                    break;
                 case 'taskdo': ClassMPM_chgapi::doTasks();
                     break; 
                 default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
@@ -137,6 +139,24 @@ class ClassMPM_chgapi
                 $q = $pdo->prepare($sql);
                 $q->execute(array(htmlspecialchars($data->chg)));
             }
+            gTable::track($_SESSION["userdata"]["usname"], $_SESSION['user'], array("appid" => "system"), $data->case." task in change <a href='/changes'><b>" . htmlspecialchars($data->chg) . "</b></a>");
+            pdodb::disconnect();
+            gTable::closeAll();
+        }
+        exit;
+    }
+    public static function UpdateTasks(){
+        session_start();
+        $data = json_decode(file_get_contents("php://input"));
+        if(!empty($data->chgid)){ 
+            $pdo = pdodb::connect();
+            $pdo->beginTransaction();
+            foreach(json_decode($data->object,true) as $key=>$val){
+                $sql="update changes_tasks set nestid=? where id=? and chgnum=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array($key,$val,htmlspecialchars($data->chgid)));
+            }
+            $pdo->commit();
             pdodb::disconnect();
             gTable::closeAll();
         }
