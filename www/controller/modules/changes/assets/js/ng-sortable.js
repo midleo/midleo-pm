@@ -28,9 +28,9 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
   };
   $scope.sortTasks = {
     'ui-floating': true,
-    stop: function(e, ui) {      
+//    stop: function(e, ui) {      
 //      $scope.getAlltasks(chgid);
-    }
+//    }
   };
   $scope.saveTasks = function (chgid){
     let dataToSend=window.JSON.stringify($("#sortable").sortable("toArray"));
