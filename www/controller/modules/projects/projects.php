@@ -132,7 +132,7 @@ echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
                 ));
                 ?>
 <div class="row pt-3">
-    <div class="col-lg-2">
+    <div class="col-lg-2 bg-white leftsidebar">
         <?php include "public/modules/sidebar.php";?>
     </div>
     <div class="col-lg-8">
@@ -399,7 +399,7 @@ foreach ($tmp["stypes"] as $key => $val) {?>
 
                 ?>
 <div class="row pt-3">
-    <div class="col-lg-2">
+    <div class="col-lg-2 bg-white leftsidebar">
         <?php include "public/modules/sidebar.php";?>
     </div>
     <div class="col-lg-8">
@@ -491,7 +491,7 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                         }
                         ?>
 <div class="row pt-3">
-    <div class="col-lg-2">
+    <div class="col-lg-2 bg-white leftsidebar">
         <?php include "public/modules/sidebar.php";?>
     </div>
     <div class="col-lg-8">
@@ -749,7 +749,7 @@ foreach ($tmp["stypes"] as $keyin => $valin) {?>
                     ));
                     ?>
 <div class="row pt-3">
-    <div class="col-lg-2">
+    <div class="col-lg-2 bg-white leftsidebar">
         <?php include "public/modules/sidebar.php";?>
     </div>
     <div class="col-lg-10" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">

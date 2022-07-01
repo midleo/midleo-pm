@@ -24,7 +24,7 @@ class calendarClass
         for ($x = 1; $x <= 8; $x++) {$hours .= '<option value="' . $x . '">' . $x . ' Hours</option>';}
         ?>
 <div class="row pt-3">
-    <div class="col-lg-2">
+    <div class="col-lg-2 bg-white leftsidebar">
         <?php include "public/modules/sidebar.php"; ?>
     </div>
     <div class="col-lg-8">
@@ -82,9 +82,12 @@ foreach($arrcolor as $key=>$val){ $i++;?>
 <?php } ?>
 </div>
 </div>
+<input type="text" id="eventid" name="eventid" style="display:none;" />
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="butdelev" name="delcal" class="btn btn-sm btn-danger waves-effect"
+                            style="display:none;"><i
+                                class="mdi mdi-close"></i>&nbsp;Delete</button>&nbsp;
                             <button type="button" id="savecal" name="savecal" class="btn btn-sm btn-info waves-effect"><i
                                     class="mdi mdi-plus"></i>&nbsp;Save</button>
                         </div>
@@ -199,7 +202,7 @@ class Class_timesheets
             ),
         );
         
-        echo '<div class="row pt-3"><div class="col-2">';?>
+        echo '<div class="row pt-3"><div class="col-2 bg-white leftsidebar">';?>
 <?php include "public/modules/sidebar.php"; ?>
 </div>
 <div class="col-lg-8">
@@ -395,7 +398,7 @@ $brarr = array(
         ?>
 
                             <div class="row pt-3">
-                                <div class="col-lg-2">
+                                <div class="col-lg-2 bg-white leftsidebar">
                                     <?php include "public/modules/sidebar.php"; ?>
                                 </div>
                                 <div class="col-lg-8">

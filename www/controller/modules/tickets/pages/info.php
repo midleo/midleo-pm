@@ -89,7 +89,7 @@ include $website['corebase'] . "public/modules/css.php";?>
                 <form name="form" action="" enctype="multipart/form-data" method="post">
                     <div class="row pt-3" id="ngApp" ng-app="ngApp" ng-controller="ngCtrl">
 
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 bg-white leftsidebar">
                             <?php include "public/modules/sidebar.php";?>
                         </div>
                         <div class="col-lg-7">
