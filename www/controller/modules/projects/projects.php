@@ -756,7 +756,8 @@ foreach ($tmp["stypes"] as $keyin => $valin) {?>
         <div class="row">
             <div class="col-lg-9">
                 <div class="row">
-                    <div class="col-lg-4 card p-0">
+                    <div class="col-lg-4">
+                        <div class="card p-0">
                         <div class="list-group" ng-init="getAllservice('<?php echo $wid; ?>')">
                             <a href="#" class="list-group-item list-group-item-action" ng-hide="contentLoaded">
                                 <div class="placeholder-glow">
@@ -780,6 +781,7 @@ foreach ($tmp["stypes"] as $keyin => $valin) {?>
                             on-page-change="pageChangeHandler(newPageNumber)"
                             template-url="/<?php echo $website['corebase']; ?>assets/templ/pagination.tpl.html">
                         </dir-pagination-controls>
+                </div>
                     </div>
                     <div class="col-lg-8">
                     </div>
