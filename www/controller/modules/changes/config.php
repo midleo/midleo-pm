@@ -154,7 +154,7 @@ class ClassMPM_changes
                                     <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm"
                                             ng-show="d.hasacc" ng-click="showmod(d.taskinfo,d.id)">Show</button></td>
                                     <td class="text-center {{ d.taskfinished }}"><button
-                                            class="bnt btn-info btn-sm tsk{{d.id}}"
+                                            class="btn btn-info btn-sm tsk{{d.id}}"
                                             ng-show="d.taskbutshow && d.hasacc"
                                             ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}
                                             </buton>
