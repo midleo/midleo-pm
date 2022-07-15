@@ -20,6 +20,7 @@ class ClassMPM_changes
         $data = sessionClass::getSessUserData();foreach ($data as $key => $val) {${$key} = $val;}
         if (!is_array($website)) {$website = json_decode($website, true);}
         include $website['corebase'] . "public/modules/css.php";
+        echo '<link rel="stylesheet" type="text/css" href="/'.$website['corebase'].'assets/css/jquery-ui.min.css">';
         if ($thisarray["p1"] == "taskedit") { ?>
 <link rel="stylesheet" type="text/css" href="/controller/modules/changes/assets/css/nestablemenu.css">
 <?php } 
@@ -52,7 +53,7 @@ class ClassMPM_changes
         }
         array_push($brarr, array(
             "title" => "Refresh",
-            "link"=>"#",
+            "link"=>"javascript:void(0)",
             "nglink" => "getAlltasks('".$thisarray["p2"]."')",
             "icon" => "mdi-refresh",
             "active" => false,
@@ -60,15 +61,16 @@ class ClassMPM_changes
       }
       if ($thisarray["p1"] == "taskedit") {
         array_push($brarr, array(
-            "title" => "Add new task",
+            "title" => "Define new task",
             "link" => "#",
-            "nglink" => "newtask(names)",
+            "modal" => true,
+            "mtarget" => "#taskmodal",
             "icon" => "mdi-plus",
             "active" => false,
         ));
         array_push($brarr, array(
             "title" => "Save tasks",
-            "link"=>"#",
+            "link"=>"javascript:void(0)",
             "icon" => "mdi-content-save",
             "nglink" => "saveTasks('".$thisarray["p2"]."')",
             "active" => false,
@@ -119,7 +121,9 @@ class ClassMPM_changes
                                         </td>
                                         <td style="width:100px;">
                                             <div class="text-start d-grid gap-2 d-md-block">
-                                                <button type="button" ng-click="edittask('<?php echo $thisarray["p2"];?>',item.id)" class="btn waves-effect btn-light btn-sm"><i
+                                                <button type="button"
+                                                    ng-click="edittask('<?php echo $thisarray["p2"];?>',item.id)"
+                                                    class="btn waves-effect btn-light btn-sm"><i
                                                         class="mdi mdi-pencil"></i></button>
                                                 <button type="button"
                                                     ng-click="taskrun('<?php echo $thisarray["p2"];?>',item.nestid,item.id,'delete')"
@@ -135,6 +139,51 @@ class ClassMPM_changes
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="taskmodal" tabindex="-1" aria-labelledby="modlbl" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modlbl">Define the task</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" id="applauto" class="form-control" required
+                                placeholder="Project/Client" />
+                            <input type="text" id="appname" name="appname" style="display:none;" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="groupauto" class="form-control" required
+                                placeholder="Responsible group" />
+                            <input type="text" id="groupname" name="groupname" style="display:none;" />
+                            <input type="text" id="groupemail" name="groupemail" style="display:none;" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="groupuser" class="form-control" required
+                                placeholder="Person that will execute the task" />
+                            <input type="text" id="groupuserselected" name="groupuserselected" style="display:none;" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="taskname" class="form-control" required placeholder="Task name" />
+                        </div>
+                        <div class="form-group">
+                            <textarea ng-model="info" ui-tinymce="tinyOpts"
+                                placeholder="Information about the task (will be visible only by the person that will execute it)"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="waves-effect waves-light btn btn-light btn-sm"
+                            style="display:none;" ng-click="updtask(taskid,'<?php echo $thisarray["p2"];?>')"><i
+                                class="mdi mdi-content-save"></i>&nbsp;Update</button>
+                        <button type="button" class="waves-effect waves-light btn btn-light btn-sm"
+                            ng-click="newtask('<?php echo $thisarray["p2"];?>')"><i
+                                class="mdi mdi-content-save"></i>&nbsp;Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
         <?php } else if ($thisarray["p1"] == "tasks") { ?>
         <div class="card">
             <div class="card-body p-0">

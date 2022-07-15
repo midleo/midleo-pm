@@ -18,6 +18,8 @@ class ClassMPM_chgapi
                     break;
                 case 'taskdo': ClassMPM_chgapi::doTasks();
                     break; 
+                case 'addtask': ClassMPM_chgapi::createTask();
+                    break; 
                 default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
             }
         } else {echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;}
@@ -54,7 +56,6 @@ class ClassMPM_chgapi
     public static function getTasks(){
         global $priorityarr;
         global $projcodes;
-        session_start();
         $pdo = pdodb::connect();
         $data = json_decode(file_get_contents("php://input"));
         if(!empty($data->chgid)){ 
@@ -110,7 +111,6 @@ class ClassMPM_chgapi
         exit;
     }
     public static function doTasks(){
-        session_start();
         $data = json_decode(file_get_contents("php://input"));
         if(!empty($data->thisid)){ 
             $pdo = pdodb::connect();
@@ -146,7 +146,6 @@ class ClassMPM_chgapi
         exit;
     }
     public static function UpdateTasks(){
-        session_start();
         $data = json_decode(file_get_contents("php://input"));
         if(!empty($data->chgid)){ 
             $pdo = pdodb::connect();
@@ -161,5 +160,8 @@ class ClassMPM_chgapi
             gTable::closeAll();
         }
         exit;
+    }
+    public static function createTask(){
+
     }
 }

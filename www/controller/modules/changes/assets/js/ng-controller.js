@@ -20,7 +20,7 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
   $scope.tinyOpts = {
     plugins: 'link image code',
     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-    height : "480",
+    height : "280",
     paste_data_images: true,
     forced_root_block: false,
     force_br_newlines: true
