@@ -116,9 +116,9 @@ class ClassMPM_chgapi
             $pdo = pdodb::connect();
             $now = date('Y-m-d H:i:s');
             if($data->case=="delete"){
-                $sql="delete from changes_tasks where nestid=?";
+                $sql="delete from changes_tasks where id=?";
                 $q = $pdo->prepare($sql);
-                $q->execute(array(htmlspecialchars($data->taskid)));
+                $q->execute(array(htmlspecialchars($data->thisid)));
                 $sql="update changes set taskall=taskall-1 where chgnum=?";
                 $q = $pdo->prepare($sql);
                 $q->execute(array(htmlspecialchars($data->chg)));

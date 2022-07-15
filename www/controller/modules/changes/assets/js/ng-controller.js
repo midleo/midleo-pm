@@ -59,14 +59,35 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
   $scope.taskrun = function(thischg,taskid,thisid,thiscase){
     $(".tsk" + thisid).html('<i class="mdi mdi-loading iconspin"></i>');
     $(".tsk" + thisid).prop("disabled", true);
-    $http({
-      method: 'POST',
-      data: { 'taskid': taskid, 'thisid': thisid, 'case': thiscase, 'chg': thischg },
-      url: '/chgapi/taskdo'
-    }).then(function successCallback(response) {
-      notify("Success","success");
-      $scope.getAlltasks(thischg);
-    });
+    let confirm=false;
+    if(thiscase=="delete"){
+      Swal.fire({
+        title: 'Delete this object?',
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        customClass: {
+          confirmButton: 'btn btn-danger btn-sm',
+          cancelButton: 'btn btn-light btn-sm',
+        }
+      }).then((result) => {
+        if (result.value) {
+          confirm=true;
+        }
+      })
+    } else {
+      confirm=true;
+    }
+    if(confirm){
+      $http({
+        method: 'POST',
+        data: { 'taskid': taskid, 'thisid': thisid, 'case': thiscase, 'chg': thischg },
+        url: '/chgapi/taskdo'
+      }).then(function successCallback(response) {
+        notify("Success","success");
+        $scope.getAlltasks(thischg);
+      });
+    }
   };
   $scope.showmod = function(thisinfo,taskid){
     $scope.info=thisinfo;

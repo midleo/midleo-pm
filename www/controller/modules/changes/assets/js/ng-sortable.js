@@ -32,6 +32,42 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
 //      $scope.getAlltasks(chgid);
 //    }
   };
+  $scope.taskrun = function(thischg,taskid,thisid,thiscase){
+    $(".tsk" + thisid).html('<i class="mdi mdi-loading iconspin"></i>');
+    $(".tsk" + thisid).prop("disabled", true);
+    if(thiscase=="delete"){
+      Swal.fire({
+        title: 'Delete this task?',
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        customClass: {
+          confirmButton: 'btn btn-danger btn-sm',
+          cancelButton: 'btn btn-light btn-sm',
+        }
+      }).then((result) => {
+        if (result.value) {
+          $http({
+            method: 'POST',
+            data: { 'taskid': taskid, 'thisid': thisid, 'case': thiscase, 'chg': thischg },
+            url: '/chgapi/taskdo'
+          }).then(function successCallback(response) {
+            notify("Success","success");
+            $scope.getAlltasks(thischg);
+          });
+        }
+      })
+    } else {
+      $http({
+        method: 'POST',
+        data: { 'taskid': taskid, 'thisid': thisid, 'case': thiscase, 'chg': thischg },
+        url: '/chgapi/taskdo'
+      }).then(function successCallback(response) {
+        notify("Success","success");
+        $scope.getAlltasks(thischg);
+      });
+    }
+  };
   $scope.saveTasks = function (chgid){
     let dataToSend=window.JSON.stringify($("#sortable").sortable("toArray"));
     $http({
@@ -41,5 +77,13 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
     }).then(function successCallback(response) {
       notify("Data updated","success");
     });
+  };
+  $scope.newtask = function(thisdata){
+
+
+  };
+  $scope.edittask = function(thischg,thisid){
+
+    
   };
 });

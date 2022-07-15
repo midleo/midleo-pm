@@ -61,7 +61,8 @@ class ClassMPM_changes
       if ($thisarray["p1"] == "taskedit") {
         array_push($brarr, array(
             "title" => "Add new task",
-            "link" => "",
+            "link" => "#",
+            "nglink" => "newtask(names)",
             "icon" => "mdi-plus",
             "active" => false,
         ));
@@ -70,6 +71,12 @@ class ClassMPM_changes
             "link"=>"#",
             "icon" => "mdi-content-save",
             "nglink" => "saveTasks('".$thisarray["p2"]."')",
+            "active" => false,
+        ));
+        array_push($brarr, array(
+            "title" => "Back to task list",
+            "link" => "/changes/task/".$thisarray["p2"],
+            "icon" => "mdi-arrow-left",
             "active" => false,
         ));
 
@@ -95,7 +102,7 @@ class ClassMPM_changes
             <div class="card-body p-0">
                 <input id="chgid" style="display:none;" value="<?php echo $thisarray["p2"];?>">
                 <div class="p-0" ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
-                <div class="alert alert-light mb-0" ng-hide="contentLoaded">Loading...</div>
+                    <div class="alert alert-light mb-0" ng-hide="contentLoaded">Loading...</div>
                     <ul ui-sortable="sortTasks" ng-model="names" class="p-0 mb-0 list" id="sortable">
                         <li ng-repeat="item in names | filter:search" class="item p-0" id="{{item.id}}">
                             <table class="table table-vmiddle table-hover stylish-table mb-0">
@@ -109,6 +116,16 @@ class ClassMPM_changes
                                                 href="/browse/user/{{ item.owner }}">{{ item.owner }}</a></td>
                                         <td class="text-center" style="width:50px;">{{ item.appid }}</td>
                                         <td class="text-left" ng-bind-html="renderHtml(item.taskname)">
+                                        </td>
+                                        <td style="width:100px;">
+                                            <div class="text-start d-grid gap-2 d-md-block">
+                                                <button type="button" ng-click="edittask('<?php echo $thisarray["p2"];?>',item.id)" class="btn waves-effect btn-light btn-sm"><i
+                                                        class="mdi mdi-pencil"></i></button>
+                                                <button type="button"
+                                                    ng-click="taskrun('<?php echo $thisarray["p2"];?>',item.nestid,item.id,'delete')"
+                                                    class="btn waves-effect btn-light btn-sm"><i
+                                                        class="mdi mdi-close"></i></button>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -141,8 +158,7 @@ class ClassMPM_changes
                                     <td colspan="8" style="text-align:center;font-size:1.1em;"><i
                                             class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</td>
                                 </tr>
-                                <tr id="contloaded"
-                                    dir-paginate="d in names | filter:search | itemsPerPage:10"
+                                <tr id="contloaded" dir-paginate="d in names | filter:search | itemsPerPage:10"
                                     ng-class="d.reqactive==1 ? 'hide active' : 'hide none'" pagination-id="prodx">
                                     <td class="text-center {{ d.taskfinished }}"><span
                                             class="badge badge-{{ d.taskstatusbut }}">{{ d.taskstatusname }}</span></td>
@@ -154,14 +170,13 @@ class ClassMPM_changes
                                     <td class="text-center {{ d.taskfinished }}"><button class="btn btn-light btn-sm"
                                             ng-show="d.hasacc" ng-click="showmod(d.taskinfo,d.id)">Show</button></td>
                                     <td class="text-center {{ d.taskfinished }}"><button
-                                            class="btn btn-info btn-sm tsk{{d.id}}"
-                                            ng-show="d.taskbutshow && d.hasacc"
+                                            class="btn btn-info btn-sm tsk{{d.id}}" ng-show="d.taskbutshow && d.hasacc"
                                             ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}
                                             </buton>
                                     </td>
                                     <td class="text-center {{ d.taskfinished }}"><a href="" class="bnt btn-light btn-sm"
                                             ng-show="d.taskdel && d.hasacc"
-                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,'delete')"><i
+                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,d.id,'delete')"><i
                                                 class="mdi mdi-close"></i>
                                         </a>
                                     </td>
