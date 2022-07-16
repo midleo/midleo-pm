@@ -77,7 +77,7 @@ class ClassMPM_changes
         ));
         array_push($brarr, array(
             "title" => "Back to task list",
-            "link" => "/changes/task/".$thisarray["p2"],
+            "link" => "/changes/tasks/".$thisarray["p2"],
             "icon" => "mdi-arrow-left",
             "active" => false,
         ));

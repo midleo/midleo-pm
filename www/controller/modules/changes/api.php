@@ -79,6 +79,7 @@ class ClassMPM_chgapi
             $q->execute(array(htmlspecialchars($data->chgid)));
             $zobj = $q->fetchAll();
             $data = array();
+            $data['maxnestid'] = 0;
             foreach ($zobj as $val) {
                 $data['id'] = $val['id'];
                 $data['owner'] = $val['owner'];
@@ -90,6 +91,7 @@ class ClassMPM_chgapi
                 $data['taskname'] = $val['taskname'];
                 $data['taskinfo'] = $val['taskinfo'];
                 $data['nestid'] = $val['nestid'];
+                $data['maxnestid'] = $data['maxnestid']<$val['nestid']?$val['nestid']:$data['maxnestid'];
                 if($val['nestid']==$taskcur){
                     $data['taskbutname'] = $val['taskstatus']=="0"?"Start":($val['taskstatus']=="3"?"Finish":"");
                     $data['taskbutshow'] = ($val['taskstatus']=="0" || $val['taskstatus']=="3")?true:false;
@@ -162,6 +164,26 @@ class ClassMPM_chgapi
         exit;
     }
     public static function createTask(){
-
+        $data = json_decode(file_get_contents("php://input"));
+        if(!empty($data->chgid)){ 
+            $pdo = pdodb::connect();
+            $sql="insert into changes_tasks (nestid,chgnum,owner,appid,groupid,taskname,taskinfo,email) values (?,?,?,?,?,?,?,?)";
+            $q = $pdo->prepare($sql);
+            $q->execute(array(
+                htmlspecialchars($data->task->nestid),
+                htmlspecialchars($data->chgid),
+                htmlspecialchars($data->task->owner),
+                htmlspecialchars($data->task->appid),
+                htmlspecialchars($data->task->groupid),
+                htmlspecialchars($data->task->taskname),
+                htmlspecialchars($data->task->taskinfo),
+                htmlspecialchars($data->task->email)
+            )); 
+            $sql="update changes set taskall=taskall+1 where chgnum=?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array(htmlspecialchars($data->chgid)));
+            pdodb::disconnect();
+            gTable::closeAll();
+        }
     }
 }

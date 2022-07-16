@@ -93,9 +93,9 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
       tasknew.appid=$("#appname").val();
       tasknew.groupid=$("#groupname").val();
       tasknew.taskname=$("#taskname").val();
+      tasknew.email=$("#groupemail").val();
       tasknew.taskinfo=$scope.info;
- //     tasknew.nestid=9999;
- //     tasknew.id=9999;
+      tasknew.nestid=$scope.names[$scope.names.length-1].maxnestid+1;
       tasknew.taskstatus=0;
       tasknew.taskstatusname="New";
       tasknew.taskstatusbut="secondary";
@@ -106,6 +106,15 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
       }).then(function successCallback(response) {
         $scope.names.push(tasknew);
         $('#taskmodal').modal('hide');
+        $("#groupuserselected").val("");
+        $("#taskname").val("");
+        $("#groupname").val("");
+        $("#applauto").val("");
+        $("#groupauto").val("");
+        $("#groupuser").val("");
+        $("#appname").val("");
+        $("#groupemail").val("");
+        $scope.info="";
         notify("Task added","success");
       });
     } else {
