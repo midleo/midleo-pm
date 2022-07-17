@@ -39,10 +39,7 @@ class ClassMPM_changes
           
       } 
       if ($thisarray["p1"] == "tasks") {
-        $tmp["numtasks"]=gTable::countAll("changes_tasks"," where chgnum='".htmlspecialchars($thisarray["p2"])."'");
-        $tmp["curtask"]=gTable::get("changes","taskcurr,chgstatus"," where chgnum='".htmlspecialchars($thisarray["p2"])."'")["taskcurr"];
         $tmp["chgstatus"]=gTable::get("changes","taskcurr,chgstatus"," where chgnum='".htmlspecialchars($thisarray["p2"])."'")["chgstatus"];
-        $percent=$tmp["numtasks"]==0?0:round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
         if($tmp["chgstatus"]==0){
             array_push($brarr, array(
                 "title" => "Edit tasks",
@@ -106,7 +103,7 @@ class ClassMPM_changes
                 <div class="p-0" ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
                     <div class="alert alert-light mb-0" ng-hide="contentLoaded">Loading...</div>
                     <ul ui-sortable="sortTasks" ng-model="names" class="p-0 mb-0 list" id="sortable">
-                        <li ng-repeat="item in names | filter:search" class="item p-0" id="{{item.id}}">
+                        <li ng-repeat="item in names | filter:search" class="item p-0" id="{{item.uid}}">
                             <table class="table table-vmiddle table-hover stylish-table mb-0">
                                 <tbody>
                                     <tr>
@@ -324,9 +321,9 @@ class ClassMPM_changes
         <?php if ($thisarray["p1"] == "tasks") { ?>
         <div class="mt-2 p-2 bg-light br-4">
             <h4><i class="mdi mdi-progress-clock"></i>&nbsp;Progress</h4><br>
-            <div class="progress">
-                <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $percent;?>%;"
-                    aria-valuenow="<?php echo $percent;?>" aria-valuemin="0" aria-valuemax="100"><?php echo $percent;?>%
+            <div class="progress" ng-init="getProgress('<?php echo $thisarray["p2"];?>')">
+                <div class="progress-bar bg-info" role="progressbar" style="width: {{ chgprogress }}%;"
+                    aria-valuenow="{{ chgprogress }}" aria-valuemin="0" aria-valuemax="100">{{ chgprogress }}%
                 </div>
             </div>
         </div>

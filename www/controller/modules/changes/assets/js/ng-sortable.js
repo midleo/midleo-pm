@@ -91,11 +91,13 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
       let tasknew={};
       tasknew.owner=$("#groupuserselected").val().split("#")[1];
       tasknew.appid=$("#appname").val();
+      tasknew.uid=getRandomStr(6);
       tasknew.groupid=$("#groupname").val();
       tasknew.taskname=$("#taskname").val();
       tasknew.email=$("#groupemail").val();
       tasknew.taskinfo=$scope.info;
-      tasknew.nestid=$scope.names[$scope.names.length-1].maxnestid+1;
+      tasknew.nestid=($scope.names[$scope.names.length-1])?$scope.names[$scope.names.length-1].maxnestid+1:0;
+      tasknew.maxnestid=($scope.names[$scope.names.length-1])?$scope.names[$scope.names.length-1].maxnestid+1:0;
       tasknew.taskstatus=0;
       tasknew.taskstatusname="New";
       tasknew.taskstatusbut="secondary";

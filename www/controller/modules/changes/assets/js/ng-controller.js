@@ -5,6 +5,7 @@ app.config(['$compileProvider',
   }]);
 app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anchorScroll) {
   $scope.selectedid = [];
+  $scope.chgprogress=0;
   $scope.contentLoaded = false;
   $scope.contentpjLoaded = false;
   $scope.textlimit = 20;
@@ -86,6 +87,9 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
       }).then(function successCallback(response) {
         notify("Success","success");
         $scope.getAlltasks(thischg);
+        if(thiscase=="finish"){
+          $scope.getProgress(thischg);
+        }
       });
     }
   };
@@ -93,5 +97,14 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
     $scope.info=thisinfo;
     $scope.taskid=taskid;
     $('#taskmodal').modal('show');
+  };
+  $scope.getProgress = function(thischg){
+    $http({
+      method: 'POST',
+      data: { 'chgid': thischg },
+      url: '/chgapi/getprogress'
+    }).then(function successCallback(response) {
+      if (response.data != "null") { $scope.chgprogress = response.data; } else { $scope.chgprogress = 0; }
+    });
   };
 });

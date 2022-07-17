@@ -20,6 +20,8 @@ class ClassMPM_chgapi
                     break; 
                 case 'addtask': ClassMPM_chgapi::createTask();
                     break; 
+                case 'getprogress': ClassMPM_chgapi::getProgress();
+                    break;
                 default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
             }
         } else {echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;}
@@ -82,6 +84,7 @@ class ClassMPM_chgapi
             $data['maxnestid'] = 0;
             foreach ($zobj as $val) {
                 $data['id'] = $val['id'];
+                $data['uid'] = $val['uid'];
                 $data['owner'] = $val['owner'];
                 $data['appid'] = $val['appid'];
                 $data['groupid'] = $val['groupid'];
@@ -153,7 +156,7 @@ class ClassMPM_chgapi
             $pdo = pdodb::connect();
             $pdo->beginTransaction();
             foreach(json_decode($data->object,true) as $key=>$val){
-                $sql="update changes_tasks set nestid=? where id=? and chgnum=?";
+                $sql="update changes_tasks set nestid=? where uid=? and chgnum=?";
                 $q = $pdo->prepare($sql);
                 $q->execute(array($key,$val,htmlspecialchars($data->chgid)));
             }
@@ -167,10 +170,11 @@ class ClassMPM_chgapi
         $data = json_decode(file_get_contents("php://input"));
         if(!empty($data->chgid)){ 
             $pdo = pdodb::connect();
-            $sql="insert into changes_tasks (nestid,chgnum,owner,appid,groupid,taskname,taskinfo,email) values (?,?,?,?,?,?,?,?)";
+            $sql="insert into changes_tasks (nestid,uid,chgnum,owner,appid,groupid,taskname,taskinfo,email) values (?,?,?,?,?,?,?,?,?)";
             $q = $pdo->prepare($sql);
             $q->execute(array(
                 htmlspecialchars($data->task->nestid),
+                htmlspecialchars($data->task->uid),
                 htmlspecialchars($data->chgid),
                 htmlspecialchars($data->task->owner),
                 htmlspecialchars($data->task->appid),
@@ -184,6 +188,16 @@ class ClassMPM_chgapi
             $q->execute(array(htmlspecialchars($data->chgid)));
             pdodb::disconnect();
             gTable::closeAll();
+        }
+    }
+    public static function getProgress(){
+        $data = json_decode(file_get_contents("php://input"));
+        if(!empty($data->chgid)){ 
+            $tmp=array();
+            $tmp["numtasks"]=gTable::countAll("changes_tasks"," where chgnum='".$data->chgid."'");
+            $tmp["curtask"]=gTable::get("changes","taskcurr"," where chgnum='".$data->chgid."'")["taskcurr"];
+            $percent=$tmp["numtasks"]==0?0:round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
+            echo json_encode($percent, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
     }
 }
