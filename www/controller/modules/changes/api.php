@@ -20,6 +20,8 @@ class ClassMPM_chgapi
                     break; 
                 case 'addtask': ClassMPM_chgapi::createTask();
                     break; 
+                case 'addchange': ClassMPM_chgapi::createChange();
+                    break; 
                 case 'getprogress': ClassMPM_chgapi::getProgress();
                     break;
                 default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
@@ -40,6 +42,7 @@ class ClassMPM_chgapi
             foreach ($zobj as $val) {
                 $data['name'] = $val['chgname'];
                 $data['chgnum'] = $val['chgnum'];
+                $data['proj'] = $val['proj'];
                 $data['owner'] = $val['owner'];
                 $data['deadline'] = date("d.m.y", strtotime($val['deadline']));
                 $data['created'] = date("d.m.y", strtotime($val['created']));
@@ -56,7 +59,6 @@ class ClassMPM_chgapi
         exit;
     }
     public static function getTasks(){
-        global $priorityarr;
         global $projcodes;
         $pdo = pdodb::connect();
         $data = json_decode(file_get_contents("php://input"));
@@ -194,10 +196,34 @@ class ClassMPM_chgapi
         $data = json_decode(file_get_contents("php://input"));
         if(!empty($data->chgid)){ 
             $tmp=array();
-            $tmp["numtasks"]=gTable::countAll("changes_tasks"," where chgnum='".$data->chgid."'");
-            $tmp["curtask"]=gTable::get("changes","taskcurr"," where chgnum='".$data->chgid."'")["taskcurr"];
-            $percent=$tmp["numtasks"]==0?0:round((intval($tmp["curtask"]) / intval($tmp["numtasks"])) * 100);
+            $tmp["chg"]=gTable::get("changes","taskcurr,taskall"," where chgnum='".$data->chgid."'");
+            $percent=$tmp["chg"]["taskall"]==0?0:round((intval($tmp["chg"]["taskcurr"]) / intval($tmp["chg"]["taskall"])) * 100);
             echo json_encode($percent, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        }
+    }
+    public static function createChange(){
+        $data = json_decode(file_get_contents("php://input"));
+        if(!empty($data->change)){ 
+            $pdo = pdodb::connect();
+            $sql="SELECT chgnum FROM changes order by id desc limit 1";
+            $q = $pdo->prepare($sql);
+            $q->execute();
+            if ($zobj = $q->fetch(PDO::FETCH_ASSOC)) {
+                $tmp["chg"]="CH".substr($zobj["chgnum"],2)+1;
+                $sql="insert into changes (proj,chgname,chgnum,info,deadline,owner,priority) values (?,?,?,?,?,?,?)";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(
+                    htmlspecialchars($data->change->proj),
+                    htmlspecialchars($data->change->chgname),
+                    $tmp["chg"],
+                    htmlspecialchars($data->change->info),
+                    htmlspecialchars($data->change->deadline),
+                    htmlspecialchars($data->change->owner),
+                    htmlspecialchars($data->change->priority)
+                ));
+            }
+            pdodb::disconnect();
+            gTable::closeAll();
         }
     }
 }

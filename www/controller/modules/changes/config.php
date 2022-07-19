@@ -10,6 +10,7 @@ class ClassMPM_changes
         global $installedapp;
         global $env;
         global $page;
+        global $priorityarr;
         global $maindir;
         $year = date("Y");
         if ($installedapp != "yes") {header("Location: /install");}
@@ -29,15 +30,6 @@ class ClassMPM_changes
         include $website['corebase'] . "public/modules/headcontent.php";
         echo '<div class="page-wrapper"><div class="container-fluid">';
         $brarr = array();
-        if (sessionClass::checkAcc($acclist, "chgm")) {
-          array_push($brarr, array(
-              "title" => "Describe a change",
-              "link" => "/changes/new",
-              "icon" => "mdi-plus",
-              "active" => false,
-          ));
-          
-      } 
       if ($thisarray["p1"] == "tasks") {
         $tmp["chgstatus"]=gTable::get("changes","taskcurr,chgstatus"," where chgnum='".htmlspecialchars($thisarray["p2"])."'")["chgstatus"];
         if($tmp["chgstatus"]==0){
@@ -51,8 +43,14 @@ class ClassMPM_changes
         array_push($brarr, array(
             "title" => "Refresh",
             "link"=>"javascript:void(0)",
-            "nglink" => "getAlltasks('".$thisarray["p2"]."')",
+            "nglink" => "getAlltasks('".$thisarray["p2"]."');getProgress('".$thisarray["p2"]."')",
             "icon" => "mdi-refresh",
+            "active" => false,
+        ));
+        array_push($brarr, array(
+            "title" => "Back to changes",
+            "link" => "/changes",
+            "icon" => "mdi-arrow-left",
             "active" => false,
         ));
       }
@@ -79,6 +77,17 @@ class ClassMPM_changes
             "active" => false,
         ));
 
+      } if ($thisarray["p0"] == "changes") {
+        if (sessionClass::checkAcc($acclist, "chgm")) {
+            array_push($brarr, array(
+                "title" => "Describe a change",
+                "link" => "#",
+                "modal" => true,
+                "mtarget" => "#chgmodal",
+                "icon" => "mdi-plus",
+                "active" => false,
+            ));
+        } 
       }
     
       ?>
@@ -92,7 +101,10 @@ class ClassMPM_changes
 
 
 
+
         <?php } else if ($thisarray["p1"] == "edit") { ?>
+
+
 
 
 
@@ -192,7 +204,6 @@ class ClassMPM_changes
                                     <th class="text-center" style="width:80px">Status</th>
                                     <th class="text-center" style="width:120px;">Owner</th>
                                     <th class="text-center" style="width:80px;">Application</th>
-
                                     <th class="text-left">Task</th>
                                     <th class="text-center" style="width:80px">Info</th>
                                     <th class="text-center" style="width:80px;">Action</th>
@@ -201,8 +212,13 @@ class ClassMPM_changes
                             </thead>
                             <tbody ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
                                 <tr ng-hide="contentLoaded">
-                                    <td colspan="8" style="text-align:center;font-size:1.1em;"><i
-                                            class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
                                 </tr>
                                 <tr id="contloaded" dir-paginate="d in names | filter:search | itemsPerPage:10"
                                     ng-class="d.reqactive==1 ? 'hide active' : 'hide none'" pagination-id="prodx">
@@ -269,6 +285,7 @@ class ClassMPM_changes
                                 <tr>
                                     <th class="text-center" style="width:40px;"></th>
                                     <th class="text-center" style="width:40px"></th>
+                                    <th class="text-center" style="width:100px;">Project</th>
                                     <th class="text-center" style="width:120px;">Owner</th>
                                     <th class="text-left">Name</th>
                                     <th class="text-center" style="width:80px">Priority</th>
@@ -279,8 +296,15 @@ class ClassMPM_changes
                             </thead>
                             <tbody ng-init="getAllchanges()">
                                 <tr ng-hide="contentLoaded">
-                                    <td colspan="8" style="text-align:center;font-size:1.1em;"><i
-                                            class="mdi mdi-loading iconspin"></i>&nbsp;Loading...</td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
+                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
                                 </tr>
                                 <tr id="contloaded"
                                     dir-paginate="d in names | filter:search | orderBy:'deadline' | orderBy:'-priorityval' | itemsPerPage:10"
@@ -291,6 +315,8 @@ class ClassMPM_changes
                                     </td>
                                     <td class="text-center"><a href="/changes/tasks/{{ d.chgnum }}"
                                             target="_parent">{{ d.chgnum }}</a></td>
+                                    <td class="text-center"><a href="/env/apps/?app={{ d.proj }}"
+                                            target="_parent">{{ d.proj }}</a></td>
                                     <td class="text-center"><a href="/browse/user/{{ d.owner }}">{{ d.owner }}</a></td>
                                     <td class="text-left">
                                         {{ d.name | limitTo:2*textlimit }}{{d.name.length > 2*textlimit ? '...' : ''}}
@@ -313,6 +339,55 @@ class ClassMPM_changes
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="chgmodal" tabindex="-1" aria-labelledby="modlbl" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modlbl">Define a change</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" id="applauto" class="form-control" required
+                                placeholder="Project/Client" />
+                            <input type="text" id="appname" name="appname" style="display:none;" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="groupuser" class="form-control" required
+                                placeholder="Change manager" />
+                            <input type="text" id="groupuserselected" name="groupuserselected" style="display:none;" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="chgname" class="form-control" required placeholder="Change name" />
+                        </div>
+                        <div class="form-group">
+                            <textarea ng-model="info" ui-tinymce="tinyOpts"
+                                placeholder="Information about the change"></textarea>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <select name="chgpriority" id="chgpriority" class="form-control">
+                                    <option value="">Priority</option>
+                                    <?php foreach($priorityarr as $key=>$val){?><option value="<?php echo $key;?>">
+                                        <?php echo $val["name"];?> - <?php echo $val["info"];?></option><?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="chgdue" data-toggle="datetimepicker" data-target="#chgdue"
+                                    class="form-control date-picker-unl" required placeholder="Due date" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="waves-effect waves-light btn btn-light btn-sm"
+                            ng-click="newchg()"><i
+                                class="mdi mdi-content-save"></i>&nbsp;Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
         <?php }  ?>
     </div>
     <div class="col-md-2">

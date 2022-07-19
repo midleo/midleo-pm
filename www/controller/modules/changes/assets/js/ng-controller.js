@@ -107,4 +107,34 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
       if (response.data != "null") { $scope.chgprogress = response.data; } else { $scope.chgprogress = 0; }
     });
   };
+  $scope.newchg = function(){
+    if($("#chgname").val()){
+      let chgnew={};
+      chgnew.owner=$("#groupuserselected").val().split("#")[1];
+      chgnew.proj=$("#appname").val();
+      chgnew.chgname=$("#chgname").val();
+      chgnew.info=$scope.info;
+      chgnew.deadline=$("#chgdue").val();
+      chgnew.priority=$("#chgpriority").val();
+      $http({
+        method: 'POST',
+        data: { 'change': chgnew },
+        url: '/chgapi/addchange'
+      }).then(function successCallback(response) {
+        $scope.getAllchanges();
+        $scope.info="";
+        $("#groupuserselected").val("");
+        $("#groupuser").val("");
+        $("#appname").val("");
+        $("#chgname").val("");
+        $("#chgdue").val("");
+        $("#chgpriority").val("");
+        $("#applauto").val("");
+        $('#chgmodal').modal('hide');
+        notify("Change added","success");
+      });
+    } else {
+      notify("Please fill all the fields","danger");
+    }
+  };
 });
