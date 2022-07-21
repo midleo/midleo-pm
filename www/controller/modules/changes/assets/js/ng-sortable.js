@@ -8,6 +8,7 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
   $scope.contentLoaded = false;
   $scope.contentpjLoaded = false;
   $scope.textlimit = 20;
+  $scope.task = [];
   $scope.parJson = function (json) {
     if (json) { return JSON.parse(json); }
   };
@@ -95,7 +96,7 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
       tasknew.groupid=$("#groupname").val();
       tasknew.taskname=$("#taskname").val();
       tasknew.email=$("#groupemail").val();
-      tasknew.taskinfo=$scope.info;
+      tasknew.taskinfo=$scope.task.taskinfo;
       tasknew.nestid=($scope.names[$scope.names.length-1])?$scope.names[$scope.names.length-1].maxnestid+1:0;
       tasknew.maxnestid=($scope.names[$scope.names.length-1])?$scope.names[$scope.names.length-1].maxnestid+1:0;
       tasknew.taskstatus=0;
@@ -116,7 +117,7 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
         $("#groupuser").val("");
         $("#appname").val("");
         $("#groupemail").val("");
-        $scope.info="";
+        $scope.task.taskinfo="";
         notify("Task added","success");
       });
     } else {
@@ -124,7 +125,27 @@ app.controller('ngCtrl', function ($scope, $http, $sce) {
     }
   };
   $scope.edittask = function(thischg,thisid){
-
-    
+    $("#updtask").show();
+    $("#newtask").hide();
+    $http({
+      method: 'POST',
+      data: { 'chgid': thischg, 'id': thisid },
+      url: '/chgapi/readtask'
+    }).then(function successCallback(response) {
+      if (response.data != "null") {  $scope.task = response.data;  }
+      $('#taskmodal').modal('show');
+    });
+  };
+  $scope.updtask = function(){
+    $http({
+      method: 'POST',
+      data: { 'task': $scope.task },
+      url: '/chgapi/updtask'
+    }).then(function successCallback(response) {
+      notify("Task updated","success");
+      $scope.getAlltasks($scope.task.chgnum);
+      $scope.task=[];
+      $('#taskmodal').modal('hide');
+    });
   };
 });

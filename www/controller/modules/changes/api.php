@@ -16,9 +16,13 @@ class ClassMPM_chgapi
                     break;
                 case 'updtasks':ClassMPM_chgapi::UpdateTasks();
                     break;
+                case 'updtask':ClassMPM_chgapi::UpdateTask();
+                    break;
                 case 'taskdo': ClassMPM_chgapi::doTasks();
                     break; 
                 case 'addtask': ClassMPM_chgapi::createTask();
+                    break;
+                case 'readtask': ClassMPM_chgapi::readTask();
                     break; 
                 case 'addchange': ClassMPM_chgapi::createChange();
                     break; 
@@ -222,6 +226,36 @@ class ClassMPM_chgapi
                     htmlspecialchars($data->change->priority)
                 ));
             }
+            pdodb::disconnect();
+            gTable::closeAll();
+        }
+    }
+    public static function readTask(){
+        $data = json_decode(file_get_contents("php://input"));
+        if(!empty($data->chgid)){
+            $pdo = pdodb::connect();
+            $sql="select * from changes_tasks where chgnum=? and id=?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array(htmlspecialchars($data->chgid),htmlspecialchars($data->id)));
+            if ($zobj = $q->fetch(PDO::FETCH_ASSOC)) {
+                echo json_encode($zobj, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            }
+            pdodb::disconnect();
+            gTable::closeAll();
+        }
+    }
+    public static function UpdateTask(){
+        $data = json_decode(file_get_contents("php://input"));
+        if(!empty($data->task->chgnum)){
+            $pdo = pdodb::connect();
+            $sql="update changes_tasks set taskname=?,taskinfo=? where chgnum=? and id=?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array(
+                $data->task->taskname,
+                $data->task->taskinfo,
+                htmlspecialchars($data->task->chgnum),
+                htmlspecialchars($data->task->id)
+            ));
             pdodb::disconnect();
             gTable::closeAll();
         }

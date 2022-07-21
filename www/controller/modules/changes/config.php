@@ -58,6 +58,8 @@ class ClassMPM_changes
         array_push($brarr, array(
             "title" => "Define new task",
             "link" => "#",
+            "onclick" => "$('#updtask').hide();$('#newtask').show();",
+            "nglink" => "task=[];",
             "modal" => true,
             "mtarget" => "#taskmodal",
             "icon" => "mdi-plus",
@@ -77,7 +79,7 @@ class ClassMPM_changes
             "active" => false,
         ));
 
-      } if ($thisarray["p0"] == "changes") {
+      } if (!($thisarray["p1"])) {
         if (sessionClass::checkAcc($acclist, "chgm")) {
             array_push($brarr, array(
                 "title" => "Describe a change",
@@ -97,18 +99,7 @@ class ClassMPM_changes
     </div>
 
     <div class="col-lg-8">
-        <?php if ($thisarray["p1"] == "new") { ?>
-
-
-
-
-        <?php } else if ($thisarray["p1"] == "edit") { ?>
-
-
-
-
-
-        <?php } else if ($thisarray["p1"] == "taskedit") { ?>
+        <?php if ($thisarray["p1"] == "taskedit") { ?>
         <div class="card">
             <div class="card-body p-0">
                 <input id="chgid" style="display:none;" value="<?php echo $thisarray["p2"];?>">
@@ -158,34 +149,34 @@ class ClassMPM_changes
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" id="applauto" class="form-control" required
+                            <input type="text" id="applauto" ng-model="task.appid" class="form-control" required
                                 placeholder="Project/Client" />
                             <input type="text" id="appname" name="appname" style="display:none;" />
                         </div>
                         <div class="form-group">
-                            <input type="text" id="groupauto" class="form-control" required
+                            <input type="text" id="groupauto" ng-model="task.groupid" class="form-control" required
                                 placeholder="Responsible group" />
                             <input type="text" id="groupname" name="groupname" style="display:none;" />
                             <input type="text" id="groupemail" name="groupemail" style="display:none;" />
                         </div>
                         <div class="form-group">
-                            <input type="text" id="groupuser" class="form-control" required
+                            <input type="text" id="groupuser" ng-model="task.owner" class="form-control" required
                                 placeholder="Person that will execute the task" />
                             <input type="text" id="groupuserselected" name="groupuserselected" style="display:none;" />
                         </div>
                         <div class="form-group">
-                            <input type="text" id="taskname" class="form-control" required placeholder="Task name" />
+                            <input type="text" id="taskname" ng-model="task.taskname" class="form-control" required placeholder="Task name" />
                         </div>
                         <div class="form-group">
-                            <textarea ng-model="info" ui-tinymce="tinyOpts"
+                            <textarea ng-model="task.taskinfo" ui-tinymce="tinyOpts"
                                 placeholder="Information about the task (will be visible only by the person that will execute it)"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="waves-effect waves-light btn btn-light btn-sm"
-                            style="display:none;" ng-click="updtask(taskid,'<?php echo $thisarray["p2"];?>')"><i
+                            style="display:none;" id="updtask" ng-click="updtask()"><i
                                 class="mdi mdi-content-save"></i>&nbsp;Update</button>
-                        <button type="button" class="waves-effect waves-light btn btn-light btn-sm"
+                        <button type="button" id="newtask" class="waves-effect waves-light btn btn-light btn-sm"
                             ng-click="newtask('<?php echo $thisarray["p2"];?>')"><i
                                 class="mdi mdi-content-save"></i>&nbsp;Create</button>
                     </div>
@@ -207,12 +198,10 @@ class ClassMPM_changes
                                     <th class="text-left">Task</th>
                                     <th class="text-center" style="width:80px">Info</th>
                                     <th class="text-center" style="width:80px;">Action</th>
-                                    <th class="text-center" style="width:50px;"></th>
                                 </tr>
                             </thead>
                             <tbody ng-init="getAlltasks('<?php echo $thisarray["p2"];?>')">
                                 <tr ng-hide="contentLoaded">
-                                <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
                                 <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
                                 <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
                                 <td class="text-center placeholder-glow"><small class="placeholder col-12"></small></td>
@@ -236,12 +225,7 @@ class ClassMPM_changes
                                             ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,d.id,d.taskbutname|lowercase)">{{ d.taskbutname }}
                                             </buton>
                                     </td>
-                                    <td class="text-center {{ d.taskfinished }}"><a href="" class="bnt btn-light btn-sm"
-                                            ng-show="d.taskdel && d.hasacc"
-                                            ng-click="taskrun('<?php echo $thisarray["p2"];?>',d.nestid,d.id,'delete')"><i
-                                                class="mdi mdi-close"></i>
-                                        </a>
-                                    </td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
