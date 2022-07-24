@@ -352,7 +352,6 @@ class ClassMPM_changes
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <select name="chgpriority" id="chgpriority" class="form-control">
-                                    <option value="">Priority</option>
                                     <?php foreach($priorityarr as $key=>$val){?><option value="<?php echo $key;?>">
                                         <?php echo $val["name"];?> - <?php echo $val["info"];?></option><?php } ?>
                                 </select>
@@ -361,6 +360,9 @@ class ClassMPM_changes
                                 <input type="text" id="chgdue" data-toggle="datetimepicker" data-target="#chgdue"
                                     class="form-control date-picker-unl" required placeholder="Due date" />
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="parentchg" class="form-control" placeholder="Change number in case you want to copy all tasks from" />
                         </div>
                     </div>
                     <div class="modal-footer">

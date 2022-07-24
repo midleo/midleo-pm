@@ -116,6 +116,7 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
       chgnew.info=$scope.info;
       chgnew.deadline=$("#chgdue").val();
       chgnew.priority=$("#chgpriority").val();
+      chgnew.parentchg=$("#parentchg").val();
       $http({
         method: 'POST',
         data: { 'change': chgnew },
@@ -130,6 +131,7 @@ app.controller('ngCtrl', function ($scope, $http, $location, $window, $sce, $anc
         $("#chgdue").val("");
         $("#chgpriority").val("");
         $("#applauto").val("");
+        $("#parentchg").val("");
         $('#chgmodal').modal('hide');
         notify("Change added","success");
       });

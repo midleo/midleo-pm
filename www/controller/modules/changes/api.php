@@ -226,6 +226,12 @@ class ClassMPM_chgapi
                     htmlspecialchars($data->change->priority)
                 ));
             }
+            if($data->change->parentchg){
+                $sql="insert into changes_tasks (nestid,uid,chgnum,owner,appid,groupid,taskname,taskinfo,emailsend,email) 
+                      select nestid,uid,'".$tmp["chg"]."',owner,appid,groupid,taskname,taskinfo,emailsend,email from changes_tasks where chgnum=?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array(htmlspecialchars($data->change->parentchg)));
+            }
             pdodb::disconnect();
             gTable::closeAll();
         }
