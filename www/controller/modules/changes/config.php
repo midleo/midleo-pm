@@ -25,6 +25,9 @@ class ClassMPM_changes
         if ($thisarray["p1"] == "taskedit") { ?>
 <link rel="stylesheet" type="text/css" href="/controller/modules/changes/assets/css/nestablemenu.css">
 <?php } 
+        if ($thisarray["p1"] == "timeline") { ?>
+<link rel="stylesheet" type="text/css" href="/controller/modules/calendar/assets/css/fullcalendar-schedule.min.css">
+        <?php }
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"] = "Change management";
         include $website['corebase'] . "public/modules/headcontent.php";
@@ -45,6 +48,12 @@ class ClassMPM_changes
             "link"=>"javascript:void(0)",
             "nglink" => "getAlltasks('".$thisarray["p2"]."');getProgress('".$thisarray["p2"]."')",
             "icon" => "mdi-refresh",
+            "active" => false,
+        ));
+        array_push($brarr, array(
+            "title" => "Timeline",
+            "link" => "/changes/timeline/".$thisarray["p2"],
+            "icon" => "mdi-chart-timeline",
             "active" => false,
         ));
         array_push($brarr, array(
@@ -184,6 +193,20 @@ class ClassMPM_changes
             </div>
         </div>
         <!-- Modal -->
+        <?php } else if ($thisarray["p1"] == "timeline") {  
+            $sql="select started,finished from changes where chgnum=?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array(htmlspecialchars($thisarray["p2"])));
+            if ($zobj = $q->fetch(PDO::FETCH_ASSOC)) {
+            ?>
+             
+            <input id="thischange" value="<?php echo $thisarray["p2"];?>" style="display:none;">
+            <input type='hidden' id='working_start' value="<?php echo $zobj["started"];?>">
+           <input type='hidden' id='working_end' value='<?php echo $zobj["finished"];?>'>
+            <div id='calendar' class="card"></div>
+            
+            <?php } ?>
+            
         <?php } else if ($thisarray["p1"] == "tasks") { ?>
         <div class="card">
             <div class="card-body p-0">
@@ -396,6 +419,10 @@ class ClassMPM_changes
 include $website['corebase'] . "public/modules/footer.php";
 echo "</div></div>";
 include $website['corebase'] . "public/modules/js.php"; 
+if ($thisarray["p1"] == "timeline") { ?> 
+<script type="text/javascript" src="/controller/modules/calendar/assets/js/fullcalendar-scheduler.min.js"></script>
+<script type="text/javascript" src="/controller/modules/calendar/assets/js/mcalendar-scheduler.js"></script>   
+<?php }
 if ($thisarray["p1"] == "taskedit") { ?>
 <script type="text/javascript" src="/controller/modules/changes/assets/js/sortable.js"></script>
 <script type="text/javascript" src="/controller/modules/changes/assets/js/ng-sortable.js"></script>

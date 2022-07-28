@@ -5,7 +5,7 @@ $modulelist["calendar"]["css"][] = "/controller/modules/calendar/assets/css/mcal
 $modulelist["calendar"]["js"][] = "/controller/modules/calendar/assets/js/fullcalendar.min.js";
 $modulelist["calendar"]["js"][] = "/controller/modules/calendar/assets/js/mcalendar.js";
 $modulelist["calendar"]["js"][] = "/controller/modules/calendar/assets/js/locales-all.min.js";
-include "functions.php";
+include "api.php";
 class calendarClass
 {
     public static function showCal($thisarr,$breadcrumb,$thisarray,$arrcolor)

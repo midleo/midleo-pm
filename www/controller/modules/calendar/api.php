@@ -14,6 +14,10 @@ class Class_calapi{
                     break;
               case 'tasks':Class_calapi::tasks($thisarray["p2"]);
                     break;
+              case 'taskscheduleres':Class_calapi::getSchedresources($thisarray["p2"]);
+                    break;
+              case 'taskschedule':Class_calapi::getSchedule($thisarray["p2"]);
+                    break;
               case 'add':Class_calapi::addTask();
                     break;
               default:echo json_encode(array('error' => true, 'type' => "error", 'errorlog' => "please use the API correctly."));exit;
@@ -61,6 +65,46 @@ class Class_calapi{
         pdodb::disconnect();
       }
     }
+    public static function getSchedresources($d1){
+        if($d1){
+            $pdo = pdodb::connect();
+            $sql = "select id,uid,taskname from changes_tasks where chgnum=?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(array(htmlspecialchars($d1)));
+            if ($zobj = $stmt->fetchAll()) {
+                $arr_content = array();
+                foreach ($zobj as $val) {
+                    $arr_line['id'] = $val["id"].$val["uid"];
+                    $arr_line['title'] = $val["taskname"];
+                    $arr_content[] = $arr_line;
+                }
+                echo json_encode($arr_content);
+            }
+            pdodb::disconnect();
+            exit;
+        }
+    }
+    public static function getSchedule($d1){
+        if($d1){
+            $pdo = pdodb::connect();
+            $sql = "select id,uid,taskname,owner,started,finished from changes_tasks where chgnum=?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(array(htmlspecialchars($d1)));
+            if ($zobj = $stmt->fetchAll()) {
+                $arr_content = array();
+                foreach ($zobj as $val) {
+                    $arr_line['resourceId'] = $val["id"].$val["uid"];
+                    $arr_line['title'] = $val["owner"];
+                    $arr_line['start'] = date('Y-m-d\TH:i:s', strtotime($val["started"]));
+                    $arr_line['end'] = date('Y-m-d\TH:i:s', strtotime($val["finished"]));
+                    $arr_content[] = $arr_line;
+                }
+                echo json_encode($arr_content);
+            }
+            pdodb::disconnect();
+            exit;
+        }
+    }
     public static function getCal($d1, $d2)
     {
         if ($d1 == $_SESSION['user']) {
@@ -78,8 +122,8 @@ class Class_calapi{
                 $sql = "select * from calendar where mainuser=?";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute(array(htmlspecialchars($d1)));
-                $arr_content = array();
                 if ($zobj = $stmt->fetchAll()) {
+                    $arr_content = array();
                     foreach ($zobj as $val) {
                         //  $arr_line['allDay']   =  $val["allDay"]==1?true:false ;
                         $arr_line['editable'] = true;

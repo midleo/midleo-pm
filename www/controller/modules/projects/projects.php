@@ -269,9 +269,11 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 card" ng-show="contentpjLoaded">
+                                <div class="col-md-12" ng-show="contentpjLoaded">
+                                    
                                     <div class="row">
                                         <div class="col-md-6">
+                                        <div class="card card-body">
                                             <div class="form-group">
                                                 <label>Project Name</label>
                                                 <input type="text" name="newpjname" ng-model="pjinfo.templname"
@@ -295,9 +297,10 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                                                 </div>
                                             </div>
 
-
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
+                                        <div class="card card-body">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label>Owner</label>
@@ -358,11 +361,11 @@ foreach ($tmp["stypes"] as $key => $val) {?>
                                                         input once you open this project.</div>
                                                 </div>
                                             </div>
-
+                                            </div>
                                         </div>
                                     </div>
 
-
+            
                                 </div>
 
                             </div>
