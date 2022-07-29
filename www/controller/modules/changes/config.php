@@ -27,6 +27,7 @@ class ClassMPM_changes
 <?php } 
         if ($thisarray["p1"] == "timeline") { ?>
 <link rel="stylesheet" type="text/css" href="/controller/modules/calendar/assets/css/fullcalendar-schedule.min.css">
+<style type="text/css">.fc .fc-toolbar.fc-header-toolbar{margin-bottom:0px;border:1px solid var(--bs-gray-400);}</style>
         <?php }
         echo '</head><body class="fix-header card-no-border"><div id="main-wrapper">';
         $breadcrumb["text"] = "Change management";
@@ -54,6 +55,26 @@ class ClassMPM_changes
             "title" => "Timeline",
             "link" => "/changes/timeline/".$thisarray["p2"],
             "icon" => "mdi-chart-timeline",
+            "active" => false,
+        ));
+        array_push($brarr, array(
+            "title" => "Back to changes",
+            "link" => "/changes",
+            "icon" => "mdi-arrow-left",
+            "active" => false,
+        ));
+      }
+      if ($thisarray["p1"] == "timeline") {
+        array_push($brarr, array(
+            "title" => "Edit tasks",
+            "link" => "/changes/taskedit/".$thisarray["p2"],
+            "icon" => "mdi-format-list-checks",
+            "active" => false,
+        ));
+        array_push($brarr, array(
+            "title" => "Back to tasks",
+            "link" => "/changes/tasks/".$thisarray["p2"],
+            "icon" => "mdi-arrow-left",
             "active" => false,
         ));
         array_push($brarr, array(
@@ -201,8 +222,8 @@ class ClassMPM_changes
             ?>
              
             <input id="thischange" value="<?php echo $thisarray["p2"];?>" style="display:none;">
-            <input type='hidden' id='working_start' value="<?php echo $zobj["started"];?>">
-           <input type='hidden' id='working_end' value='<?php echo $zobj["finished"];?>'>
+            <input type='hidden' id='working_start' value="<?php echo date('Y-m-d\TH:i:s',strtotime($zobj["started"]));?>">
+           <input type='hidden' id='working_end' value="<?php echo date('Y-m-d\TH:i:s',strtotime($zobj["finished"]));?>">
             <div id='calendar' class="card"></div>
             
             <?php } ?>

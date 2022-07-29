@@ -67,15 +67,17 @@ class Class_calapi{
     }
     public static function getSchedresources($d1){
         if($d1){
+            global $projcodes;
             $pdo = pdodb::connect();
-            $sql = "select id,uid,taskname from changes_tasks where chgnum=?";
+            $sql = "select id,uid,taskname,groupid,appid,taskstatus from changes_tasks where chgnum=?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(array(htmlspecialchars($d1)));
             if ($zobj = $stmt->fetchAll()) {
                 $arr_content = array();
                 foreach ($zobj as $val) {
                     $arr_line['id'] = $val["id"].$val["uid"];
-                    $arr_line['title'] = $val["taskname"];
+                    $arr_line['title'] = "Task-".$val["uid"];
+                    $arr_line['taskinfo'] = $val["taskname"]."<br>Done by:".$val["groupid"]."<br>Project:".$val["appid"]."<br>Status:".$projcodes[$val['taskstatus']]["name"];
                     $arr_content[] = $arr_line;
                 }
                 echo json_encode($arr_content);
